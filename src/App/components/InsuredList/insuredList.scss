@@ -1,0 +1,14 @@
+.insured-list {
+	&__search {
+		display: flex;
+		flex-direction: row;
+		padding: 16px 0;
+		gap: 40px;
+		align-items: center;
+	}
+	&__list {
+		width: 100%;
+		overflow: auto;
+		min-height: 600px;
+	}
+}
