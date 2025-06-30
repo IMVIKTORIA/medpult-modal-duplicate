@@ -1,68 +1,115 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import CustomList from '../../../UIKit/CustomList/CustomList'
-import { ItemData, ListColumnData } from '../../../UIKit/CustomList/CustomListTypes'
-import { RequestListData } from '../../shared/types'
-import { FetchData } from '../../../UIKit/CustomList/CustomListTypes.ts'
-import Scripts from '../../shared/utils/clientScripts'
-import CustomInput from '../../../UIKit/CustomInput/CustomInput'
-import SliderPanel from '../SliderPanel/SliderPanel'
-import { redirectSPA } from '../../shared/utils/utils'
+import React, { useEffect, useState, useCallback } from "react";
+import CustomList from "../../../UIKit/CustomList/CustomList";
+import {
+  ItemData,
+  ItemDataString,
+  ListColumnData,
+} from "../../../UIKit/CustomList/CustomListTypes";
+import { RequestListData } from "../../shared/types";
+import { FetchData } from "../../../UIKit/CustomList/CustomListTypes.ts";
+import Scripts from "../../shared/utils/clientScripts";
+import CustomInput from "../../../UIKit/CustomInput/CustomInput";
+import SliderPanel from "../SliderPanel/SliderPanel";
+import RequestDetails from "./RequestDetails/RequestDetails.tsx";
+import { redirectSPA } from "../../shared/utils/utils";
 
-/** Список застрахованных */
+/** Список обращений */
 export default function RequestList() {
-	// Поисковый запрос
-	const [searchQuery, setSearchQuery] = useState<string>('')
-	//Состояние слайдера
-	const [sliderActive, setSliderActive] = useState(false)
+  // Поисковый запрос
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  //Состояние слайдера
+  const [sliderActive, setSliderActive] = useState(false);
 
-	/** Колонки списка */
-	const columns = [
-		new ListColumnData({
-			name: 'Номер',
-			code: 'number',
-			fr: 1,
-			isSortable: true,
-			isLink: true,
-		}),
-		new ListColumnData({
-			name: 'Дата создания',
-			code: 'createdAt',
-			fr: 1,
-			isSortable: true,
-		}),
-		new ListColumnData({ name: 'Канал', code: 'channel', fr: 1, isSortable: true }),
-		new ListColumnData({ name: 'Тема обращения', code: 'topic', fr: 1, isSortable: true }),
-		new ListColumnData({
-			name: 'Статус',
-			code: 'statusRequest',
-			fr: 1,
-			isSortable: true,
-		}),
-		new ListColumnData({ name: 'Причина обращения', code: 'reason', fr: 1, isSortable: true }),
-	]
+  const getDetailsLayout = ({
+    rowData,
+    onClickRowHandler,
+    reloadData,
+  }: {
+    rowData: RequestListData;
+    onClickRowHandler?: () => void;
+    reloadData?: () => void;
+  }) => {
+    return (
+      <RequestDetails
+        rowData={rowData}
+        onClickRowHandler={onClickRowHandler}
+        reloadData={reloadData}
+      />
+    );
+  };
 
-	return (
-		<div className="insured-list">
-			<div className="insured-list__search">
-				{/* Поле поиска */}
-				<CustomInput
-					value={searchQuery}
-					setValue={setSearchQuery}
-					cursor="text"
-					placeholder="Поиск"
-				/>
-				<SliderPanel
-					title="Закрытые обращения"
-					isVisible={sliderActive}
-					setIsVisible={setSliderActive}
-				/>
-			</div>
-			<div className="insured-list__list">
-				<CustomList<undefined, RequestListData>
-					columnsSettings={columns}
-					getDataHandler={Scripts.getRequestList}
-				/>
-			</div>
-		</div>
-	)
+  /** Колонки списка */
+  const columns = [
+    new ListColumnData({
+      name: "Номер",
+      code: "number",
+      fr: 1,
+      isSortable: true,
+      isLink: true,
+    }),
+    new ListColumnData({
+      name: "Дата создания",
+      code: "createdAt",
+      fr: 1,
+      isSortable: true,
+    }),
+    new ListColumnData({
+      name: "Канал",
+      code: "channel",
+      fr: 1,
+      isSortable: true,
+    }),
+    new ListColumnData({
+      name: "Тема обращения",
+      code: "topic",
+      fr: 1,
+      isSortable: true,
+    }),
+    new ListColumnData({
+      name: "Статус",
+      code: "statusRequest",
+      fr: 1,
+      isSortable: true,
+    }),
+    new ListColumnData({
+      name: "Причина обращения",
+      code: "reason",
+      fr: 1,
+      isSortable: true,
+    }),
+    // Кнопка разворачивания
+    new ListColumnData({
+      code: "isOpen",
+      name: "",
+      fr: 1,
+      fixedWidth: "36px",
+      isIcon: true,
+    }),
+  ];
+
+  return (
+    <div className="insured-list">
+      <div className="insured-list__search">
+        {/* Поле поиска */}
+        <CustomInput
+          value={searchQuery}
+          setValue={setSearchQuery}
+          cursor="text"
+          placeholder="Поиск"
+        />
+        <SliderPanel
+          title="Закрытые обращения"
+          isVisible={sliderActive}
+          setIsVisible={setSliderActive}
+        />
+      </div>
+      <div className="insured-list__list">
+        <CustomList<undefined, RequestListData>
+          columnsSettings={columns}
+          getDataHandler={Scripts.getRequestList}
+          getDetailsLayout={getDetailsLayout}
+        />
+      </div>
+    </div>
+  );
 }
