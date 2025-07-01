@@ -9,24 +9,27 @@ export interface IInputData<DataType = any> {
 }
 
 export class ContractorListData {
+  id?: ItemDataString;
   /** Получен по интеграции? */
   isIntegration?: ItemData<boolean>;
   /** ФИО  */
-  fullname?: ItemData;
+  fullname?: ItemDataString;
   /** Тип контрагента */
-  type?: ItemData;
+  type?: ItemDataString;
   /** Телефон */
-  phone?: ItemData;
+  phone?: ItemDataString;
   /** Email */
-  email?: ItemData;
+  email?: ItemDataString;
 
   constructor({
+    id,
     isIntegration,
     fullname,
     type,
     phone,
     email,
   }: ContractorListData) {
+    this.id = id;
     this.isIntegration = isIntegration;
     this.fullname = fullname;
     this.type = type;
@@ -36,28 +39,30 @@ export class ContractorListData {
 }
 
 export class InsuredListData {
+  id?: ItemDataString;
   /** ФИО застрахованного */
-  fullname?: ItemData;
+  fullname?: ItemDataString;
   /** Дата рождения */
-  birthdate?: ItemData;
+  birthdate?: ItemDataString;
   /** Телефон */
-  phone?: ItemData;
+  phone?: ItemDataString;
   /** Email */
-  email?: ItemData;
+  email?: ItemDataString;
   /** Статус */
   statusContragent?: ItemData;
   /** Полис */
-  policy?: ItemData;
+  policy?: ItemDataString;
   /** Дата начала действия полиса */
-  policyStartDate?: ItemData;
+  policyStartDate?: ItemDataString;
   /** Дата окончания действия полиса */
-  policyEndDate?: ItemData;
+  policyEndDate?: ItemDataString;
   /** Страхователь */
-  insurer?: ItemData;
+  insurer?: ItemDataString;
   /** Продукт */
-  product?: ItemData;
+  product?: ItemDataString;
 
   constructor({
+    id,
     fullname,
     birthdate,
     phone,
@@ -69,6 +74,7 @@ export class InsuredListData {
     insurer,
     product,
   }: InsuredListData) {
+    this.id = id;
     this.fullname = fullname;
     this.birthdate = birthdate;
     this.phone = phone;
@@ -85,17 +91,17 @@ export class InsuredListData {
 export class RequestListData {
   id: ItemDataString;
   /** Номер */
-  number?: ItemData;
+  number?: ItemDataString;
   /** Дата создания  */
-  createdAt?: ItemData;
+  createdAt?: ItemDataString;
   /** Канал */
-  channel?: ItemData;
+  channel?: ItemDataString;
   /** Тема обращения */
-  topic?: ItemData;
+  topic?: ItemDataString;
   /** Статус */
   statusRequest?: ItemData;
   /** Причина обращения */
-  reason?: ItemData;
+  reason?: ItemDataString;
   isOpen?: ItemData;
 
   constructor({
@@ -120,17 +126,17 @@ export class RequestListData {
 export class TaskListData {
   id: ItemDataString;
   /** Номер */
-  number?: ItemData;
+  number?: ItemDataString;
   /** Дата создания  */
-  createdAt?: ItemData;
+  createdAt?: ItemDataString;
   /** Тип задачи  */
-  type?: ItemData;
+  type?: ItemDataString;
   /** Вид задачи */
-  sort?: ItemData;
+  sort?: ItemDataString;
   /** Статус задачи */
   statusTask?: ItemData;
   /** Форма согласования */
-  formApproval?: ItemData;
+  formApproval?: ItemDataString;
   /** Статус согласования */
   statusApproval?: ItemData;
   /** Описание задачи */

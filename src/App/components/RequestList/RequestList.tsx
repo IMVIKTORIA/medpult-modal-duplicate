@@ -4,6 +4,7 @@ import {
   ItemData,
   ItemDataString,
   ListColumnData,
+  SortData,
 } from "../../../UIKit/CustomList/CustomListTypes";
 import { RequestListData } from "../../shared/types";
 import { FetchData } from "../../../UIKit/CustomList/CustomListTypes.ts";
@@ -102,6 +103,24 @@ export default function RequestList() {
     }),
   ];
 
+  const getFilteredRequestList = async (
+    page: number,
+    sortData?: SortData
+  ): Promise<FetchData<RequestListData>> => {
+    const data = await Scripts.getRequestList(page, sortData);
+    if (!sliderActive) {
+      const filteredItems = data.items.filter(
+        (item) => item.data.statusRequest?.info !== "zakryto"
+      );
+      return {
+        ...data,
+        items: filteredItems,
+      };
+    }
+    // Если слайдер активен — возвращаем всё как есть
+    return data;
+  };
+
   return (
     <div className="insured-list">
       <div className="insured-list__search">
@@ -120,8 +139,9 @@ export default function RequestList() {
       </div>
       <div className="insured-list__list">
         <CustomList<undefined, RequestListData>
+          key={sliderActive ? "closed" : "all"}
           columnsSettings={columns}
-          getDataHandler={Scripts.getRequestList}
+          getDataHandler={getFilteredRequestList}
           getDetailsLayout={getDetailsLayout}
         />
       </div>

@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import CustomList from "../../../UIKit/CustomList/CustomList";
 import {
   ItemData,
+  ItemDataString,
   ListColumnData,
+  SortData,
 } from "../../../UIKit/CustomList/CustomListTypes";
+import { FetchData } from "../../../UIKit/CustomList/CustomListTypes.ts";
 import { TaskListData } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
@@ -112,6 +115,24 @@ export default function TaskList() {
     }),
   ];
 
+  const getFilteredTaskList = async (
+    page: number,
+    sortData?: SortData
+  ): Promise<FetchData<TaskListData>> => {
+    const data = await Scripts.getTaskList(page, sortData);
+    if (!sliderActive) {
+      const filteredItems = data.items.filter(
+        (item) => item.data.statusTask?.info !== "complete"
+      );
+      return {
+        ...data,
+        items: filteredItems,
+      };
+    }
+    // Если слайдер активен — возвращаем всё как есть
+    return data;
+  };
+
   return (
     <div className="insured-list">
       <div className="insured-list__search">
@@ -130,8 +151,9 @@ export default function TaskList() {
       </div>
       <div className="insured-list__list">
         <CustomList<undefined, TaskListData>
+          key={sliderActive ? "closed" : "all"}
           columnsSettings={columns}
-          getDataHandler={Scripts.getTaskList}
+          getDataHandler={getFilteredTaskList}
           getDetailsLayout={getDetailsLayout}
         />
       </div>
