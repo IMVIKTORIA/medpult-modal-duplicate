@@ -10,7 +10,7 @@ export interface IInputData<DataType = any> {
 
 export class ContractorListData {
   /** Получен по интеграции? */
-  isIntegration?: ItemData;
+  isIntegration?: ItemData<boolean>;
   /** ФИО  */
   fullname?: ItemData;
   /** Тип контрагента */
@@ -83,6 +83,7 @@ export class InsuredListData {
 }
 
 export class RequestListData {
+  id: ItemDataString;
   /** Номер */
   number?: ItemData;
   /** Дата создания  */
@@ -98,6 +99,7 @@ export class RequestListData {
   isOpen?: ItemData;
 
   constructor({
+    id,
     number,
     createdAt,
     channel,
@@ -105,6 +107,7 @@ export class RequestListData {
     statusRequest,
     reason,
   }: RequestListData) {
+    this.id = id;
     this.number = number;
     this.createdAt = createdAt;
     this.channel = channel;
@@ -115,6 +118,7 @@ export class RequestListData {
 }
 
 export class TaskListData {
+  id: ItemDataString;
   /** Номер */
   number?: ItemData;
   /** Дата создания  */
@@ -129,8 +133,12 @@ export class TaskListData {
   formApproval?: ItemData;
   /** Статус согласования */
   statusApproval?: ItemData;
+  /** Описание задачи */
+  description?: ItemDataString;
+  isOpen?: ItemData;
 
   constructor({
+    id,
     number,
     createdAt,
     type,
@@ -138,7 +146,9 @@ export class TaskListData {
     statusTask,
     formApproval,
     statusApproval,
+    description,
   }: TaskListData) {
+    this.id = id;
     this.number = number;
     this.createdAt = createdAt;
     this.type = type;
@@ -146,5 +156,6 @@ export class TaskListData {
     this.statusTask = statusTask;
     this.formApproval = formApproval;
     this.statusApproval = statusApproval;
+    this.description = description;
   }
 }

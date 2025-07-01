@@ -25,7 +25,7 @@ async function getContractorList(
 ): Promise<FetchData<ContractorListData>> {
   await randomDelay();
   const mockData: ContractorListData = {
-    isIntegration: new ItemData({ value: "", info: "true" }),
+    isIntegration: new ItemData({ value: "", info: true }),
     fullname: new ItemData({ value: "Иванов Иван Иванович", info: "test" }),
     type: new ItemData({ value: "Физлицо", info: "test" }),
     phone: new ItemData({ value: "+7 999 888 77 66", info: "test" }),
@@ -98,6 +98,7 @@ async function getRequestList(
           : "На ожидании";
 
       const mockData: RequestListData = {
+        id: new ItemDataString(`${index}`),
         number: new ItemData({ value: `RW00000${index}/24`, info: "test" }),
         createdAt: new ItemData({ value: "01.01.1990 14:17", info: "test" }),
         channel: new ItemData({ value: "Телефон", info: "test" }),
@@ -108,7 +109,7 @@ async function getRequestList(
         statusRequest: new ItemData({ value: statusValue, info: statusInfo }),
         reason: new ItemData({
           value:
-            "Информация о состоянии здоровья предоставляется пациенту лично лечащим врачом или другими медицинскими работниками.",
+            "Информация о состоянии здоровья предоставляется пациенту лично лечащим врачом или другими медицинскими работниками.Информация о состоянии здоровья предоставляется пациенту лично лечащим врачом или другими медицинскими работниками.Информация о состоянии здоровья предоставляется пациенту лично лечащим врачом или другими медицинскими работниками.",
           info: "test",
         }),
       };
@@ -132,6 +133,7 @@ async function getTaskList(
 ): Promise<FetchData<TaskListData>> {
   await randomDelay();
   const mockData: TaskListData = {
+    id: new ItemDataString(`${Math.floor(Math.random() * 100)}`),
     number: new ItemData({ value: "RW00000809/24", info: "test" }),
     createdAt: new ItemData({ value: "01.01.1990 14:17", info: "test" }),
     type: new ItemData({ value: "Медицинское", info: "test" }),
@@ -139,6 +141,9 @@ async function getTaskList(
     statusTask: new ItemData({ value: "В очереди", info: "queue" }),
     formApproval: new ItemData({ value: "Устное", info: "test" }),
     statusApproval: new ItemData({ value: "Выпущено", info: "finished" }),
+    description: new ItemDataString(
+      "Согласовать запись к Терапевту, Хирургу и Травматологу по месту жительства"
+    ),
   };
   return {
     items: Array(7)
@@ -153,9 +158,50 @@ async function getTaskList(
   };
 }
 
+/** Получить количество обратившихся*/
+async function getCountConractor() {
+  return 4;
+}
+/** Получить количество застрахованных*/
+async function getCountInsured() {
+  return 10;
+}
+/** Получить количество обращений*/
+async function getCountRequest() {
+  return 4;
+}
+/** Получить количество задач*/
+async function getCountTask() {
+  return 10;
+}
+
+declare const Context: any;
+
+/** Получение кода страницы Обращение */
+function getRequestPagePath(): string {
+  return Context.data.request_page_path;
+}
+async function getRequestIdByTaskId(taskId: string): Promise<string> {
+  return "test";
+}
+
+/** Получение кода страницы Контрагента */
+function getContractorPageCode(): string {
+  return Context.data.contractor_page_path ?? "";
+}
+
 export default {
   getContractorList,
   getInsuredList,
   getRequestList,
   getTaskList,
+
+  getCountConractor,
+  getCountInsured,
+  getCountRequest,
+  getCountTask,
+
+  getRequestPagePath,
+  getRequestIdByTaskId,
+  getContractorPageCode,
 };

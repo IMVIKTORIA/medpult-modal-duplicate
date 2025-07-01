@@ -1,4 +1,4 @@
-.request-details {
+.task-details {
   background-color: #f0f6fa;
   border-bottom: 2px solid var(--medpult-bg-color);
   font-family: Inter;
@@ -62,5 +62,11 @@
     &:active {
       opacity: 0.6;
     }
+  }
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 100%;
   }
 }

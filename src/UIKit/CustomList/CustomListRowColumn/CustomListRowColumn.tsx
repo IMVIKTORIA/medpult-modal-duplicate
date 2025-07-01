@@ -1,6 +1,11 @@
 import React from "react";
 import { ItemData, ListColumnData } from "../CustomListTypes";
 import icons from "../../../App/shared/icons";
+import {
+  getStatusRequestColor,
+  getStatusTaskIcon,
+  getStatusApprovalIcon,
+} from "../../../App/shared/utils/utils";
 
 interface ListColumnProps extends ListColumnData {
   data: ItemData<any>;
@@ -19,9 +24,6 @@ function CustomListRowColumn(props: ListColumnProps) {
         }
       : () => {};
 
-  const integrationIcon =
-    code === "isIntegration" && data?.info ? icons.IntegrationButton : null;
-
   function getStatusContragentColor(info: string) {
     switch (info) {
       case "Gold":
@@ -33,42 +35,23 @@ function CustomListRowColumn(props: ListColumnProps) {
       default:
     }
   }
+
   const statusContragentColor =
     code === "statusContragent"
       ? getStatusContragentColor(data?.info)
       : undefined;
 
-  function getStatusRequestColor(info: string) {
-    switch (info) {
-      case "vrabote":
-        return "#C5CBE9";
-      case "returned":
-        return "#F5ECB6";
-      default:
-    }
-  }
+  const integrationIcon =
+    code === "isIntegration" && data?.info === true
+      ? icons.IntegrationButton
+      : null;
+
   const statusRequestColor =
     code === "statusRequest" ? getStatusRequestColor(data?.info) : undefined;
 
-  function getStatusTaskIcon(code: string) {
-    if (code === "atWork") {
-      return icons.StatusAtWork;
-    }
-    if (code === "queue") {
-      return icons.StatusQueue;
-    }
-  }
   const statusTaskIcon =
     code === "statusTask" ? getStatusTaskIcon(data?.info) : undefined;
 
-  function getStatusApprovalIcon(code: string) {
-    if (code === "finished") {
-      return icons.StatusFinished;
-    }
-    if (code === "queue") {
-      return icons.StatusQueue;
-    }
-  }
   const statusApprovalIcon =
     code === "statusApproval" ? getStatusApprovalIcon(data?.info) : undefined;
 
@@ -83,6 +66,7 @@ function CustomListRowColumn(props: ListColumnProps) {
         {icons.Triangle}
       </span>
     ) : null;
+
   return (
     <div
       className={

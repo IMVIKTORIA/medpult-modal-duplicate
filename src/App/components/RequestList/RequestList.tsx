@@ -11,7 +11,7 @@ import Scripts from "../../shared/utils/clientScripts";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
 import SliderPanel from "../SliderPanel/SliderPanel";
 import RequestDetails from "./RequestDetails/RequestDetails.tsx";
-import { redirectSPA } from "../../shared/utils/utils";
+import utils from "../../shared/utils/utils";
 
 /** Список обращений */
 export default function RequestList() {
@@ -20,6 +20,19 @@ export default function RequestList() {
   //Состояние слайдера
   const [sliderActive, setSliderActive] = useState(false);
 
+  /** Обработчик нажатия на номер обращения */
+  const onClickNumberRequest = async (requestId: string) => {
+    if (!requestId) return;
+
+    utils.setRequest(requestId);
+
+    const link = Scripts.getRequestPagePath();
+    const redirectUrl = new URL(window.location.origin + "/" + link);
+    if (requestId) redirectUrl.searchParams.set("request_id", requestId);
+    utils.redirectSPA(redirectUrl.toString());
+  };
+
+  //Детальная информация обращений
   const getDetailsLayout = ({
     rowData,
     onClickRowHandler,
@@ -34,6 +47,7 @@ export default function RequestList() {
         rowData={rowData}
         onClickRowHandler={onClickRowHandler}
         reloadData={reloadData}
+        onClickNumberRequest={onClickNumberRequest}
       />
     );
   };
@@ -46,6 +60,7 @@ export default function RequestList() {
       fr: 1,
       isSortable: true,
       isLink: true,
+      onClick: onClickNumberRequest,
     }),
     new ListColumnData({
       name: "Дата создания",
