@@ -112,9 +112,10 @@ export default function ContractorList({
         ></Button>
       </div>
       <div className="contractor-list__list">
-        <CustomList<undefined, ContractorListData>
+        <CustomList<string, ContractorListData>
           columnsSettings={columns}
           getDataHandler={Scripts.getContractorList}
+          searchData={searchQuery}
           isSelectable={true}
           isMultipleSelect={false}
           setSelectedItems={(ids: string[]) => setSelectedContractorsIds(ids)}

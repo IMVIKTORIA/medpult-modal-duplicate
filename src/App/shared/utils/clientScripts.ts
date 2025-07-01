@@ -17,30 +17,45 @@ function randomDelay() {
     setTimeout(resolve, delay);
   });
 }
-
+const baseMockDataArray: ContractorListData[] = [
+  new ContractorListData({
+    isIntegration: new ItemData({ value: "", info: true }),
+    fullname: new ItemData({ value: "Иванов Иван Иванович", info: "test" }),
+    type: new ItemData({ value: "Физлицо", info: "test" }),
+    phone: new ItemData({ value: "79998887766", info: "test" }),
+    email: new ItemData({ value: "ivanov@mail.ru", info: "test" }),
+  }),
+  new ContractorListData({
+    isIntegration: new ItemData({ value: "", info: false }),
+    fullname: new ItemData({ value: "Петров Петр Петрович", info: "test" }),
+    type: new ItemData({ value: "Юрлицо", info: "test" }),
+    phone: new ItemData({ value: "77776665544", info: "test" }),
+    email: new ItemData({ value: "petrov@mail.ru", info: "test" }),
+  }),
+  new ContractorListData({
+    isIntegration: new ItemData({ value: "", info: true }),
+    fullname: new ItemData({
+      value: "Викторов Виктор Викторович",
+      info: "test",
+    }),
+    type: new ItemData({ value: "Юрлицо", info: "test" }),
+    phone: new ItemData({ value: "78886665544", info: "test" }),
+    email: new ItemData({ value: "viktor@mail.ru", info: "test" }),
+  }),
+];
 /** Получение списка обратившихся */
 async function getContractorList(
   page: number,
   sortData?: SortData
 ): Promise<FetchData<ContractorListData>> {
   await randomDelay();
-  const mockData: ContractorListData = {
-    isIntegration: new ItemData({ value: "", info: true }),
-    fullname: new ItemData({ value: "Иванов Иван Иванович", info: "test" }),
-    type: new ItemData({ value: "Физлицо", info: "test" }),
-    phone: new ItemData({ value: "+7 999 888 77 66", info: "test" }),
-    email: new ItemData({ value: "ivanov@mail.ru", info: "test" }),
-  };
+
   return {
-    items: Array(7)
-      .fill(0)
-      .map((data, index) => {
-        return {
-          id: String(index),
-          data: new ContractorListData(mockData),
-        };
-      }),
-    hasMore: true,
+    items: baseMockDataArray.map((data, index) => ({
+      id: String(index),
+      data,
+    })),
+    hasMore: false,
   };
 }
 

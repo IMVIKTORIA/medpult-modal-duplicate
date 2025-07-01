@@ -89,7 +89,7 @@ export default function RequestList() {
     new ListColumnData({
       name: "Причина обращения",
       code: "reason",
-      fr: 1,
+      fr: 2,
       isSortable: true,
     }),
     // Кнопка разворачивания
