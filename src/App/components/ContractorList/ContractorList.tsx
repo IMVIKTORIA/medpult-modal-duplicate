@@ -80,6 +80,9 @@ export default function ContractorList({
       isSortable: true,
     }),
   ];
+  const searchFields = columns
+    .filter((col) => col.code !== "isIntegration")
+    .map((col) => col.code);
 
   return (
     <div className="contractor-list">
@@ -107,8 +110,12 @@ export default function ContractorList({
           title={"Редактировать"}
           clickHandler={onClickEdit(selectedContractorsIds[0])}
           icon={icons.EditButton}
-          style={{ backgroundColor: "#fff", color: "#6B6C6F" }}
-          disabled={selectedContractorsIds.length === 0}
+          style={{
+            backgroundColor: "#fff",
+            color: "#6B6C6F",
+            pointerEvents:
+              selectedContractorsIds.length === 0 ? "none" : "auto",
+          }}
         ></Button>
       </div>
       <div className="contractor-list__list">
@@ -116,10 +123,12 @@ export default function ContractorList({
           columnsSettings={columns}
           getDataHandler={Scripts.getContractorList}
           searchData={searchQuery}
+          searchFields={searchFields}
           isSelectable={true}
           isMultipleSelect={false}
           setSelectedItems={(ids: string[]) => setSelectedContractorsIds(ids)}
           selectedItems={selectedContractorsIds}
+          isScrollable={false}
         />
       </div>
     </div>

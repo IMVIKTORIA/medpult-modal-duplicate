@@ -31,6 +31,7 @@ type ListProps<SearchDataType = any, ItemType = any> = {
   /** Настройки поиска */
   /** Данные поиска */
   searchData?: SearchDataType;
+  searchFields?: string[];
   /** Установка обработчика нажатия на поиск */
   setSearchHandler?: (callback: () => void) => void;
 
@@ -60,6 +61,7 @@ function CustomList<SearchDataType = any, ItemType = any>(
     columnsSettings,
     getDataHandler,
     searchData,
+    searchFields,
     setSearchHandler,
     isScrollable = true,
     getDetailsLayout,
@@ -125,21 +127,10 @@ function CustomList<SearchDataType = any, ItemType = any>(
     const filteredItems = query
       ? fetched.items.filter((item) => {
           const data = item.data as any;
-          const values = [
-            data.fullname?.value,
-            data.phone?.value,
-            data.email?.value,
-          ]
-            .filter(Boolean)
-            .map((s: string) => s.toLowerCase());
-
-          // Разбиваем запрос на отдельные слова
-          const queryParts = query.split(" ").filter(Boolean);
-
-          // Проверяем, что для каждого слова есть совпадение хотя бы в одном из полей
-          return queryParts.every((part) =>
-            values.some((v) => v.includes(part))
-          );
+          return searchFields?.some((field) => {
+            const fieldValue = data[field]?.value?.toLowerCase?.() ?? "";
+            return fieldValue.includes(query);
+          });
         })
       : fetched.items;
 

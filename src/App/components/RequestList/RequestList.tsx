@@ -70,7 +70,7 @@ export default function RequestList() {
       isSortable: true,
     }),
     new ListColumnData({
-      name: "Канал",
+      name: "Тип канала",
       code: "channel",
       fr: 1,
       isSortable: true,
@@ -121,6 +121,10 @@ export default function RequestList() {
     return data;
   };
 
+  const searchFields = columns
+    .filter((col) => col.code !== "isOpen")
+    .map((col) => col.code);
+
   return (
     <div className="insured-list">
       <div className="insured-list__search">
@@ -138,11 +142,14 @@ export default function RequestList() {
         />
       </div>
       <div className="insured-list__list">
-        <CustomList<undefined, RequestListData>
+        <CustomList<String, RequestListData>
           key={sliderActive ? "closed" : "all"}
           columnsSettings={columns}
           getDataHandler={getFilteredRequestList}
           getDetailsLayout={getDetailsLayout}
+          isScrollable={false}
+          searchFields={searchFields}
+          searchData={searchQuery}
         />
       </div>
     </div>

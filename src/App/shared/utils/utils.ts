@@ -126,8 +126,6 @@ export function getStatusApprovalIcon(status: any) {
       return icons.StatusFinished;
     case "finishedSend":
       return icons.StatusFinishedSend;
-    case "nullified":
-      return icons.StatusNullified;
     case "cancelled":
       return icons.StatusCancelled;
     default:

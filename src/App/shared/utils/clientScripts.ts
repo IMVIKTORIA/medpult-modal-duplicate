@@ -153,7 +153,6 @@ async function getTaskList(
     { info: "processing", value: "В оформлении" },
     { info: "finished", value: "Выпущено" },
     { info: "finishedSend", value: "Выпущено (отправлено)" },
-    { info: "nullified", value: "Аннулировано" },
     { info: "cancelled", value: "Отозвано" },
   ];
   const items = Array(13)
