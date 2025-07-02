@@ -4,17 +4,63 @@ import {
   ItemData,
   ListColumnData,
 } from "../../../UIKit/CustomList/CustomListTypes";
-import { InsuredListData } from "../../shared/types";
+import { InsuredListData, ModalDuplicateMode } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
-import { redirectSPA } from "../../shared/utils/utils";
+import utils, { redirectSPA } from "../../shared/utils/utils";
+import Button from "../../../UIKit/Button/Button";
+import icons from "../../shared/icons";
+
+
+/** Пропсы Модального окна */
+type InsuredListProps = {
+  /** Режим модального окна */
+  modalMode: ModalDuplicateMode
+  /** Установить количество выбранных застрахованных */
+  setSelectedInsuredCount: (count: number) => void;
+}
 
 /** Список застрахованных */
-export default function InsuredList() {
+export default function InsuredList({modalMode, setSelectedInsuredCount}: InsuredListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  /** Идентификаторы выбранных контрагентов */
+  const [selectedInsuredIds, setSelectedInsuredIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    setSelectedInsuredCount(selectedInsuredIds.length);
+  }, [selectedInsuredIds, setSelectedInsuredCount]);
+
+  /** Обработчик нажатия на кнопку "Выбрать" контрагента */
+  const onClickChooseContractor = async () => {};
+
+  /** Обработчик нажатия на кнопку "Oставить без измений"  */
+  const onClickNotEdit = async () => {};
+
+  /** Обработчик нажатия на кнопку "Редактировать"  */
+  const onClickEdit = async (contractorId: string) => {
+    if (!contractorId) return;
+    const link = Scripts.getContractorPageCode();
+    const redirectUrl = new URL(window.location.origin + "/" + link);
+    if (contractorId)
+      redirectUrl.searchParams.set("contractor_id", contractorId);
+    utils.redirectSPA(redirectUrl.toString());
+  };
+
+  /** Колонки для режима дедубликации застрахованного */
+  const isIntegrationColumn = modalMode == ModalDuplicateMode.insured
+    ?  [new ListColumnData({
+      name: "",
+      code: "isIntegration",
+      fr: 0.2,
+      isIcon: true,
+    })]
+    : []
+
   /** Колонки списка */
   const columns = [
+    ...isIntegrationColumn,
     new ListColumnData({
       name: "ФИО",
       code: "fullname",
@@ -77,7 +123,19 @@ export default function InsuredList() {
       isSortable: true,
     }),
   ];
-  const searchFields = columns.map((col) => col.code);
+
+  const searchFieldsCallback = () => {
+    if(modalMode === ModalDuplicateMode.applicant) {
+      return columns.map((col) => col.code)
+    }
+    
+    return columns
+      .filter((col) => col.code !== "isIntegration")
+      .map((col) => col.code);
+  }
+
+  const searchFields = searchFieldsCallback();
+
   return (
     <div className="insured-list">
       <div className="insured-list__search">
@@ -88,6 +146,35 @@ export default function InsuredList() {
           cursor="text"
           placeholder="Поиск"
         />
+        {
+          modalMode === ModalDuplicateMode.insured &&
+          (
+            <>
+              <div className="insured-list__search__button">
+                <Button
+                  title={"Выбрать"}
+                  clickHandler={onClickChooseContractor()}
+                  disabled={selectedInsuredIds.length === 0}
+                />
+                <Button
+                  title={"Oставить без измений"}
+                  clickHandler={onClickNotEdit()}
+                  style={{ backgroundColor: "#FF4545" }}
+                />
+              </div>
+              <Button
+                title={"Редактировать"}
+                clickHandler={onClickEdit(selectedInsuredIds[0])}
+                icon={icons.EditButton}
+                style={{
+                  backgroundColor: "#fff",
+                  color: "#6B6C6F",
+                  pointerEvents: selectedInsuredIds.length === 0 ? "none" : "auto",
+                }}
+              />
+            </>
+          )
+        }
       </div>
       <div className="insured-list__list">
         <CustomList<string, InsuredListData>
@@ -96,6 +183,10 @@ export default function InsuredList() {
           searchData={searchQuery}
           getDataHandler={Scripts.getInsuredList}
           isScrollable={false}
+          isSelectable={modalMode == ModalDuplicateMode.insured}
+          isMultipleSelect={false}
+          setSelectedItems={(ids: string[]) => setSelectedInsuredIds(ids)}
+          selectedItems={selectedInsuredIds}
         />
       </div>
     </div>

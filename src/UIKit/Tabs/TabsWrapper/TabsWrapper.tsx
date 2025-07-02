@@ -20,6 +20,8 @@ function TabsWrapper({
 	deleteHandler,
 	setActiveTabCodeGlobal,
 }: TabsWrapperProps) {
+	const childrenFiltered = children.filter((child : any) => Boolean(child));
+
 	const [activeTabCode, setActiveTabCode] = useState<string>(activeTabCodeGlobal ?? '')
 
 	useEffect(() => {
@@ -37,6 +39,7 @@ function TabsWrapper({
 	}
 
 	const createSelectorItem = (child: any) => {
+		console.log(child)
 		return (
 			<TabSelectorItem
 				activeTabCode={activeTabCode}
@@ -48,25 +51,25 @@ function TabsWrapper({
 	}
 
 	const getSelector = () => {
-		let array = children.length ? children : [children]
+		let array = childrenFiltered.length ? childrenFiltered : [childrenFiltered]
 		return array.map((child) => {
 			return createSelectorItem(child)
 		})
 	}
 
 	const getActiveTab = () => {
-		let array = children.length ? children : [children]
+		let array = childrenFiltered.length ? childrenFiltered : [childrenFiltered]
 		return array.find((child) => child.props.code === activeTabCode)
 	}
 
 	useEffect(() => {
-		console.log(children)
-		if (!Array.isArray(children)) {
-			setActiveTabCode(children.props.code)
+		console.log(childrenFiltered)
+		if (!Array.isArray(childrenFiltered)) {
+			setActiveTabCode(childrenFiltered.props.code)
 			return
 		}
 		if (!activeTabCodeGlobal) {
-			setActiveTabCode(children[0].props.code)
+			setActiveTabCode(childrenFiltered[0].props.code)
 		} else {
 			setActiveTabCode(activeTabCodeGlobal)
 		}
