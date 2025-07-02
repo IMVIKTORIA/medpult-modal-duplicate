@@ -9,9 +9,16 @@ import RequestList from "../RequestList/RequestList.tsx";
 import TaskList from "../TaskList/TaskList.tsx";
 import icons from "../../shared/icons.tsx";
 import Scripts from "../../shared/utils/clientScripts";
+import { ModalDuplicateMode } from "../../shared/types.ts";
+
+/** Пропсы Модального окна */
+type ModalDuplicateProps = {
+  /** Режим модального окна */
+  modalMode: ModalDuplicateMode
+}
 
 /**Модальное окно */
-export default function ModalDuplicate() {
+export default function ModalDuplicate({modalMode} : ModalDuplicateProps) {
   // количество выбранных обратившихся
   const [selectedContractorCount, setSelectedContractorCount] =
     useState<number>(0);
@@ -21,6 +28,9 @@ export default function ModalDuplicate() {
     const count = await Scripts.getCountConractor();
     setContractorCount(count);
   };
+  
+  // количество выбранных застрахованных
+  const [selectedInsuredCount, setSelectedInsuredCount] = useState<number>(0);
   //общее количество застрахованных
   const [insuredCount, setInsuredCount] = useState<number>(0);
   const fetchInsuredCount = async () => {
@@ -50,12 +60,22 @@ export default function ModalDuplicate() {
   //Закрыть модальное окно
   const modalClose = () => {};
 
+  // Получить заголовок модалки
+  const getModalTitle = () => {
+    switch(modalMode) {
+      case ModalDuplicateMode.applicant: return 'Возможные дубли обратившегося'
+      case ModalDuplicateMode.insured: return 'Возможные дубли застрахованного'
+
+      default: throw new Error("Не указан режим модального окна")
+    }
+  }
+
   return (
     <ModalWrapper>
       <div className="duplicate-modal">
         <div className="duplicate-modal__header">
           <span className="duplicate-modal__header__label">
-            Возможные дубли обратившегося
+            {getModalTitle()}
           </span>
           <span
             className="duplicate-modal__header__closed"
@@ -66,19 +86,26 @@ export default function ModalDuplicate() {
         </div>
         <div className="duplicate-modal__content">
           <TabsWrapper>
-            <TabItem
-              code={"requestContragen"}
-              name={`Обратившиеся (${selectedContractorCount} из ${contractorCount})`}
-            >
-              <ContractorList
-                setSelectedContractorCount={setSelectedContractorCount}
-              />
-            </TabItem>
+            {
+              // Вкладка обратившиеся только для режима дедубликации Обратившегося
+              modalMode === ModalDuplicateMode.applicant &&
+              (<TabItem
+                code={"requestContragen"}
+                name={`Обратившиеся (${selectedContractorCount} из ${contractorCount})`}
+              >
+                <ContractorList
+                  setSelectedContractorCount={setSelectedContractorCount}
+                />
+              </TabItem>)
+            }
             <TabItem
               code={"insuredContragen"}
-              name={`Застрахованные (${insuredCount} из ${insuredCount})`}
+              name={`Застрахованные (${selectedInsuredCount} из ${insuredCount})`}
             >
-              <InsuredList />
+              <InsuredList 
+                modalMode = {modalMode}
+                setSelectedInsuredCount={setSelectedInsuredCount}
+              />
             </TabItem>
             <TabItem
               code={"requests"}

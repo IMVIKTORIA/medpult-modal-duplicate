@@ -40,6 +40,8 @@ export class ContractorListData {
 
 export class InsuredListData {
   id?: ItemDataString;
+  /** Получен по интеграции? */
+  isIntegration?: ItemData<boolean>;
   /** ФИО застрахованного */
   fullname?: ItemDataString;
   /** Дата рождения */
@@ -63,6 +65,7 @@ export class InsuredListData {
 
   constructor({
     id,
+    isIntegration,
     fullname,
     birthdate,
     phone,
@@ -75,6 +78,7 @@ export class InsuredListData {
     product,
   }: InsuredListData) {
     this.id = id;
+    this.isIntegration = isIntegration;
     this.fullname = fullname;
     this.birthdate = birthdate;
     this.phone = phone;
@@ -87,6 +91,7 @@ export class InsuredListData {
     this.product = product;
   }
 }
+
 
 export class RequestListData {
   id: ItemDataString;
@@ -164,4 +169,24 @@ export class TaskListData {
     this.statusApproval = statusApproval;
     this.description = description;
   }
+}
+
+/** Данные поиска дубликатов контрагента */
+export interface ContractorsSearchData {
+  /** Данные поисковой строки */
+  searchQuery: string,
+  /** ФИО */
+  fullname: string,
+  /** email */
+  email: string,
+  /** Телефон */
+  phone: string
+}
+
+/** Реэжим формы дедубликации */
+export enum ModalDuplicateMode {
+  /** Обратившийся */
+  applicant = "applicant",
+  /** Застрахованный */
+  insured = "insured"
 }

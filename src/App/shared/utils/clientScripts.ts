@@ -47,7 +47,8 @@ const baseMockDataArray: ContractorListData[] = [
 /** Получение списка обратившихся */
 async function getContractorList(
   page: number,
-  sortData?: SortData
+  sortData?: SortData,
+  searchData?: any
 ): Promise<FetchData<ContractorListData>> {
   await randomDelay();
 
@@ -67,6 +68,7 @@ async function getInsuredList(
 ): Promise<FetchData<InsuredListData>> {
   await randomDelay();
   const mockData: InsuredListData = {
+    isIntegration: new ItemData({ value: "", info: true }),
     fullname: new ItemDataString("Иванов Иван Иванович"),
     birthdate: new ItemDataString("10.10.1990"),
     phone: new ItemDataString("+7 999 888 77 66"),
@@ -91,6 +93,7 @@ async function getInsuredList(
     hasMore: true,
   };
 }
+
 
 /** Получение списка обращений */
 async function getRequestList(
