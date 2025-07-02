@@ -179,7 +179,8 @@ export default function InsuredList({selectedContractorsIds, modalMode, selected
           searchFields={searchFields}
           searchData={searchQuery}
           getDataHandler={Scripts.getInsuredList}
-          isScrollable={false}
+          isScrollable={true}
+          // height="500px"
           isSelectable={true}
           isMultipleSelect={false}
           setSelectedItems={(ids: string[]) => setSelectedInsuredIds(ids)}

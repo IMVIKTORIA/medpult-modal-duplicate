@@ -78,8 +78,8 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
     .map((col) => col.code);
 
   return (
-    <div className="contractor-list">
-      <div className="contractor-list__search">
+    <div className="insured-list">
+      <div className="insured-list__search">
         {/* Поле поиска */}
         <CustomInput
           value={searchQuery}
@@ -87,7 +87,7 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
           cursor="text"
           placeholder="Поиск"
         />
-        <div className="contractor-list__search__button">
+        <div className="insured-list__search__button">
           <Button
             title={"Выбрать"}
             clickHandler={onClickChooseContractor()}
@@ -111,7 +111,7 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
           }}
         ></Button>
       </div>
-      <div className="contractor-list__list">
+      <div className="insured-list__list">
         <CustomList<string, ContractorListData>
           columnsSettings={columns}
           getDataHandler={Scripts.getContractorList}
@@ -121,7 +121,7 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
           isMultipleSelect={false}
           setSelectedItems={(ids: string[]) => setSelectedContractorsIds(ids)}
           selectedItems={selectedContractorsIds}
-          isScrollable={false}
+          isScrollable={true}
         />
       </div>
     </div>

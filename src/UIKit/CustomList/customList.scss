@@ -1,5 +1,8 @@
 @import url('CustomListSelector/customListSelector.scss');
 .custom-list {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 	&__header {
 		background: #f9f9fa;
 		border-bottom: 2px solid var(--medpult-bg-color);

@@ -67,6 +67,7 @@ export default function ModalDuplicate({modalMode} : ModalDuplicateProps) {
 
   // Данные поиска дубликата
   const [contractorsSearchData, setContractorsSearchData] = useState<ContractorsSearchData>();
+  // Состояние видимости модального окна
   const [isShowModal, setIsShowModal] = useState<boolean>();
   useEffect(() => {
     // Установить функцию обновления данных поиска контрагента вне виджета
@@ -94,7 +95,7 @@ export default function ModalDuplicate({modalMode} : ModalDuplicateProps) {
     </TabItem>
   )
 
-  
+
   // Идентификаторы выбранных застрахованных
   const [selectedInsuredIds, setSelectedInsuredIds] = useState<string[]>([]);
   /** Количество выбранных застрахованных */

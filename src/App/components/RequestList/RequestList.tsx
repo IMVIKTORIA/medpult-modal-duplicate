@@ -147,7 +147,7 @@ export default function RequestList() {
           columnsSettings={columns}
           getDataHandler={getFilteredRequestList}
           getDetailsLayout={getDetailsLayout}
-          isScrollable={false}
+          isScrollable={true}
           searchFields={searchFields}
           searchData={searchQuery}
         />

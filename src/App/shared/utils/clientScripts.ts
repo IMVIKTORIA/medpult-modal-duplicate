@@ -84,7 +84,7 @@ async function getInsuredList(
   };
 
   return {
-    items: Array(7)
+    items: Array(20)
       .fill(0)
       .map((data, index) => {
         return {
@@ -235,7 +235,7 @@ let updateSearchDataCallback: UpdateSearchDataCallback | undefined;
 /** Установка функции обновления данных поиска контрагента */
 function setUpdateSearchDataCallback(callback: UpdateSearchDataCallback) {
   updateSearchDataCallback = callback;
-  
+
   window["updateSearchDataCallback"] = updateShowModalCallback; // DEBUG ONLY
 }
 

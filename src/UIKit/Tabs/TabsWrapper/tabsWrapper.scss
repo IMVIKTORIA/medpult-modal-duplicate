@@ -1,9 +1,12 @@
 .tabs-wrapper-new {
 	display: flex;
 	flex-direction: column;
-
+	height: 100%;
+	
 	&__container {
 		width: 100%;
+		height: 10px;
+		flex: 1;
 	}
 
 	&__actions {

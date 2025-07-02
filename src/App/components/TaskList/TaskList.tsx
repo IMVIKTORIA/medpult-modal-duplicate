@@ -159,7 +159,7 @@ export default function TaskList() {
           columnsSettings={columns}
           getDataHandler={getFilteredTaskList}
           getDetailsLayout={getDetailsLayout}
-          isScrollable={false}
+          isScrollable={true}
           searchFields={searchFields}
           searchData={searchQuery}
         />
