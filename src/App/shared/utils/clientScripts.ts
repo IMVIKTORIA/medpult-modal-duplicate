@@ -6,6 +6,8 @@ import {
 } from "../../../UIKit/CustomList/CustomListTypes";
 import {
   ContractorListData,
+  ContractorsSearchData,
+  ContractorsSearchDataExtended,
   InsuredListData,
   RequestListData,
   TaskListData,
@@ -227,6 +229,27 @@ function getContractorPageCode(): string {
   return Context.data.contractor_page_path ?? "";
 }
 
+type UpdateSearchDataCallback = (searchData: ContractorsSearchData) => void
+/** Функция обновления данных поиска контрагента */
+let updateSearchDataCallback: UpdateSearchDataCallback | undefined;
+/** Установка функции обновления данных поиска контрагента */
+function setUpdateSearchDataCallback(callback: UpdateSearchDataCallback) {
+  updateSearchDataCallback = callback;
+  
+  window["updateSearchDataCallback"] = updateShowModalCallback; // DEBUG ONLY
+}
+
+type UpdateShowModalCallback = (isShowModal: boolean) => void
+/** Функция обновления видимости модального окна */
+let updateShowModalCallback: UpdateShowModalCallback | undefined;
+/** Установка функции обновления видимости модального окна */
+function setUpdateShowModalCallback(callback: UpdateShowModalCallback) {
+  updateShowModalCallback = callback;
+
+  window["updateShowModalCallback"] = updateShowModalCallback; // DEBUG ONLY
+  updateShowModalCallback(true); // DEBUG ONLY
+}
+
 export default {
   getContractorList,
   getInsuredList,
@@ -241,4 +264,7 @@ export default {
   getRequestPagePath,
   getRequestIdByTaskId,
   getContractorPageCode,
+
+  setUpdateSearchDataCallback,
+  setUpdateShowModalCallback
 };

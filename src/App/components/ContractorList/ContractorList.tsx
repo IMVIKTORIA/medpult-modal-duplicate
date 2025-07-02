@@ -12,21 +12,14 @@ import Button from "../../../UIKit/Button/Button";
 import icons from "../../shared/icons";
 
 interface ContractorListProps {
-  setSelectedContractorCount: (count: number) => void;
+  /** Иденификаторы выбранных обратившихся */
+  selectedContractorsIds: string[];
+  /** Установить иденификаторы выбранных обратившихся */
+  setSelectedContractorsIds: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 /** Список обратившихся */
-export default function ContractorList({
-  setSelectedContractorCount,
-}: ContractorListProps) {
-  /** Идентификаторы выбранных контрагентов */
-  const [selectedContractorsIds, setSelectedContractorsIds] = useState<
-    string[]
-  >([]);
-
-  useEffect(() => {
-    setSelectedContractorCount(selectedContractorsIds.length);
-  }, [selectedContractorsIds, setSelectedContractorCount]);
+export default function ContractorList({selectedContractorsIds, setSelectedContractorsIds}: ContractorListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
 

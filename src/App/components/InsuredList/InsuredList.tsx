@@ -14,23 +14,20 @@ import icons from "../../shared/icons";
 
 /** Пропсы Модального окна */
 type InsuredListProps = {
+  /** Иденификаторы выбранных обратившихся */
+  selectedContractorsIds: string[];
   /** Режим модального окна */
   modalMode: ModalDuplicateMode
-  /** Установить количество выбранных застрахованных */
-  setSelectedInsuredCount: (count: number) => void;
+  /** Идентификаторы выбранных застрахованных */
+  selectedInsuredIds: string[]
+  /** Установить идентификаторы выбранных застрахованных */
+  setSelectedInsuredIds: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 /** Список застрахованных */
-export default function InsuredList({modalMode, setSelectedInsuredCount}: InsuredListProps) {
+export default function InsuredList({selectedContractorsIds, modalMode, selectedInsuredIds, setSelectedInsuredIds}: InsuredListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
-
-  /** Идентификаторы выбранных контрагентов */
-  const [selectedInsuredIds, setSelectedInsuredIds] = useState<string[]>([]);
-
-  useEffect(() => {
-    setSelectedInsuredCount(selectedInsuredIds.length);
-  }, [selectedInsuredIds, setSelectedInsuredCount]);
 
   /** Обработчик нажатия на кнопку "Выбрать" контрагента */
   const onClickChooseContractor = async () => {};
@@ -183,7 +180,7 @@ export default function InsuredList({modalMode, setSelectedInsuredCount}: Insure
           searchData={searchQuery}
           getDataHandler={Scripts.getInsuredList}
           isScrollable={false}
-          isSelectable={modalMode == ModalDuplicateMode.insured}
+          isSelectable={true}
           isMultipleSelect={false}
           setSelectedItems={(ids: string[]) => setSelectedInsuredIds(ids)}
           selectedItems={selectedInsuredIds}

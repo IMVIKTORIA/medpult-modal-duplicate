@@ -173,14 +173,18 @@ export class TaskListData {
 
 /** Данные поиска дубликатов контрагента */
 export interface ContractorsSearchData {
-  /** Данные поисковой строки */
-  searchQuery: string,
   /** ФИО */
-  fullname: string,
+  fullname?: string,
   /** email */
-  email: string,
+  email?: string,
   /** Телефон */
-  phone: string
+  phone?: string
+}
+
+/** Данные поиска дубликатов контрагента (со строчным поиском) */
+export interface ContractorsSearchDataExtended extends ContractorsSearchData{
+  /** Данные поисковой строки */
+  searchQuery?: string,
 }
 
 /** Реэжим формы дедубликации */
