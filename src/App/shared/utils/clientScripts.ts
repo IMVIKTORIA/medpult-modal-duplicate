@@ -255,6 +255,16 @@ function setUpdateShowModalCallback(callback: UpdateShowModalCallback) {
   updateShowModalCallback(true); // DEBUG ONLY
 }
 
+/** Закрыть модальное окно дедубликации */
+function closeDeduplicationModal() {
+  // TODO: Логика
+}
+
+/** Запустить стандартную логику сохранения */
+function runCommonSave() {
+  // TODO: Логика
+}
+
 export default {
   getContractorList,
   getInsuredListDeduplication,
@@ -271,5 +281,8 @@ export default {
   getContractorPageCode,
 
   setUpdateSearchDataCallback,
-  setUpdateShowModalCallback
+  setUpdateShowModalCallback,
+  
+  closeDeduplicationModal,
+  runCommonSave,
 };
