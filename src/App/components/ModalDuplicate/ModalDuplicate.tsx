@@ -53,7 +53,7 @@ export default function ModalDuplicate({modalMode} : ModalDuplicateProps) {
   }, []);
 
   //Закрыть модальное окно
-  const modalClose = () => {};
+  const modalClose = () => Scripts.closeDeduplicationModal();
 
   // Получить заголовок модалки
   const getModalTitle = () => {
