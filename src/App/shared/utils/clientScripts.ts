@@ -232,7 +232,7 @@ async function getRequestIdByTaskId(taskId: string): Promise<string> {
 
 /** Получение кода страницы Контрагента */
 function getContractorPageCode(): string {
-  return Context.data.contractor_page_path ?? "";
+  return "contractor";
 }
 
 type UpdateSearchDataCallback = (searchData: ContractorsSearchData) => void

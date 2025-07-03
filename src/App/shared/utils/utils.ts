@@ -24,7 +24,6 @@ async function setRequest(id: string) {
 export function getDataFromDraft() {
   // Получение данных из черновика
   const draftData = localStorage.getItem(localStorageDraftKey);
-  console.log(JSON.parse(draftData!));
   localStorage.removeItem(localStorageDraftKey);
   if (draftData) {
     return JSON.parse(draftData);

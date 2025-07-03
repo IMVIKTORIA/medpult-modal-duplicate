@@ -170,10 +170,10 @@ export default function ModalDuplicate({modalMode} : ModalDuplicateProps) {
             {insuredTab}
 
             {/* Вкладка обращений */}
-            {requestsTab}
+            {/* {requestsTab} */}
 
             {/* Вкладка задач */}
-            {tasksTab}
+            {/* {tasksTab} */}
           </TabsWrapper>
         </div>
       </div>

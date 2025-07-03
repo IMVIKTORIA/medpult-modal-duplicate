@@ -126,7 +126,7 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
         ></Button>
       </div>
       <div className="insured-list__list">
-        <CustomList<SearchDataExtended, ContractorListData>
+        <CustomList<ContractorsSearchDataExtended, ContractorListData>
           columnsSettings={columns}
           getDataHandler={Scripts.getContractorList}
           searchData={searchDataWithQuery}

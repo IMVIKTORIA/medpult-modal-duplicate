@@ -47,6 +47,7 @@ export default function InsuredList({selectedContractorsIds, modalMode, selected
 
   /** Обработчик нажатия на кнопку "Редактировать"  */
   const onClickEdit = async (contractorId: string) => {
+    console.trace("wtf")
     if (!contractorId) return;
     const link = Scripts.getContractorPageCode();
     const redirectUrl = new URL(window.location.origin + "/" + link);
@@ -144,11 +145,19 @@ export default function InsuredList({selectedContractorsIds, modalMode, selected
   const searchFields = searchFieldsCallback();
   
   /** Данные поиска */
-  const searchDataWithQuery: InsuredSearchData = {
-    ...contractorsSearchData,
-    searchQuery: searchQuery,
-    contractorsIds: selectedContractorsIds
+  const getSearchDataWithQuery = (): InsuredSearchData => {
+    return {
+      ...contractorsSearchData,
+      searchQuery: searchQuery,
+      contractorsIds: selectedContractorsIds
+    }
   }
+
+  const [searchDataWithQuery, setSearchDataWithQuery] = useState<InsuredSearchData>(() => getSearchDataWithQuery())
+
+  useEffect(() => {
+    setSearchDataWithQuery(getSearchDataWithQuery());
+  }, [searchQuery, selectedContractorsIds])
   
   return (
     <div className="insured-list">
@@ -167,18 +176,18 @@ export default function InsuredList({selectedContractorsIds, modalMode, selected
               <div className="insured-list__search__button">
                 <Button
                   title={"Выбрать"}
-                  clickHandler={onClickChooseContractor()}
+                  clickHandler={() => onClickChooseContractor()}
                   disabled={selectedInsuredIds.length === 0}
                 />
                 <Button
                   title={"Oставить без измений"}
-                  clickHandler={onClickNotEdit()}
+                  clickHandler={() => onClickNotEdit()}
                   style={{ backgroundColor: "#FF4545" }}
                 />
               </div>
               <Button
                 title={"Редактировать"}
-                clickHandler={onClickEdit(selectedInsuredIds[0])}
+                clickHandler={() => onClickEdit(selectedInsuredIds[0])}
                 icon={icons.EditButton}
                 style={{
                   backgroundColor: "#fff",
