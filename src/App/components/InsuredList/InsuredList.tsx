@@ -157,7 +157,7 @@ export default function InsuredList({selectedContractorsIds, modalMode, selected
 
   useEffect(() => {
     setSearchDataWithQuery(getSearchDataWithQuery());
-  }, [searchQuery, selectedContractorsIds])
+  }, [searchQuery, selectedContractorsIds, contractorsSearchData])
   
   return (
     <div className="insured-list">

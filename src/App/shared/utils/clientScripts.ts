@@ -241,8 +241,7 @@ let updateSearchDataCallback: UpdateSearchDataCallback | undefined;
 /** Установка функции обновления данных поиска контрагента */
 function setUpdateSearchDataCallback(callback: UpdateSearchDataCallback) {
   updateSearchDataCallback = callback;
-
-  window["updateSearchDataCallback"] = updateShowModalCallback; // DEBUG ONLY
+  window["updateSearchDataCallback"] = callback; // DEBUG ONLY
 }
 
 type UpdateShowModalCallback = (isShowModal: boolean) => void
