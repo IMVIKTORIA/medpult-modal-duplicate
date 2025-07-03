@@ -4,7 +4,7 @@ import {
   ItemData,
   ListColumnData,
 } from "../../../UIKit/CustomList/CustomListTypes";
-import { InsuredListData, ModalDuplicateMode } from "../../shared/types";
+import { ContractorsSearchData, InsuredListData, ModalDuplicateMode } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
 import utils, { redirectSPA } from "../../shared/utils/utils";
@@ -22,10 +22,20 @@ type InsuredListProps = {
   selectedInsuredIds: string[]
   /** Установить идентификаторы выбранных застрахованных */
   setSelectedInsuredIds: React.Dispatch<React.SetStateAction<string[]>>
+  /** Поисковые данные контрагента */
+  contractorsSearchData: ContractorsSearchData
+}
+
+/** Данные поиска дубликатов застрахованного */
+export interface InsuredSearchData extends ContractorsSearchData {
+  /** Данные поисковой строки */
+  searchQuery?: string,
+  /** Выбранные обратившиеся */
+  contractorsIds?: string[]
 }
 
 /** Список застрахованных */
-export default function InsuredList({selectedContractorsIds, modalMode, selectedInsuredIds, setSelectedInsuredIds}: InsuredListProps) {
+export default function InsuredList({selectedContractorsIds, modalMode, selectedInsuredIds, setSelectedInsuredIds, contractorsSearchData}: InsuredListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -132,7 +142,14 @@ export default function InsuredList({selectedContractorsIds, modalMode, selected
   }
 
   const searchFields = searchFieldsCallback();
-
+  
+  /** Данные поиска */
+  const searchDataWithQuery: InsuredSearchData = {
+    ...contractorsSearchData,
+    searchQuery: searchQuery,
+    contractorsIds: selectedContractorsIds
+  }
+  
   return (
     <div className="insured-list">
       <div className="insured-list__search">
@@ -174,10 +191,10 @@ export default function InsuredList({selectedContractorsIds, modalMode, selected
         }
       </div>
       <div className="insured-list__list">
-        <CustomList<string, InsuredListData>
+        <CustomList<SearchDataExtended, InsuredListData>
           columnsSettings={columns}
           searchFields={searchFields}
-          searchData={searchQuery}
+          searchData={searchDataWithQuery}
           getDataHandler={Scripts.getInsuredList}
           isScrollable={true}
           // height="500px"

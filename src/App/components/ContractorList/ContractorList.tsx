@@ -4,7 +4,7 @@ import {
   ItemData,
   ListColumnData,
 } from "../../../UIKit/CustomList/CustomListTypes";
-import { ContractorListData } from "../../shared/types";
+import { ContractorListData, ContractorsSearchData } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
 import utils from "../../shared/utils/utils";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
@@ -16,10 +16,18 @@ interface ContractorListProps {
   selectedContractorsIds: string[];
   /** Установить иденификаторы выбранных обратившихся */
   setSelectedContractorsIds: React.Dispatch<React.SetStateAction<string[]>>;
+  /** Поисковые данные контрагента */
+  contractorsSearchData: ContractorsSearchData
+}
+
+/** Данные поиска дубликатов контрагента (с дополнительными полями) */
+export interface ContractorsSearchDataExtended extends ContractorsSearchData {
+  /** Данные поисковой строки */
+  searchQuery?: string,
 }
 
 /** Список обратившихся */
-export default function ContractorList({selectedContractorsIds, setSelectedContractorsIds}: ContractorListProps) {
+export default function ContractorList({selectedContractorsIds, setSelectedContractorsIds, contractorsSearchData}: ContractorListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -77,6 +85,12 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
     .filter((col) => col.code !== "isIntegration")
     .map((col) => col.code);
 
+  /** Данные поиска */
+  const searchDataWithQuery: ContractorsSearchDataExtended = {
+    ...contractorsSearchData,
+    searchQuery: searchQuery
+  }
+
   return (
     <div className="insured-list">
       <div className="insured-list__search">
@@ -112,10 +126,10 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
         ></Button>
       </div>
       <div className="insured-list__list">
-        <CustomList<string, ContractorListData>
+        <CustomList<SearchDataExtended, ContractorListData>
           columnsSettings={columns}
           getDataHandler={Scripts.getContractorList}
-          searchData={searchQuery}
+          searchData={searchDataWithQuery}
           searchFields={searchFields}
           isSelectable={true}
           isMultipleSelect={false}

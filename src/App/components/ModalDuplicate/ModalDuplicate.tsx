@@ -9,7 +9,7 @@ import RequestList from "../RequestList/RequestList.tsx";
 import TaskList from "../TaskList/TaskList.tsx";
 import icons from "../../shared/icons.tsx";
 import Scripts from "../../shared/utils/clientScripts";
-import { ContractorsSearchData, ModalDuplicateMode } from "../../shared/types.ts";
+import { ContractorsSearchData, ContractorsSearchDataExtended, ModalDuplicateMode } from "../../shared/types.ts";
 
 /** Пропсы Модального окна */
 type ModalDuplicateProps = {
@@ -66,7 +66,7 @@ export default function ModalDuplicate({modalMode} : ModalDuplicateProps) {
   }
 
   // Данные поиска дубликата
-  const [contractorsSearchData, setContractorsSearchData] = useState<ContractorsSearchData>();
+  const [contractorsSearchData, setContractorsSearchData] = useState<ContractorsSearchData>({});
   // Состояние видимости модального окна
   const [isShowModal, setIsShowModal] = useState<boolean>();
   useEffect(() => {
@@ -91,6 +91,7 @@ export default function ModalDuplicate({modalMode} : ModalDuplicateProps) {
       <ContractorList
         selectedContractorsIds={selectedContractorsIds}
         setSelectedContractorsIds={setSelectedContractorsIds}
+        contractorsSearchData={contractorsSearchData}
       />
     </TabItem>
   )
@@ -111,6 +112,36 @@ export default function ModalDuplicate({modalMode} : ModalDuplicateProps) {
         modalMode={modalMode}
         selectedInsuredIds={selectedInsuredIds}
         setSelectedInsuredIds={setSelectedInsuredIds}
+        contractorsSearchData={contractorsSearchData}
+      />
+    </TabItem>
+  )
+  
+  // Идентификаторы выбранных обращений
+  const [selectedRequestsIds, setSelectedRequestsIds] = useState<string[]>([]);
+  // Вкладка обращения
+  const requestsTab = (
+    <TabItem
+      code={"requests"}
+      name={`Обращения (${requestCount} из ${requestCount})`}
+    >
+      <RequestList 
+        selectedInsuredIds={selectedInsuredIds} 
+        contractorsSearchData={contractorsSearchData}
+        selectedRequestsIds={selectedRequestsIds}
+        setSelectedRequestsIds={setSelectedRequestsIds}
+      />
+    </TabItem>
+  )
+
+  // Вкладка обращения
+  const tasksTab = (
+    <TabItem
+      code={"tasks"}
+      name={`Задачи (${taskCount} из ${taskCount})`}
+    >
+      <TaskList 
+        selectedRequestsIds={selectedRequestsIds} 
       />
     </TabItem>
   )
@@ -138,12 +169,8 @@ export default function ModalDuplicate({modalMode} : ModalDuplicateProps) {
             {/* Вкладка застрахованных */}
             {insuredTab}
 
-            <TabItem
-              code={"requests"}
-              name={`Обращения (${requestCount} из ${requestCount})`}
-            >
-              <RequestList />
-            </TabItem>
+            {/* Вкладка обращений */}
+            {requestsTab}
 
             <TabItem
               code={"tasks"}

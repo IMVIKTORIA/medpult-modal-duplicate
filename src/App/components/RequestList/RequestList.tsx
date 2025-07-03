@@ -6,7 +6,7 @@ import {
   ListColumnData,
   SortData,
 } from "../../../UIKit/CustomList/CustomListTypes";
-import { RequestListData } from "../../shared/types";
+import { ContractorsSearchData, RequestListData } from "../../shared/types";
 import { FetchData } from "../../../UIKit/CustomList/CustomListTypes.ts";
 import Scripts from "../../shared/utils/clientScripts";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
@@ -14,8 +14,27 @@ import SliderPanel from "../SliderPanel/SliderPanel";
 import RequestDetails from "./RequestDetails/RequestDetails.tsx";
 import utils from "../../shared/utils/utils";
 
+type RequestListProps = {
+  /** Идентификаторы выбранных застрахованных */
+  selectedInsuredIds: string[];
+  /** Поисковые данные контрагента */
+  contractorsSearchData: ContractorsSearchData
+  /** Выбранные обращения */
+  selectedRequestsIds: string[]
+  /** Установить выбранные обращения */
+  setSelectedRequestsIds: React.Dispatch<React.SetStateAction<string[]>>
+};
+
+/** Данные поиска обращений */
+export interface RequestSearchData extends ContractorsSearchData {
+  /** Поисковый запрос */
+  searchQuery?: string
+  /** Идентификаторы выбранных застрахованных */
+  insuredIds?: string[];
+};
+
 /** Список обращений */
-export default function RequestList() {
+export default function RequestList({ selectedInsuredIds }: RequestListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
   //Состояние слайдера
@@ -105,9 +124,10 @@ export default function RequestList() {
 
   const getFilteredRequestList = async (
     page: number,
-    sortData?: SortData
+    sortData?: SortData,
+    searchData?: RequestSearchData
   ): Promise<FetchData<RequestListData>> => {
-    const data = await Scripts.getRequestList(page, sortData);
+    const data = await Scripts.getRequestList(page, sortData, searchData);
     if (!sliderActive) {
       const filteredItems = data.items.filter(
         (item) => item.data.statusRequest?.info !== "zakryto"
@@ -124,6 +144,12 @@ export default function RequestList() {
   const searchFields = columns
     .filter((col) => col.code !== "isOpen")
     .map((col) => col.code);
+
+  // Данные поиска обращений
+  const requestSearchData: RequestSearchData = {
+    searchQuery: searchQuery,
+    insuredIds: selectedInsuredIds,
+  };
 
   return (
     <div className="insured-list">
@@ -142,14 +168,14 @@ export default function RequestList() {
         />
       </div>
       <div className="insured-list__list">
-        <CustomList<String, RequestListData>
+        <CustomList<RequestSearchData, RequestListData>
           key={sliderActive ? "closed" : "all"}
           columnsSettings={columns}
           getDataHandler={getFilteredRequestList}
           getDetailsLayout={getDetailsLayout}
           isScrollable={true}
           searchFields={searchFields}
-          searchData={searchQuery}
+          searchData={requestSearchData}
         />
       </div>
     </div>

@@ -181,10 +181,12 @@ export interface ContractorsSearchData {
   phone?: string
 }
 
-/** Данные поиска дубликатов контрагента (со строчным поиском) */
-export interface ContractorsSearchDataExtended extends ContractorsSearchData{
+/** Данные поиска дубликатов контрагента (с дополнительными полями) */
+export interface ContractorsSearchDataExtended extends ContractorsSearchData {
   /** Данные поисковой строки */
   searchQuery?: string,
+  /** Идентификаторы выбранных контрагентов */
+  contractorsIds?: string[]
 }
 
 /** Реэжим формы дедубликации */

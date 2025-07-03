@@ -7,15 +7,28 @@ import {
   SortData,
 } from "../../../UIKit/CustomList/CustomListTypes";
 import { FetchData } from "../../../UIKit/CustomList/CustomListTypes.ts";
-import { TaskListData } from "../../shared/types";
+import { ContractorsSearchData, TaskListData } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
 import SliderPanel from "../SliderPanel/SliderPanel";
 import utils from "../../shared/utils/utils";
 import TaskDetails from "./TaskDetails/TaskDetails";
 
+/** Данные поиска обращений */
+export interface TaskSearchData extends ContractorsSearchData {
+  /** Поисковый запрос */
+  searchQuery?: string;
+  /** Идентификаторы выбранных обращений */
+  requestsIds?: string[];
+}
+
+type TaskListProps = {
+  /** Выбранные обращения */
+  selectedRequestsIds: string[]
+}
+
 /** Список задач */
-export default function TaskList() {
+export default function TaskList({selectedRequestsIds}: TaskListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
   //Состояние слайдера
@@ -117,9 +130,10 @@ export default function TaskList() {
 
   const getFilteredTaskList = async (
     page: number,
-    sortData?: SortData
+    sortData?: SortData,
+    searchData?: TaskSearchData
   ): Promise<FetchData<TaskListData>> => {
-    const data = await Scripts.getTaskList(page, sortData);
+    const data = await Scripts.getTaskList(page, sortData, searchData);
     if (!sliderActive) {
       const filteredItems = data.items.filter(
         (item) => item.data.statusTask?.info !== "complete"
@@ -136,6 +150,12 @@ export default function TaskList() {
   const searchFields = columns
     .filter((col) => col.code !== "isOpen")
     .map((col) => col.code);
+
+  // Данные поиска обращений
+  const requestSearchData: TaskSearchData = {
+    searchQuery: searchQuery,
+    requestsIds: selectedRequestsIds,
+  };
 
   return (
     <div className="insured-list">
@@ -154,14 +174,14 @@ export default function TaskList() {
         />
       </div>
       <div className="insured-list__list">
-        <CustomList<String, TaskListData>
+        <CustomList<TaskSearchData, TaskListData>
           key={sliderActive ? "closed" : "all"}
           columnsSettings={columns}
           getDataHandler={getFilteredTaskList}
           getDetailsLayout={getDetailsLayout}
           isScrollable={true}
           searchFields={searchFields}
-          searchData={searchQuery}
+          searchData={requestSearchData}
         />
       </div>
     </div>

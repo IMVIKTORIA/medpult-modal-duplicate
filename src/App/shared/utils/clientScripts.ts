@@ -4,6 +4,9 @@ import {
   ItemDataString,
   SortData,
 } from "../../../UIKit/CustomList/CustomListTypes";
+import { InsuredSearchData } from "../../components/InsuredList/InsuredList";
+import { RequestSearchData } from "../../components/RequestList/RequestList";
+import { TaskSearchData } from "../../components/TaskList/TaskList";
 import {
   ContractorListData,
   ContractorsSearchData,
@@ -50,7 +53,7 @@ const baseMockDataArray: ContractorListData[] = [
 async function getContractorList(
   page: number,
   sortData?: SortData,
-  searchData?: any
+  searchData?: ContractorsSearchDataExtended
 ): Promise<FetchData<ContractorListData>> {
   await randomDelay();
 
@@ -66,7 +69,8 @@ async function getContractorList(
 /** Получение списка застрахованных */
 async function getInsuredList(
   page: number,
-  sortData?: SortData
+  sortData?: SortData,
+  searchData?: InsuredSearchData
 ): Promise<FetchData<InsuredListData>> {
   await randomDelay();
   const mockData: InsuredListData = {
@@ -100,7 +104,8 @@ async function getInsuredList(
 /** Получение списка обращений */
 async function getRequestList(
   page: number,
-  sortData?: SortData
+  sortData?: SortData,
+  searchData?: RequestSearchData
 ): Promise<FetchData<RequestListData>> {
   await randomDelay();
   const statusList = [
@@ -142,7 +147,8 @@ async function getRequestList(
 /** Получение списка задач */
 async function getTaskList(
   page: number,
-  sortData?: SortData
+  sortData?: SortData,
+  searchData?: TaskSearchData
 ): Promise<FetchData<TaskListData>> {
   await randomDelay();
   const statusTaskList = [
