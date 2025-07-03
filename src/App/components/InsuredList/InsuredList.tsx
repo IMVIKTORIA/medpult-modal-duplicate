@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import CustomList from "../../../UIKit/CustomList/CustomList";
 import {
-  ItemData,
+  MyItemData,
   ListColumnData,
 } from "../../../UIKit/CustomList/CustomListTypes";
-import { ContractorsSearchData, InsuredListData, ModalDuplicateMode } from "../../shared/types";
+import { ContractorsSearchData, InsuredListDataDeduplication, ModalDuplicateMode } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
 import utils, { redirectSPA } from "../../shared/utils/utils";
@@ -191,11 +191,11 @@ export default function InsuredList({selectedContractorsIds, modalMode, selected
         }
       </div>
       <div className="insured-list__list">
-        <CustomList<SearchDataExtended, InsuredListData>
+        <CustomList<InsuredSearchData, InsuredListDataDeduplication>
           columnsSettings={columns}
           searchFields={searchFields}
           searchData={searchDataWithQuery}
-          getDataHandler={Scripts.getInsuredList}
+          getDataHandler={Scripts.getInsuredListDeduplication}
           isScrollable={true}
           // height="500px"
           isSelectable={true}

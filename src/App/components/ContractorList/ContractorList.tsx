@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CustomList from "../../../UIKit/CustomList/CustomList";
 import {
-  ItemData,
+  MyItemData,
   ListColumnData,
 } from "../../../UIKit/CustomList/CustomListTypes";
 import { ContractorListData, ContractorsSearchData } from "../../shared/types";

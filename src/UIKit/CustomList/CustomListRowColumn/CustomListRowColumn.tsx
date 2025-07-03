@@ -1,5 +1,5 @@
 import React from "react";
-import { ItemData, ListColumnData } from "../CustomListTypes";
+import { MyItemData, ListColumnData } from "../CustomListTypes";
 import icons from "../../../App/shared/icons";
 import {
   getStatusRequestColor,
@@ -8,7 +8,7 @@ import {
 } from "../../../App/shared/utils/utils";
 
 interface ListColumnProps extends ListColumnData {
-  data: ItemData<any>;
+  data: MyItemData<any>;
   isShowDetails?: boolean;
 }
 

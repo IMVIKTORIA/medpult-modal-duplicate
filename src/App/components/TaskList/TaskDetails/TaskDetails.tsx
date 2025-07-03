@@ -1,6 +1,6 @@
 import React from "react";
 import { TaskListData } from "../../../shared/types";
-import { ItemData } from "../../../../UIKit/CustomList/CustomListTypes";
+import { MyItemData } from "../../../../UIKit/CustomList/CustomListTypes";
 import Scripts from "../../../shared/utils/clientScripts";
 import utils, {
   getStatusTaskIcon,

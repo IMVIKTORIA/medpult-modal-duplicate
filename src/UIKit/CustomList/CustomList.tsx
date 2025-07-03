@@ -122,7 +122,7 @@ function CustomList<SearchDataType = any, ItemType = any>(
     setIsLoading(true);
 
     const fetched = await getDataHandler(pageNum, sortData);
-    const query = (searchData as string)?.toLowerCase().trim();
+    const query = (searchData as any).searchQuery?.toLowerCase().trim();
 
     const filteredItems = query
       ? fetched.items.filter((item) => {

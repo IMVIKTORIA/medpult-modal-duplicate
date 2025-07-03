@@ -34,7 +34,7 @@ export class ListColumnData {
   /** Код значения */
   code: string;
   /** Обработчик нажатия */
-  onClick?: (props: ItemData) => any;
+  onClick?: (props: MyItemData) => any;
   /** Хранит ли по столбец иконку */
   isIcon?: boolean;
   /** Фиксированная ширина столбца */
@@ -73,7 +73,7 @@ export class ListColumnData {
 }
 
 /** Значение колонки */
-export class ItemData<InfoType = string> {
+export class MyItemData<InfoType = string> {
   /** Значение */
   value: string;
   /** Дополнительная информация */
@@ -86,7 +86,7 @@ export class ItemData<InfoType = string> {
 }
 
 /** Строковое значение колонки */
-export class ItemDataString extends ItemData<undefined> {
+export class ItemDataString extends MyItemData<undefined> {
   constructor(value: string) {
     super({ value: value });
   }

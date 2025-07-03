@@ -172,12 +172,8 @@ export default function ModalDuplicate({modalMode} : ModalDuplicateProps) {
             {/* Вкладка обращений */}
             {requestsTab}
 
-            <TabItem
-              code={"tasks"}
-              name={`Задачи (${taskCount} из ${taskCount})`}
-            >
-              <TaskList />
-            </TabItem>
+            {/* Вкладка задач */}
+            {tasksTab}
           </TabsWrapper>
         </div>
       </div>
