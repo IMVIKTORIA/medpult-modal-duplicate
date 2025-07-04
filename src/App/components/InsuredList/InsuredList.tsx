@@ -40,7 +40,12 @@ export default function InsuredList({selectedContractorsIds, modalMode, selected
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   /** Обработчик нажатия на кнопку "Выбрать" контрагента */
-  const onClickChooseContractor = async () => {};
+  const onClickChooseContractor = async () => {
+    // Запустить логику сохранения с выбранными застрахованными
+    Scripts.runSaveWithInsured(selectedInsuredIds)
+    // Закрыть окно
+    Scripts.closeDeduplicationModal();
+  };
 
   /** Обработчик нажатия на кнопку "Oставить без измений"  */
   const onClickNotEdit = async () => {

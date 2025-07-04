@@ -265,6 +265,11 @@ function runCommonSave() {
   // TODO: Логика
 }
 
+/** Запустить логику сохранения с выбранным контрагентом */
+function runSaveWithInsured(insuredIds: string[]) {
+  // TODO: Логика
+}
+
 export default {
   getContractorList,
   getInsuredListDeduplication,
@@ -282,7 +287,8 @@ export default {
 
   setUpdateSearchDataCallback,
   setUpdateShowModalCallback,
-  
+
   closeDeduplicationModal,
   runCommonSave,
+  runSaveWithInsured,
 };
