@@ -44,8 +44,10 @@ export default function InsuredList({selectedContractorsIds, modalMode, selected
 
   /** Обработчик нажатия на кнопку "Oставить без измений"  */
   const onClickNotEdit = async () => {
-    
-    Scripts.closeDeduplicationModal()
+    // Запустить стандартную логику сохранения
+    Scripts.runCommonSave();
+    // Закрыть окно
+    Scripts.closeDeduplicationModal();
   };
 
   /** Обработчик нажатия на кнопку "Редактировать"  */

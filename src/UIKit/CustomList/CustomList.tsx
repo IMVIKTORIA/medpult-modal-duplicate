@@ -112,33 +112,48 @@ function CustomList<SearchDataType = any, ItemType = any>(
     return () => bodyRef.current?.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /** Загрузка данных списка */
-  const loadData = async (
-    existingItems: FetchItem<ItemType>[] = [],
-    pageNum: number = 0,
-    more: boolean = true
-  ) => {
-    if (isLoading || !more) return;
-    setIsLoading(true);
+  // /** Загрузка данных списка */
+  // const loadData = async (
+  //   existingItems: FetchItem<ItemType>[] = [],
+  //   pageNum: number = 0,
+  //   more: boolean = true
+  // ) => {
+  //   if (isLoading || !more) return;
+  //   setIsLoading(true);
 
-    const fetched = await getDataHandler(pageNum, sortData);
-    const query = (searchData as any).searchQuery?.toLowerCase().trim();
+  //   const fetched = await getDataHandler(pageNum, sortData);
+  //   const query = (searchData as any).searchQuery?.toLowerCase().trim();
 
-    const filteredItems = query
-      ? fetched.items.filter((item) => {
-          const data = item.data as any;
-          return searchFields?.some((field) => {
-            const fieldValue = data[field]?.value?.toLowerCase?.() ?? "";
-            return fieldValue.includes(query);
-          });
-        })
-      : fetched.items;
+  //   const filteredItems = query
+  //     ? fetched.items.filter((item) => {
+  //         const data = item.data as any;
+  //         return searchFields?.some((field) => {
+  //           const fieldValue = data[field]?.value?.toLowerCase?.() ?? "";
+  //           return fieldValue.includes(query);
+  //         });
+  //       })
+  //     : fetched.items;
 
-    setHasMore(filteredItems.length > 0);
-    setItems([...existingItems, ...filteredItems]);
-    setPage(pageNum + 1);
-    setIsLoading(false);
-  };
+  //   setHasMore(filteredItems.length > 0);
+  //   setItems([...existingItems, ...filteredItems]);
+  //   setPage(pageNum + 1);
+  //   setIsLoading(false);
+  // };
+  
+	/** Загрузка данных списка */
+	const loadData = async (items: any[] = [], page: number = 0, hasMore: boolean = true) => {
+		if (isLoading) return
+		if (!hasMore) return
+
+		setIsLoading(true)
+
+		const fetchData = await getDataHandler(page, sortData, searchData)
+		setHasMore(fetchData.hasMore)
+
+		setItems([...items, ...fetchData.items])
+		setPage(page + 1)
+		setIsLoading(false)
+	}
 
   useEffect(() => {
     reloadData();
