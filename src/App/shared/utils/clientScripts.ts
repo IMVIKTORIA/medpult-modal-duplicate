@@ -208,7 +208,7 @@ async function getCountConractor() {
   return 4;
 }
 /** Получить количество застрахованных*/
-async function getCountInsured() {
+async function getCountInsured(searchData: ContractorsSearchData) {
   return 10;
 }
 /** Получить количество обращений*/
