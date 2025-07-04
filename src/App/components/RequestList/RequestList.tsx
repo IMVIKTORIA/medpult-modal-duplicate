@@ -14,7 +14,7 @@ import SliderPanel from "../SliderPanel/SliderPanel";
 import RequestDetails from "./RequestDetails/RequestDetails.tsx";
 import utils from "../../shared/utils/utils";
 
-type RequestListProps = {
+export type RequestListProps = {
   /** Идентификаторы выбранных застрахованных */
   selectedInsuredIds: string[];
   /** Поисковые данные контрагента */

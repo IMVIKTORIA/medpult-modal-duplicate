@@ -270,6 +270,12 @@ function runSaveWithInsured(insuredIds: string[]) {
   // TODO: Логика
 }
 
+/** Получить количество отфильтрованных обращений по выбранному Застрахованному */
+async function getFilteredRequestsCount(insuredIds: string[], contractorsSearchData: ContractorsSearchData) {
+  // TODO: Логика
+  return Math.floor((Math.random() * 10))
+}
+
 export default {
   getContractorList,
   getInsuredListDeduplication,
@@ -291,4 +297,6 @@ export default {
   closeDeduplicationModal,
   runCommonSave,
   runSaveWithInsured,
+
+  getFilteredRequestsCount
 };
