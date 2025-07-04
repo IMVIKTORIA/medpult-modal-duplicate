@@ -1,5 +1,5 @@
 import {
-  ItemData,
+  MyItemData,
   ItemDataString,
 } from "../../UIKit/CustomList/CustomListTypes";
 
@@ -11,7 +11,7 @@ export interface IInputData<DataType = any> {
 export class ContractorListData {
   id?: ItemDataString;
   /** Получен по интеграции? */
-  isIntegration?: ItemData<boolean>;
+  isIntegration?: MyItemData<boolean>;
   /** ФИО  */
   fullname?: ItemDataString;
   /** Тип контрагента */
@@ -38,10 +38,10 @@ export class ContractorListData {
   }
 }
 
-export class InsuredListData {
+export class InsuredListDataDeduplication {
   id?: ItemDataString;
   /** Получен по интеграции? */
-  isIntegration?: ItemData<boolean>;
+  isIntegration?: MyItemData<boolean>;
   /** ФИО застрахованного */
   fullname?: ItemDataString;
   /** Дата рождения */
@@ -49,9 +49,9 @@ export class InsuredListData {
   /** Телефон */
   phone?: ItemDataString;
   /** Email */
-  email?: ItemDataString;
+  email?: ItemDataString; 
   /** Статус */
-  statusContragent?: ItemData;
+  statusContragent?: MyItemData;
   /** Полис */
   policy?: ItemDataString;
   /** Дата начала действия полиса */
@@ -76,7 +76,7 @@ export class InsuredListData {
     policyEndDate,
     insurer,
     product,
-  }: InsuredListData) {
+  }: InsuredListDataDeduplication) {
     this.id = id;
     this.isIntegration = isIntegration;
     this.fullname = fullname;
@@ -104,10 +104,10 @@ export class RequestListData {
   /** Тема обращения */
   topic?: ItemDataString;
   /** Статус */
-  statusRequest?: ItemData;
+  statusRequest?: MyItemData;
   /** Причина обращения */
   reason?: ItemDataString;
-  isOpen?: ItemData;
+  isOpen?: MyItemData;
 
   constructor({
     id,
@@ -139,14 +139,14 @@ export class TaskListData {
   /** Вид задачи */
   sort?: ItemDataString;
   /** Статус задачи */
-  statusTask?: ItemData;
+  statusTask?: MyItemData;
   /** Форма согласования */
   formApproval?: ItemDataString;
   /** Статус согласования */
-  statusApproval?: ItemData;
+  statusApproval?: MyItemData;
   /** Описание задачи */
   description?: ItemDataString;
-  isOpen?: ItemData;
+  isOpen?: MyItemData;
 
   constructor({
     id,
@@ -173,14 +173,20 @@ export class TaskListData {
 
 /** Данные поиска дубликатов контрагента */
 export interface ContractorsSearchData {
-  /** Данные поисковой строки */
-  searchQuery: string,
   /** ФИО */
-  fullname: string,
+  fullname?: string,
   /** email */
-  email: string,
+  email?: string,
   /** Телефон */
-  phone: string
+  phone?: string
+}
+
+/** Данные поиска дубликатов контрагента (с дополнительными полями) */
+export interface ContractorsSearchDataExtended extends ContractorsSearchData {
+  /** Данные поисковой строки */
+  searchQuery?: string,
+  /** Идентификаторы выбранных контрагентов */
+  contractorsIds?: string[]
 }
 
 /** Реэжим формы дедубликации */

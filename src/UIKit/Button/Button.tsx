@@ -20,9 +20,7 @@ function Button(props: ButtonData) {
 
   const loadOnClick = async () => {
     setIsLoading(true);
-    const buttonWidth =
-      (buttonRef.current?.getBoundingClientRect().width ?? 40) - 40;
-    console.log(buttonRef.current);
+    const buttonWidth = (buttonRef.current?.getBoundingClientRect().width ?? 40) - 40;
     const loaderElement = (
       <div style={{ width: buttonWidth + "px" }}>
         <Loader />

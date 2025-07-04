@@ -1,12 +1,17 @@
 import {
   FetchData,
-  ItemData,
+  MyItemData,
   ItemDataString,
   SortData,
 } from "../../../UIKit/CustomList/CustomListTypes";
+import { InsuredSearchData } from "../../components/InsuredList/InsuredList";
+import { RequestSearchData } from "../../components/RequestList/RequestList";
+import { TaskSearchData } from "../../components/TaskList/TaskList";
 import {
   ContractorListData,
-  InsuredListData,
+  ContractorsSearchData,
+  ContractorsSearchDataExtended,
+  InsuredListDataDeduplication,
   RequestListData,
   TaskListData,
 } from "../types";
@@ -21,7 +26,7 @@ function randomDelay() {
 const baseMockDataArray: ContractorListData[] = [
   new ContractorListData({
     id: new ItemDataString("1"),
-    isIntegration: new ItemData({ value: "", info: true }),
+    isIntegration: new MyItemData({ value: "", info: true }),
     fullname: new ItemDataString("Иванов Иван Иванович"),
     type: new ItemDataString("Физлицо"),
     phone: new ItemDataString("79998887766"),
@@ -29,7 +34,7 @@ const baseMockDataArray: ContractorListData[] = [
   }),
   new ContractorListData({
     id: new ItemDataString("2"),
-    isIntegration: new ItemData({ value: "", info: false }),
+    isIntegration: new MyItemData({ value: "", info: false }),
     fullname: new ItemDataString("Петров Петр Петрович"),
     type: new ItemDataString("Юрлицо"),
     phone: new ItemDataString("77776665544"),
@@ -37,7 +42,7 @@ const baseMockDataArray: ContractorListData[] = [
   }),
   new ContractorListData({
     id: new ItemDataString("3"),
-    isIntegration: new ItemData({ value: "", info: true }),
+    isIntegration: new MyItemData({ value: "", info: true }),
     fullname: new ItemDataString("Викторов Виктор Викторович"),
     type: new ItemDataString("Юрлицо"),
     phone: new ItemDataString("78886665544"),
@@ -48,7 +53,7 @@ const baseMockDataArray: ContractorListData[] = [
 async function getContractorList(
   page: number,
   sortData?: SortData,
-  searchData?: any
+  searchData?: ContractorsSearchDataExtended
 ): Promise<FetchData<ContractorListData>> {
   await randomDelay();
 
@@ -62,18 +67,19 @@ async function getContractorList(
 }
 
 /** Получение списка застрахованных */
-async function getInsuredList(
+async function getInsuredListDeduplication(
   page: number,
-  sortData?: SortData
-): Promise<FetchData<InsuredListData>> {
+  sortData?: SortData,
+  searchData?: InsuredSearchData
+): Promise<FetchData<InsuredListDataDeduplication>> {
   await randomDelay();
-  const mockData: InsuredListData = {
-    isIntegration: new ItemData({ value: "", info: true }),
+  const mockData: InsuredListDataDeduplication = {
+    isIntegration: new MyItemData({ value: "", info: true }),
     fullname: new ItemDataString("Иванов Иван Иванович"),
     birthdate: new ItemDataString("10.10.1990"),
     phone: new ItemDataString("+7 999 888 77 66"),
     email: new ItemDataString("ivanov@mail.ru"),
-    statusContragent: new ItemData({ value: "Gold", info: "Gold" }),
+    statusContragent: new MyItemData({ value: "Gold", info: "Gold" }),
     policy: new ItemDataString("00SB755380849982/1"),
     policyStartDate: new ItemDataString("20.01.2025"),
     policyEndDate: new ItemDataString("20.02.2025"),
@@ -82,12 +88,12 @@ async function getInsuredList(
   };
 
   return {
-    items: Array(7)
+    items: Array(20)
       .fill(0)
       .map((data, index) => {
         return {
           id: String(index),
-          data: new InsuredListData(mockData),
+          data: new InsuredListDataDeduplication(mockData),
         };
       }),
     hasMore: true,
@@ -98,7 +104,8 @@ async function getInsuredList(
 /** Получение списка обращений */
 async function getRequestList(
   page: number,
-  sortData?: SortData
+  sortData?: SortData,
+  searchData?: RequestSearchData
 ): Promise<FetchData<RequestListData>> {
   await randomDelay();
   const statusList = [
@@ -120,7 +127,7 @@ async function getRequestList(
         createdAt: new ItemDataString("01.01.1990 14:17"),
         channel: new ItemDataString("Телефон"),
         topic: new ItemDataString("Согласование медицинских услуг"),
-        statusRequest: new ItemData({ value: status.value, info: status.info }),
+        statusRequest: new MyItemData({ value: status.value, info: status.info }),
         reason: new ItemDataString(
           "Информация о состоянии здоровья предоставляется пациенту лично лечащим врачом или другими медицинскими работниками.Информация о состоянии здоровья предоставляется пациенту лично лечащим врачом или другими медицинскими работниками.Информация о состоянии здоровья предоставляется пациенту лично лечащим врачом или другими медицинскими работниками."
         ),
@@ -140,7 +147,8 @@ async function getRequestList(
 /** Получение списка задач */
 async function getTaskList(
   page: number,
-  sortData?: SortData
+  sortData?: SortData,
+  searchData?: TaskSearchData
 ): Promise<FetchData<TaskListData>> {
   await randomDelay();
   const statusTaskList = [
@@ -170,12 +178,12 @@ async function getTaskList(
         createdAt: new ItemDataString("01.01.1990 14:17"),
         type: new ItemDataString("Медицинское"),
         sort: new ItemDataString("Запись к врачу"),
-        statusTask: new ItemData({
+        statusTask: new MyItemData({
           value: statusTask.value,
           info: statusTask.info,
         }),
         formApproval: new ItemDataString("Устное"),
-        statusApproval: new ItemData({
+        statusApproval: new MyItemData({
           value: statusApproval.value,
           info: statusApproval.info,
         }),
@@ -224,12 +232,47 @@ async function getRequestIdByTaskId(taskId: string): Promise<string> {
 
 /** Получение кода страницы Контрагента */
 function getContractorPageCode(): string {
-  return Context.data.contractor_page_path ?? "";
+  return "contractor";
+}
+
+type UpdateSearchDataCallback = (searchData: ContractorsSearchData) => void
+/** Функция обновления данных поиска контрагента */
+let updateSearchDataCallback: UpdateSearchDataCallback | undefined;
+/** Установка функции обновления данных поиска контрагента */
+function setUpdateSearchDataCallback(callback: UpdateSearchDataCallback) {
+  updateSearchDataCallback = callback;
+  window["updateSearchDataCallback"] = callback; // DEBUG ONLY
+}
+
+type UpdateShowModalCallback = (isShowModal: boolean) => void
+/** Функция обновления видимости модального окна */
+let updateShowModalCallback: UpdateShowModalCallback | undefined;
+/** Установка функции обновления видимости модального окна */
+function setUpdateShowModalCallback(callback: UpdateShowModalCallback) {
+  updateShowModalCallback = callback;
+
+  window["updateShowModalCallback"] = updateShowModalCallback; // DEBUG ONLY
+  updateShowModalCallback(true); // DEBUG ONLY
+}
+
+/** Закрыть модальное окно дедубликации */
+function closeDeduplicationModal() {
+  // TODO: Логика
+}
+
+/** Запустить стандартную логику сохранения */
+function runCommonSave() {
+  // TODO: Логика
+}
+
+/** Запустить логику сохранения с выбранным контрагентом */
+function runSaveWithInsured(insuredIds: string[]) {
+  // TODO: Логика
 }
 
 export default {
   getContractorList,
-  getInsuredList,
+  getInsuredListDeduplication,
   getRequestList,
   getTaskList,
 
@@ -241,4 +284,11 @@ export default {
   getRequestPagePath,
   getRequestIdByTaskId,
   getContractorPageCode,
+
+  setUpdateSearchDataCallback,
+  setUpdateShowModalCallback,
+
+  closeDeduplicationModal,
+  runCommonSave,
+  runSaveWithInsured,
 };

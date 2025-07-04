@@ -26,7 +26,6 @@ function TabsWrapper({
 
 	useEffect(() => {
 		if (setActiveTabCodeGlobal) setActiveTabCodeGlobal(activeTabCode)
-		console.log(activeTabCode)
 	}, [activeTabCode])
 
 	useEffect(() => {
@@ -34,12 +33,10 @@ function TabsWrapper({
 	}, [activeTabCodeGlobal])
 
 	const handleSelectorItemClick = (code: string) => {
-		console.log(code)
 		setActiveTabCode(code)
 	}
 
 	const createSelectorItem = (child: any) => {
-		console.log(child)
 		return (
 			<TabSelectorItem
 				activeTabCode={activeTabCode}
@@ -63,7 +60,6 @@ function TabsWrapper({
 	}
 
 	useEffect(() => {
-		console.log(childrenFiltered)
 		if (!Array.isArray(childrenFiltered)) {
 			setActiveTabCode(childrenFiltered.props.code)
 			return

@@ -1,7 +1,7 @@
 import React from "react";
 import CustomListRowColumn from "../CustomListRowColumn/CustomListRowColumn";
 import {
-  ItemData,
+  MyItemData,
   ListColumnData,
   getDetailsLayoutAttributes,
 } from "../CustomListTypes";
@@ -97,7 +97,7 @@ function CustomListRow<ItemType = any>(props: ListRowProps<ItemType>) {
             if (data == undefined) {
               return;
             }
-            const columnData: ItemData<any> = data[settings.code];
+            const columnData: MyItemData<any> = data[settings.code];
 
             return (
               <CustomListRowColumn
