@@ -17,14 +17,18 @@ import ModalDuplicate, { ModalDuplicateProps } from "./ModalDuplicate.tsx";
 export default function ModalDuplicateWrapper(props : ModalDuplicateProps) {
   // Состояние видимости модального окна
   const [isShowModal, setIsShowModal] = useState<boolean>();
+  // Данные поиска дубликата
+  const [contractorsSearchData, setContractorsSearchData] = useState<ContractorsSearchData>({});
   useEffect(() => {
     // Установить функцию обновления видимости модального окна извне
     Scripts.setUpdateShowModalCallback((isShowModal: boolean) => setIsShowModal(isShowModal))
+    // Установить функцию обновления данных поиска контрагента вне виджета
+    Scripts.setUpdateSearchDataCallback((searchData: ContractorsSearchData) => setContractorsSearchData(searchData));
   }, [])
 
   return (
     <>
-      {isShowModal && <ModalDuplicate {...props}/>}
+      {isShowModal && <ModalDuplicate {...props} contractorsSearchData={contractorsSearchData}/>}
     </>
   );
 }

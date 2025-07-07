@@ -19,10 +19,12 @@ import RequestsTab from "./Tabs/RequestsTab.tsx";
 export type ModalDuplicateProps = {
   /** Режим модального окна */
   modalMode: ModalDuplicateMode;
+  /** Поисковые данные контрагента */
+  contractorsSearchData: ContractorsSearchData
 };
 
 /**Модальное окно */
-export default function ModalDuplicate({ modalMode }: ModalDuplicateProps) {
+export default function ModalDuplicate({ modalMode, contractorsSearchData }: ModalDuplicateProps) {
   //общее количество обратившихся
   const [contractorCount, setContractorCount] = useState<number>(0);
   const fetchContractorCount = async () => {
@@ -59,13 +61,6 @@ export default function ModalDuplicate({ modalMode }: ModalDuplicateProps) {
         throw new Error("Не указан режим модального окна");
     }
   };
-
-  // Данные поиска дубликата
-  const [contractorsSearchData, setContractorsSearchData] = useState<ContractorsSearchData>({});
-  useEffect(() => {
-    // Установить функцию обновления данных поиска контрагента вне виджета
-    Scripts.setUpdateSearchDataCallback((searchData: ContractorsSearchData) => setContractorsSearchData(searchData));
-  }, []);
 
   // Идентификаторы выбранных обратившихся
   const [selectedContractorsIds, setSelectedContractorsIds] = useState<string[]>([]);
