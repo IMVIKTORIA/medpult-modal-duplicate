@@ -170,7 +170,6 @@ export default function RequestList({ selectedInsuredIds, contractorsSearchData,
       </div>
       <div className="insured-list__list">
         <CustomList<RequestSearchData, RequestListData>
-          key={sliderActive ? "closed" : "all"}
           columnsSettings={columns}
           getDataHandler={Scripts.getRequestList}
           getDetailsLayout={getDetailsLayout}

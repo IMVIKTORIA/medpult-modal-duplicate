@@ -12,9 +12,13 @@ import Scripts from "../../shared/utils/clientScripts";
 import { ContractorsSearchData, ContractorsSearchDataExtended, ModalDuplicateMode } from "../../shared/types.ts";
 import ModalDuplicate, { ModalDuplicateProps } from "./ModalDuplicate.tsx";
 
-
+/** Пропсы Модального окна */
+export type ModalDuplicateWrapperProps = {
+  /** Режим модального окна */
+  modalMode: ModalDuplicateMode;
+};
 /** Обёртка модального окна с контроллером видимости */
-export default function ModalDuplicateWrapper(props : ModalDuplicateProps) {
+export default function ModalDuplicateWrapper(props : ModalDuplicateWrapperProps) {
   // Состояние видимости модального окна
   const [isShowModal, setIsShowModal] = useState<boolean>();
   // Данные поиска дубликата

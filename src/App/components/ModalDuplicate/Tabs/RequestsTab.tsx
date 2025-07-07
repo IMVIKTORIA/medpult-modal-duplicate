@@ -44,7 +44,7 @@ export default function RequestsTab(props: RequestListProps) {
   // При изменении выбранного застрахованного, фильтров или общего количества обращений
   useEffect(() => {
     updateFilteredRequestsCount();
-  }, [selectedInsuredIds, contractorsSearchData, requestCount]);
+  }, [selectedInsuredIds, contractorsSearchData, requestCount, sliderActive]);
 
   // Вкладка обращения
   return (

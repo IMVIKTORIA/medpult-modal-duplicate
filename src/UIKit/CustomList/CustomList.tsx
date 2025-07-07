@@ -89,6 +89,7 @@ function CustomList<SearchDataType = any, ItemType = any>(
   const headerRef = useRef<HTMLDivElement>(null);
 
   const reloadData = () => {
+    console.log("searchData reloadData:", searchData)
     setIsLoading(false);
     setItems([]);
     setPage(0);

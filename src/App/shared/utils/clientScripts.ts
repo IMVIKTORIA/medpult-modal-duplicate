@@ -123,7 +123,7 @@ async function getRequestList(
       const status = statusList[index % statusList.length];
       const mockData: RequestListData = {
         id: new ItemDataString(`${index}`),
-        number: new ItemDataString(`RW00000${index}/24`),
+        number: new MyItemData({value: `RW00000${index}/24`,  info: `id__${index}`}),
         createdAt: new ItemDataString("01.01.1990 14:17"),
         channel: new ItemDataString("Телефон"),
         topic: new ItemDataString("Согласование медицинских услуг"),
