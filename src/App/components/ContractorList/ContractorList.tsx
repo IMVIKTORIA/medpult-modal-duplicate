@@ -85,12 +85,27 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
     .filter((col) => col.code !== "isIntegration")
     .map((col) => col.code);
 
-  /** Данные поиска */
-  const searchDataWithQuery: ContractorsSearchDataExtended = {
-    ...contractorsSearchData,
-    searchQuery: searchQuery
-  }
+  // /** Данные поиска */
+  // const searchDataWithQuery: ContractorsSearchDataExtended = {
+  //   ...contractorsSearchData,
+  //   searchQuery: searchQuery
+  // }
 
+  /** Данные поиска */
+  const getSearchDataWithQuery = (): ContractorsSearchDataExtended => {
+    return {
+      ...contractorsSearchData,
+      searchQuery: searchQuery,
+    };
+  };
+
+  const [searchDataWithQuery, setSearchDataWithQuery] =
+    useState<ContractorsSearchDataExtended>(() => getSearchDataWithQuery());
+
+  useEffect(() => {
+    setSearchDataWithQuery(getSearchDataWithQuery());
+  }, [searchQuery, selectedContractorsIds, contractorsSearchData]);
+  
   return (
     <div className="insured-list">
       <div className="insured-list__search">
@@ -104,18 +119,18 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
         <div className="insured-list__search__button">
           <Button
             title={"Выбрать"}
-            clickHandler={onClickChooseContractor()}
+            clickHandler={() => onClickChooseContractor()}
             disabled={selectedContractorsIds.length === 0}
           ></Button>
           <Button
             title={"Oставить без измений"}
-            clickHandler={onClickNotEdit()}
+            clickHandler={() => onClickNotEdit()}
             style={{ backgroundColor: "#FF4545" }}
           ></Button>
         </div>
         <Button
           title={"Редактировать"}
-          clickHandler={onClickEdit(selectedContractorsIds[0])}
+          clickHandler={() => onClickEdit(selectedContractorsIds[0])}
           icon={icons.EditButton}
           style={{
             backgroundColor: "#fff",
