@@ -123,7 +123,7 @@ async function getRequestList(
       const status = statusList[index % statusList.length];
       const mockData: RequestListData = {
         id: new ItemDataString(`${index}`),
-        number: new ItemDataString(`RW00000${index}/24`),
+        number: new MyItemData({value: `RW00000${index}/24`,  info: `id__${index}`}),
         createdAt: new ItemDataString("01.01.1990 14:17"),
         channel: new ItemDataString("Телефон"),
         topic: new ItemDataString("Согласование медицинских услуг"),
@@ -212,11 +212,11 @@ async function getCountInsured(searchData: ContractorsSearchData) {
   return 10;
 }
 /** Получить количество обращений*/
-async function getCountRequest() {
+async function getCountRequest(searchData: ContractorsSearchData) {
   return 4;
 }
 /** Получить количество задач*/
-async function getCountTask() {
+async function getCountTask(searchData: ContractorsSearchData) {
   return 10;
 }
 
@@ -224,7 +224,7 @@ declare const Context: any;
 
 /** Получение кода страницы Обращение */
 function getRequestPagePath(): string {
-  return Context.data.request_page_path;
+  return "Context.data.request_page_path";
 }
 async function getRequestIdByTaskId(taskId: string): Promise<string> {
   return "test";
@@ -270,6 +270,12 @@ function runSaveWithInsured(insuredIds: string[]) {
   // TODO: Логика
 }
 
+/** Получить количество отфильтрованных обращений по выбранному Застрахованному */
+async function getFilteredRequestsCount(insuredIds: string[], contractorsSearchData: ContractorsSearchData, isShowClosed: boolean) {
+  // TODO: Логика
+  return Math.floor((Math.random() * 10))
+}
+
 export default {
   getContractorList,
   getInsuredListDeduplication,
@@ -291,4 +297,6 @@ export default {
   closeDeduplicationModal,
   runCommonSave,
   runSaveWithInsured,
+
+  getFilteredRequestsCount
 };
