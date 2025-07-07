@@ -17,7 +17,7 @@ export default function RequestsTab(props: RequestListProps) {
 
   // Количество отфильтрованных обращений
   const [filteredRequestsCount, setFilteredRequestsCount] = useState<number>(0);
-  // Обновление количества отфильтрованных по застрахвованным обращений
+  // Обновление количества отфильтрованных по застрахованным обращений
   async function updateFilteredRequestsCount() {
     // Если застрахованный не выбран, то обращения не фильтруются
     if (!selectedInsuredIds.length) {
