@@ -3,6 +3,10 @@ import RequestList, { RequestListProps } from "../../RequestList/RequestList";
 import TabItem from "../../../../UIKit/Tabs/TabItem/TabItem";
 import Scripts from "../../../shared/utils/clientScripts.ts";
 
+interface RequestsTab extends RequestListProps {
+	code: string
+}
+
 /** Список обращений */
 export default function RequestsTab(props: RequestListProps) {
   const { selectedInsuredIds, contractorsSearchData } = props;
@@ -11,7 +15,7 @@ export default function RequestsTab(props: RequestListProps) {
   const [requestCount, setRequestCount] = useState<number>(0);
   // Обновить общее количество обращений
   async function updateRequestCount() {
-    const count = await Scripts.getCountRequest();
+    const count = await Scripts.getCountRequest(contractorsSearchData);
     setRequestCount(count);
   };
 

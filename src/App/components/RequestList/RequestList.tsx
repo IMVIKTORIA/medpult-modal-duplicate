@@ -34,7 +34,7 @@ export interface RequestSearchData extends ContractorsSearchData {
 };
 
 /** Список обращений */
-export default function RequestList({ selectedInsuredIds }: RequestListProps) {
+export default function RequestList({ selectedInsuredIds, contractorsSearchData }: RequestListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
   //Состояние слайдера
@@ -128,15 +128,16 @@ export default function RequestList({ selectedInsuredIds }: RequestListProps) {
     searchData?: RequestSearchData
   ): Promise<FetchData<RequestListData>> => {
     const data = await Scripts.getRequestList(page, sortData, searchData);
-    if (!sliderActive) {
-      const filteredItems = data.items.filter(
-        (item) => item.data.statusRequest?.info !== "zakryto"
-      );
-      return {
-        ...data,
-        items: filteredItems,
-      };
-    }
+    // TODO: Фильтровать в элме
+    // if (!sliderActive) {
+    //   const filteredItems = data.items.filter(
+    //     (item) => item.data.statusRequest?.info !== "zakryto"
+    //   );
+    //   return {
+    //     ...data,
+    //     items: filteredItems,
+    //   };
+    // }
     // Если слайдер активен — возвращаем всё как есть
     return data;
   };
@@ -145,11 +146,20 @@ export default function RequestList({ selectedInsuredIds }: RequestListProps) {
     .filter((col) => col.code !== "isOpen")
     .map((col) => col.code);
 
-  // Данные поиска обращений
-  const requestSearchData: RequestSearchData = {
-    searchQuery: searchQuery,
-    insuredIds: selectedInsuredIds,
-  };
+  /** Данные поиска */
+  const getSearchDataWithQuery = (): RequestSearchData => {
+    return {
+      ...contractorsSearchData,
+      searchQuery: searchQuery,
+      insuredIds: selectedInsuredIds
+    }
+  }
+
+  const [searchDataWithQuery, setSearchDataWithQuery] = useState<RequestSearchData>(() => getSearchDataWithQuery())
+
+  useEffect(() => {
+    setSearchDataWithQuery(getSearchDataWithQuery());
+  }, [searchQuery, selectedInsuredIds, contractorsSearchData])
 
   return (
     <div className="insured-list">
@@ -175,7 +185,7 @@ export default function RequestList({ selectedInsuredIds }: RequestListProps) {
           getDetailsLayout={getDetailsLayout}
           isScrollable={true}
           searchFields={searchFields}
-          searchData={requestSearchData}
+          searchData={searchDataWithQuery}
         />
       </div>
     </div>

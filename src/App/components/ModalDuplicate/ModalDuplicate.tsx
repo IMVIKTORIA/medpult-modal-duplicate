@@ -40,7 +40,7 @@ export default function ModalDuplicate({ modalMode }: ModalDuplicateProps) {
   //общее количество задач
   const [taskCount, setTaskCount] = useState<number>(0);
   const fetchTaskCount = async () => {
-    const count = await Scripts.getCountTask();
+    const count = await Scripts.getCountTask(contractorsSearchData);
     setTaskCount(count);
   };
 
@@ -111,15 +111,13 @@ export default function ModalDuplicate({ modalMode }: ModalDuplicateProps) {
   );
 
   // Вкладка обращения
-  const requestsTab = (
-    <RequestsTab
-      selectedInsuredIds={selectedInsuredIds}
-      contractorsSearchData={contractorsSearchData}
-      selectedRequestsIds={selectedRequestsIds}
-      setSelectedRequestsIds={setSelectedRequestsIds} 
-    />
-  );
-
+  const requestsTab = RequestsTab({
+    selectedInsuredIds:selectedInsuredIds,
+    contractorsSearchData:contractorsSearchData,
+    selectedRequestsIds:selectedRequestsIds,
+    setSelectedRequestsIds:setSelectedRequestsIds,
+  })
+  
   // Вкладка обращения
   const tasksTab = (
     <TabItem code={"tasks"} name={`Задачи (${taskCount} из ${taskCount})`}>

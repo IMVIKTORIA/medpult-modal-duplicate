@@ -212,11 +212,11 @@ async function getCountInsured(searchData: ContractorsSearchData) {
   return 10;
 }
 /** Получить количество обращений*/
-async function getCountRequest() {
+async function getCountRequest(searchData: ContractorsSearchData) {
   return 4;
 }
 /** Получить количество задач*/
-async function getCountTask() {
+async function getCountTask(searchData: ContractorsSearchData) {
   return 10;
 }
 
