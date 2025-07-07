@@ -11,6 +11,8 @@ interface RequestsTab extends RequestListProps {
 export default function RequestsTab(props: RequestListProps) {
   const { selectedInsuredIds, contractorsSearchData } = props;
 
+  //Состояние слайдера
+  const [sliderActive, setSliderActive] = useState(false);
   // Общее количество обращений
   const [requestCount, setRequestCount] = useState<number>(0);
   // Обновить общее количество обращений
@@ -24,13 +26,13 @@ export default function RequestsTab(props: RequestListProps) {
   // Обновление количества отфильтрованных по застрахованным обращений
   async function updateFilteredRequestsCount() {
     // Если застрахованный не выбран, то обращения не фильтруются
-    if (!selectedInsuredIds.length) {
+    if (!selectedInsuredIds.length && sliderActive) {
       setFilteredRequestsCount(requestCount)
       return;
     }
 
     // При выбранном застрахованном получить количество обращений по этому застрахованному с указанными фильтрами
-    const count = await Scripts.getFilteredRequestsCount(selectedInsuredIds, contractorsSearchData)
+    const count = await Scripts.getFilteredRequestsCount(selectedInsuredIds, contractorsSearchData, sliderActive)
     setFilteredRequestsCount(count)
   }
 
@@ -50,7 +52,7 @@ export default function RequestsTab(props: RequestListProps) {
       code={"requests"}
       name={`Обращения (${filteredRequestsCount} из ${requestCount})`}
     >
-      <RequestList {...props} />
+      <RequestList {...props} sliderActive={sliderActive} setSliderActive={setSliderActive}/>
     </TabItem>
   );
 }

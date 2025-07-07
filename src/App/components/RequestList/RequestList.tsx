@@ -23,6 +23,10 @@ export type RequestListProps = {
   selectedRequestsIds: string[]
   /** Установить выбранные обращения */
   setSelectedRequestsIds: React.Dispatch<React.SetStateAction<string[]>>
+  /** Показывать закрытые задачи */
+  sliderActive?: boolean
+  /** Изменить значение показывать закрытые задачи */
+  setSliderActive?: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 /** Данные поиска обращений */
@@ -36,14 +40,18 @@ export interface RequestSearchData extends ContractorsSearchData {
 };
 
 /** Список обращений */
-export default function RequestList({ selectedInsuredIds, contractorsSearchData }: RequestListProps) {
+export default function RequestList({ selectedInsuredIds, contractorsSearchData, sliderActive, setSliderActive }: RequestListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
-  //Состояние слайдера
-  const [sliderActive, setSliderActive] = useState(false);
 
   /** Обработчик нажатия на номер обращения */
-  const onClickNumberRequest = async (requestId: string) => {
+  const onClickNumberRequest = async (requestInfo: MyItemData) => {
+    const requestId = requestInfo.info
+    await openRequest(requestId)
+  };
+
+  /** Открыть обращение */
+  const openRequest = async (requestId?: string) => {
     if (!requestId) return;
 
     utils.setRequest(requestId);
@@ -69,7 +77,7 @@ export default function RequestList({ selectedInsuredIds, contractorsSearchData 
         rowData={rowData}
         onClickRowHandler={onClickRowHandler}
         reloadData={reloadData}
-        onClickNumberRequest={onClickNumberRequest}
+        onClickNumberRequest={openRequest}
       />
     );
   };
@@ -124,26 +132,6 @@ export default function RequestList({ selectedInsuredIds, contractorsSearchData 
     }),
   ];
 
-  const getFilteredRequestList = async (
-    page: number,
-    sortData?: SortData,
-    searchData?: RequestSearchData
-  ): Promise<FetchData<RequestListData>> => {
-    const data = await Scripts.getRequestList(page, sortData, searchData);
-    // TODO: Фильтровать в элме
-    // if (!sliderActive) {
-    //   const filteredItems = data.items.filter(
-    //     (item) => item.data.statusRequest?.info !== "zakryto"
-    //   );
-    //   return {
-    //     ...data,
-    //     items: filteredItems,
-    //   };
-    // }
-    // Если слайдер активен — возвращаем всё как есть
-    return data;
-  };
-
   const searchFields = columns
     .filter((col) => col.code !== "isOpen")
     .map((col) => col.code);
@@ -176,15 +164,15 @@ export default function RequestList({ selectedInsuredIds, contractorsSearchData 
         />
         <SliderPanel
           title="Закрытые обращения"
-          isVisible={sliderActive}
-          setIsVisible={setSliderActive}
+          isVisible={sliderActive ?? false}
+          setIsVisible={(isActive) => {if(setSliderActive) setSliderActive(isActive)}}
         />
       </div>
       <div className="insured-list__list">
         <CustomList<RequestSearchData, RequestListData>
           key={sliderActive ? "closed" : "all"}
           columnsSettings={columns}
-          getDataHandler={getFilteredRequestList}
+          getDataHandler={Scripts.getRequestList}
           getDetailsLayout={getDetailsLayout}
           isScrollable={true}
           searchFields={searchFields}

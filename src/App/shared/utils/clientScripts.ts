@@ -224,7 +224,7 @@ declare const Context: any;
 
 /** Получение кода страницы Обращение */
 function getRequestPagePath(): string {
-  return Context.data.request_page_path;
+  return "Context.data.request_page_path";
 }
 async function getRequestIdByTaskId(taskId: string): Promise<string> {
   return "test";
@@ -271,7 +271,7 @@ function runSaveWithInsured(insuredIds: string[]) {
 }
 
 /** Получить количество отфильтрованных обращений по выбранному Застрахованному */
-async function getFilteredRequestsCount(insuredIds: string[], contractorsSearchData: ContractorsSearchData) {
+async function getFilteredRequestsCount(insuredIds: string[], contractorsSearchData: ContractorsSearchData, isShowClosed: boolean) {
   // TODO: Логика
   return Math.floor((Math.random() * 10))
 }
