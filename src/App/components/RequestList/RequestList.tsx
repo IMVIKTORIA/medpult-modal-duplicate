@@ -31,6 +31,8 @@ export interface RequestSearchData extends ContractorsSearchData {
   searchQuery?: string
   /** Идентификаторы выбранных застрахованных */
   insuredIds?: string[];
+  /** Показывать закрытые задачи */
+  isShowClosed?: boolean
 };
 
 /** Список обращений */
@@ -151,7 +153,8 @@ export default function RequestList({ selectedInsuredIds, contractorsSearchData 
     return {
       ...contractorsSearchData,
       searchQuery: searchQuery,
-      insuredIds: selectedInsuredIds
+      insuredIds: selectedInsuredIds,
+      isShowClosed: sliderActive
     }
   }
 
@@ -159,7 +162,7 @@ export default function RequestList({ selectedInsuredIds, contractorsSearchData 
 
   useEffect(() => {
     setSearchDataWithQuery(getSearchDataWithQuery());
-  }, [searchQuery, selectedInsuredIds, contractorsSearchData])
+  }, [searchQuery, selectedInsuredIds, contractorsSearchData, sliderActive])
 
   return (
     <div className="insured-list">
