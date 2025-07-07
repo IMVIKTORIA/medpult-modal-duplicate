@@ -3,15 +3,21 @@ import RequestList, { RequestListProps } from "../../RequestList/RequestList";
 import TabItem from "../../../../UIKit/Tabs/TabItem/TabItem";
 import Scripts from "../../../shared/utils/clientScripts.ts";
 
+interface RequestsTab extends RequestListProps {
+	code: string
+}
+
 /** Список обращений */
 export default function RequestsTab(props: RequestListProps) {
   const { selectedInsuredIds, contractorsSearchData } = props;
 
+  //Состояние слайдера
+  const [sliderActive, setSliderActive] = useState(false);
   // Общее количество обращений
   const [requestCount, setRequestCount] = useState<number>(0);
   // Обновить общее количество обращений
   async function updateRequestCount() {
-    const count = await Scripts.getCountRequest();
+    const count = await Scripts.getCountRequest(contractorsSearchData);
     setRequestCount(count);
   };
 
@@ -20,13 +26,13 @@ export default function RequestsTab(props: RequestListProps) {
   // Обновление количества отфильтрованных по застрахованным обращений
   async function updateFilteredRequestsCount() {
     // Если застрахованный не выбран, то обращения не фильтруются
-    if (!selectedInsuredIds.length) {
+    if (!selectedInsuredIds.length && sliderActive) {
       setFilteredRequestsCount(requestCount)
       return;
     }
 
     // При выбранном застрахованном получить количество обращений по этому застрахованному с указанными фильтрами
-    const count = await Scripts.getFilteredRequestsCount(selectedInsuredIds, contractorsSearchData)
+    const count = await Scripts.getFilteredRequestsCount(selectedInsuredIds, contractorsSearchData, sliderActive)
     setFilteredRequestsCount(count)
   }
 
@@ -38,7 +44,7 @@ export default function RequestsTab(props: RequestListProps) {
   // При изменении выбранного застрахованного, фильтров или общего количества обращений
   useEffect(() => {
     updateFilteredRequestsCount();
-  }, [selectedInsuredIds, contractorsSearchData, requestCount]);
+  }, [selectedInsuredIds, contractorsSearchData, requestCount, sliderActive]);
 
   // Вкладка обращения
   return (
@@ -46,7 +52,7 @@ export default function RequestsTab(props: RequestListProps) {
       code={"requests"}
       name={`Обращения (${filteredRequestsCount} из ${requestCount})`}
     >
-      <RequestList {...props} />
+      <RequestList {...props} sliderActive={sliderActive} setSliderActive={setSliderActive}/>
     </TabItem>
   );
 }

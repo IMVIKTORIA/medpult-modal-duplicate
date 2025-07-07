@@ -96,7 +96,7 @@ export class InsuredListDataDeduplication {
 export class RequestListData {
   id: ItemDataString;
   /** Номер */
-  number?: ItemDataString;
+  number?: MyItemData;
   /** Дата создания  */
   createdAt?: ItemDataString;
   /** Канал */
