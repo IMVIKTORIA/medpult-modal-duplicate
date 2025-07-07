@@ -126,7 +126,10 @@ async function getRequestList(
       const status = statusList[index % statusList.length];
       const mockData: RequestListData = {
         id: new ItemDataString(`${index}`),
-        number: new MyItemData({value: `RW00000${index}/24`,  info: `id__${index}`}),
+        number: new MyItemData({
+          value: `RW00000${index}/24`,
+          info: `id__${index}`,
+        }),
         createdAt: new ItemDataString("01.01.1990 14:17"),
         channel: new ItemDataString("Телефон"),
         topic: new ItemDataString("Согласование медицинских услуг"),
@@ -277,7 +280,20 @@ function runSaveWithInsured(insuredIds: string[]) {
 }
 
 /** Получить количество отфильтрованных обращений по выбранному Застрахованному */
-async function getFilteredRequestsCount(insuredIds: string[], contractorsSearchData: ContractorsSearchData, isShowClosed: boolean) {
+async function getFilteredRequestsCount(
+  insuredIds: string[],
+  contractorsSearchData: ContractorsSearchData,
+  isShowClosed: boolean
+) {
+  // TODO: Логика
+  return Math.floor(Math.random() * 10);
+}
+/** Получить количество отфильтрованных задач по выбранному обращению */
+async function getFilteredTasksCount(
+  requestsIds: string[],
+  contractorsSearchData: ContractorsSearchData,
+  isShowClosed: boolean
+) {
   // TODO: Логика
   return Math.floor(Math.random() * 10);
 }
@@ -305,4 +321,5 @@ export default {
   runSaveWithInsured,
 
   getFilteredRequestsCount,
+  getFilteredTasksCount,
 };

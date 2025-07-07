@@ -20,19 +20,34 @@ export interface TaskSearchData extends ContractorsSearchData {
   searchQuery?: string;
   /** Идентификаторы выбранных обращений */
   requestsIds?: string[];
+  /** Показывать закрытые задачи */
+  isShowClosed?: boolean;
 }
 
-type TaskListProps = {
+export type TaskListProps = {
   /** Выбранные обращения */
-  selectedRequestsIds: string[]
-}
+  selectedRequestsIds: string[];
+  /** Поисковые данные контрагента */
+  contractorsSearchData: ContractorsSearchData;
+  /** Выбранные задачи */
+  selectedTasksIds: string[];
+  /** Установить выбранные задачи */
+  setSelectedTasksIds: React.Dispatch<React.SetStateAction<string[]>>;
+  /** Показывать закрытые задачи */
+  sliderActive?: boolean;
+  /** Изменить значение показывать закрытые задачи */
+  setSliderActive?: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 /** Список задач */
-export default function TaskList({selectedRequestsIds}: TaskListProps) {
+export default function TaskList({
+  selectedRequestsIds,
+  contractorsSearchData,
+  sliderActive,
+  setSliderActive,
+}: TaskListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
-  //Состояние слайдера
-  const [sliderActive, setSliderActive] = useState(false);
 
   /** Обработчик нажатия на номер задачи */
   const onClickNumberTask = async (taskId: string) => {
@@ -128,38 +143,36 @@ export default function TaskList({selectedRequestsIds}: TaskListProps) {
     }),
   ];
 
-  const getFilteredTaskList = async (
-    page: number,
-    sortData?: SortData,
-    searchData?: TaskSearchData
-  ): Promise<FetchData<TaskListData>> => {
-    const data = await Scripts.getTaskList(page, sortData, searchData);
-    if (!sliderActive) {
-      const filteredItems = data.items.filter(
-        (item) => item.data.statusTask?.info !== "complete"
-      );
-      return {
-        ...data,
-        items: filteredItems,
-      };
-    }
-    // Если слайдер активен — возвращаем всё как есть
-    return data;
-  };
-
   const searchFields = columns
     .filter((col) => col.code !== "isOpen")
     .map((col) => col.code);
 
-  // Данные поиска обращений
-  const requestSearchData: TaskSearchData = {
-    searchQuery: searchQuery,
-    requestsIds: selectedRequestsIds,
+  /** Данные поиска */
+  const getSearchDataWithQuery = (): TaskSearchData => {
+    return {
+      ...contractorsSearchData,
+      searchQuery: searchQuery,
+      requestsIds: selectedRequestsIds,
+      isShowClosed: sliderActive,
+    };
   };
 
+  const [searchDataWithQuery, setSearchDataWithQuery] =
+    useState<TaskSearchData>(() => getSearchDataWithQuery());
+
+  useEffect(() => {
+    setSearchDataWithQuery(getSearchDataWithQuery());
+  }, [searchQuery, selectedRequestsIds, contractorsSearchData, sliderActive]);
+
+  // // Данные поиска обращений
+  // const requestSearchData: TaskSearchData = {
+  //   searchQuery: searchQuery,
+  //   requestsIds: selectedRequestsIds,
+  // };
+
   return (
-    <div className="insured-list">
-      <div className="insured-list__search">
+    <div className="request-list">
+      <div className="request-list__search">
         {/* Поле поиска */}
         <CustomInput
           value={searchQuery}
@@ -169,19 +182,20 @@ export default function TaskList({selectedRequestsIds}: TaskListProps) {
         />
         <SliderPanel
           title="Закрытые задачи"
-          isVisible={sliderActive}
-          setIsVisible={setSliderActive}
+          isVisible={sliderActive ?? false}
+          setIsVisible={(isActive) => {
+            if (setSliderActive) setSliderActive(isActive);
+          }}
         />
       </div>
-      <div className="insured-list__list">
+      <div className="request-list__list">
         <CustomList<TaskSearchData, TaskListData>
-          key={sliderActive ? "closed" : "all"}
           columnsSettings={columns}
-          getDataHandler={getFilteredTaskList}
+          getDataHandler={Scripts.getTaskList}
           getDetailsLayout={getDetailsLayout}
           isScrollable={true}
           searchFields={searchFields}
-          searchData={requestSearchData}
+          searchData={searchDataWithQuery}
         />
       </div>
     </div>

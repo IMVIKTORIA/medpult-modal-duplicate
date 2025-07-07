@@ -18,36 +18,43 @@ export type RequestListProps = {
   /** Идентификаторы выбранных застрахованных */
   selectedInsuredIds: string[];
   /** Поисковые данные контрагента */
-  contractorsSearchData: ContractorsSearchData
+  contractorsSearchData: ContractorsSearchData;
   /** Выбранные обращения */
-  selectedRequestsIds: string[]
+  selectedRequestsIds: string[];
   /** Установить выбранные обращения */
-  setSelectedRequestsIds: React.Dispatch<React.SetStateAction<string[]>>
+  setSelectedRequestsIds: React.Dispatch<React.SetStateAction<string[]>>;
   /** Показывать закрытые задачи */
-  sliderActive?: boolean
+  sliderActive?: boolean;
   /** Изменить значение показывать закрытые задачи */
-  setSliderActive?: React.Dispatch<React.SetStateAction<boolean>>
+  setSliderActive?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 /** Данные поиска обращений */
 export interface RequestSearchData extends ContractorsSearchData {
   /** Поисковый запрос */
-  searchQuery?: string
+  searchQuery?: string;
   /** Идентификаторы выбранных застрахованных */
   insuredIds?: string[];
   /** Показывать закрытые задачи */
-  isShowClosed?: boolean
-};
+  isShowClosed?: boolean;
+}
 
 /** Список обращений */
-export default function RequestList({ selectedInsuredIds, contractorsSearchData, sliderActive, setSliderActive }: RequestListProps) {
+export default function RequestList({
+  selectedInsuredIds,
+  contractorsSearchData,
+  selectedRequestsIds,
+  setSelectedRequestsIds,
+  sliderActive,
+  setSliderActive,
+}: RequestListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   /** Обработчик нажатия на номер обращения */
   const onClickNumberRequest = async (requestInfo: MyItemData) => {
-    const requestId = requestInfo.info
-    await openRequest(requestId)
+    const requestId = requestInfo.info;
+    await openRequest(requestId);
   };
 
   /** Открыть обращение */
@@ -143,19 +150,20 @@ export default function RequestList({ selectedInsuredIds, contractorsSearchData,
       ...contractorsSearchData,
       searchQuery: searchQuery,
       insuredIds: selectedInsuredIds,
-      isShowClosed: sliderActive
-    }
-  }
+      isShowClosed: sliderActive,
+    };
+  };
 
-  const [searchDataWithQuery, setSearchDataWithQuery] = useState<RequestSearchData>(() => getSearchDataWithQuery())
+  const [searchDataWithQuery, setSearchDataWithQuery] =
+    useState<RequestSearchData>(() => getSearchDataWithQuery());
 
   useEffect(() => {
     setSearchDataWithQuery(getSearchDataWithQuery());
-  }, [searchQuery, selectedInsuredIds, contractorsSearchData, sliderActive])
+  }, [searchQuery, selectedInsuredIds, contractorsSearchData, sliderActive]);
 
   return (
-    <div className="insured-list">
-      <div className="insured-list__search">
+    <div className="request-list">
+      <div className="request-list__search">
         {/* Поле поиска */}
         <CustomInput
           value={searchQuery}
@@ -166,10 +174,12 @@ export default function RequestList({ selectedInsuredIds, contractorsSearchData,
         <SliderPanel
           title="Закрытые обращения"
           isVisible={sliderActive ?? false}
-          setIsVisible={(isActive) => {if(setSliderActive) setSliderActive(isActive)}}
+          setIsVisible={(isActive) => {
+            if (setSliderActive) setSliderActive(isActive);
+          }}
         />
       </div>
-      <div className="insured-list__list">
+      <div className="request-list__list">
         <CustomList<RequestSearchData, RequestListData>
           columnsSettings={columns}
           getDataHandler={Scripts.getRequestList}
@@ -177,6 +187,10 @@ export default function RequestList({ selectedInsuredIds, contractorsSearchData,
           isScrollable={true}
           searchFields={searchFields}
           searchData={searchDataWithQuery}
+          isSelectable={true}
+          isMultipleSelect={false}
+          setSelectedItems={(ids: string[]) => setSelectedRequestsIds(ids)}
+          selectedItems={selectedRequestsIds}
         />
       </div>
     </div>
