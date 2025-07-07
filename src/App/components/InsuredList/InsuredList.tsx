@@ -66,7 +66,6 @@ export default function InsuredList({
 
   /** Обработчик нажатия на кнопку "Редактировать"  */
   const onClickEdit = async (contractorId: string) => {
-    console.trace("wtf");
     if (!contractorId) return;
     const link = Scripts.getContractorPageCode();
     const redirectUrl = new URL(window.location.origin + "/" + link);

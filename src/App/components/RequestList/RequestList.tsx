@@ -59,7 +59,8 @@ export default function RequestList({ selectedInsuredIds, contractorsSearchData,
     const link = Scripts.getRequestPagePath();
     const redirectUrl = new URL(window.location.origin + "/" + link);
     if (requestId) redirectUrl.searchParams.set("request_id", requestId);
-    utils.redirectSPA(redirectUrl.toString());
+    // utils.redirectSPA(redirectUrl.toString());
+    window.open(redirectUrl.toString(), "_blank");
   };
 
   //Детальная информация обращений
