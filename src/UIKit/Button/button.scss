@@ -34,7 +34,7 @@
   &:disabled {
     //border: none;
     color: white;
-    opacity: 0.4;
+    opacity: 0.4 !important;
     cursor: not-allowed !important;
     //background-color: #ebebe4 !important;
   }

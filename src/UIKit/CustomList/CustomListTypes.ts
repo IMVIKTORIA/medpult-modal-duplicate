@@ -92,6 +92,12 @@ export class ItemDataString extends MyItemData<undefined> {
   }
 }
 
+export class ItemDataStringArray extends MyItemData<undefined> {
+  constructor(value: string[]) {
+    super({ value: value.join("\n") });
+  }
+}
+
 /** Значение элемента списка */
 export interface FetchItem<DataType = any> {
   /** Идентификатор элемента */

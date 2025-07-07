@@ -2,6 +2,7 @@ import {
   FetchData,
   MyItemData,
   ItemDataString,
+  ItemDataStringArray,
   SortData,
 } from "../../../UIKit/CustomList/CustomListTypes";
 import { InsuredSearchData } from "../../components/InsuredList/InsuredList";
@@ -80,9 +81,12 @@ async function getInsuredListDeduplication(
     phone: new ItemDataString("+7 999 888 77 66"),
     email: new ItemDataString("ivanov@mail.ru"),
     statusContragent: new MyItemData({ value: "Gold", info: "Gold" }),
-    policy: new ItemDataString("00SB755380849982/1"),
-    policyStartDate: new ItemDataString("20.01.2025"),
-    policyEndDate: new ItemDataString("20.02.2025"),
+    policy: new ItemDataStringArray([
+      "00SB755380849982/1",
+      "00SB755380849982/2",
+    ]),
+    policyStartDate: new ItemDataStringArray(["20.01.2025", "25.01.2025"]),
+    policyEndDate: new ItemDataStringArray(["20.02.2025", "25.02.2025"]),
     insurer: new ItemDataString("Петров Петр Петрович"),
     product: new ItemDataString("ДМС макси прочее"),
   };
@@ -99,7 +103,6 @@ async function getInsuredListDeduplication(
     hasMore: true,
   };
 }
-
 
 /** Получение списка обращений */
 async function getRequestList(
@@ -127,7 +130,10 @@ async function getRequestList(
         createdAt: new ItemDataString("01.01.1990 14:17"),
         channel: new ItemDataString("Телефон"),
         topic: new ItemDataString("Согласование медицинских услуг"),
-        statusRequest: new MyItemData({ value: status.value, info: status.info }),
+        statusRequest: new MyItemData({
+          value: status.value,
+          info: status.info,
+        }),
         reason: new ItemDataString(
           "Информация о состоянии здоровья предоставляется пациенту лично лечащим врачом или другими медицинскими работниками.Информация о состоянии здоровья предоставляется пациенту лично лечащим врачом или другими медицинскими работниками.Информация о состоянии здоровья предоставляется пациенту лично лечащим врачом или другими медицинскими работниками."
         ),
@@ -235,7 +241,7 @@ function getContractorPageCode(): string {
   return "contractor";
 }
 
-type UpdateSearchDataCallback = (searchData: ContractorsSearchData) => void
+type UpdateSearchDataCallback = (searchData: ContractorsSearchData) => void;
 /** Функция обновления данных поиска контрагента */
 let updateSearchDataCallback: UpdateSearchDataCallback | undefined;
 /** Установка функции обновления данных поиска контрагента */
@@ -244,7 +250,7 @@ function setUpdateSearchDataCallback(callback: UpdateSearchDataCallback) {
   window["updateSearchDataCallback"] = callback; // DEBUG ONLY
 }
 
-type UpdateShowModalCallback = (isShowModal: boolean) => void
+type UpdateShowModalCallback = (isShowModal: boolean) => void;
 /** Функция обновления видимости модального окна */
 let updateShowModalCallback: UpdateShowModalCallback | undefined;
 /** Установка функции обновления видимости модального окна */
@@ -271,9 +277,12 @@ function runSaveWithInsured(insuredIds: string[]) {
 }
 
 /** Получить количество отфильтрованных обращений по выбранному Застрахованному */
-async function getFilteredRequestsCount(insuredIds: string[], contractorsSearchData: ContractorsSearchData) {
+async function getFilteredRequestsCount(
+  insuredIds: string[],
+  contractorsSearchData: ContractorsSearchData
+) {
   // TODO: Логика
-  return Math.floor((Math.random() * 10))
+  return Math.floor(Math.random() * 10);
 }
 
 export default {
@@ -298,5 +307,5 @@ export default {
   runCommonSave,
   runSaveWithInsured,
 
-  getFilteredRequestsCount
+  getFilteredRequestsCount,
 };

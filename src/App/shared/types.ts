@@ -1,6 +1,7 @@
 import {
   MyItemData,
   ItemDataString,
+  ItemDataStringArray,
 } from "../../UIKit/CustomList/CustomListTypes";
 
 export interface IInputData<DataType = any> {
@@ -49,15 +50,15 @@ export class InsuredListDataDeduplication {
   /** Телефон */
   phone?: ItemDataString;
   /** Email */
-  email?: ItemDataString; 
+  email?: ItemDataString;
   /** Статус */
   statusContragent?: MyItemData;
   /** Полис */
-  policy?: ItemDataString;
+  policy?: ItemDataStringArray;
   /** Дата начала действия полиса */
-  policyStartDate?: ItemDataString;
+  policyStartDate?: ItemDataStringArray;
   /** Дата окончания действия полиса */
-  policyEndDate?: ItemDataString;
+  policyEndDate?: ItemDataStringArray;
   /** Страхователь */
   insurer?: ItemDataString;
   /** Продукт */
@@ -91,7 +92,6 @@ export class InsuredListDataDeduplication {
     this.product = product;
   }
 }
-
 
 export class RequestListData {
   id: ItemDataString;
@@ -174,19 +174,19 @@ export class TaskListData {
 /** Данные поиска дубликатов контрагента */
 export interface ContractorsSearchData {
   /** ФИО */
-  fullname?: string,
+  fullname?: string;
   /** email */
-  email?: string,
+  email?: string;
   /** Телефон */
-  phone?: string
+  phone?: string;
 }
 
 /** Данные поиска дубликатов контрагента (с дополнительными полями) */
 export interface ContractorsSearchDataExtended extends ContractorsSearchData {
   /** Данные поисковой строки */
-  searchQuery?: string,
+  searchQuery?: string;
   /** Идентификаторы выбранных контрагентов */
-  contractorsIds?: string[]
+  contractorsIds?: string[];
 }
 
 /** Реэжим формы дедубликации */
@@ -194,5 +194,5 @@ export enum ModalDuplicateMode {
   /** Обратившийся */
   applicant = "applicant",
   /** Застрахованный */
-  insured = "insured"
+  insured = "insured",
 }

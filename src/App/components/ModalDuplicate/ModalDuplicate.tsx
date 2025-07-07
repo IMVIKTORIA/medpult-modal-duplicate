@@ -61,14 +61,19 @@ export default function ModalDuplicate({ modalMode }: ModalDuplicateProps) {
   };
 
   // Данные поиска дубликата
-  const [contractorsSearchData, setContractorsSearchData] = useState<ContractorsSearchData>({});
+  const [contractorsSearchData, setContractorsSearchData] =
+    useState<ContractorsSearchData>({});
   useEffect(() => {
     // Установить функцию обновления данных поиска контрагента вне виджета
-    Scripts.setUpdateSearchDataCallback((searchData: ContractorsSearchData) => setContractorsSearchData(searchData));
+    Scripts.setUpdateSearchDataCallback((searchData: ContractorsSearchData) =>
+      setContractorsSearchData(searchData)
+    );
   }, []);
 
   // Идентификаторы выбранных обратившихся
-  const [selectedContractorsIds, setSelectedContractorsIds] = useState<string[]>([]);
+  const [selectedContractorsIds, setSelectedContractorsIds] = useState<
+    string[]
+  >([]);
   // Идентификаторы выбранных застрахованных
   const [selectedInsuredIds, setSelectedInsuredIds] = useState<string[]>([]);
   // Идентификаторы выбранных обращений
@@ -90,7 +95,6 @@ export default function ModalDuplicate({ modalMode }: ModalDuplicateProps) {
       />
     </TabItem>
   );
-
 
   /** Количество выбранных застрахованных */
   const selectedInsuredCount = selectedInsuredIds.length;
@@ -116,7 +120,7 @@ export default function ModalDuplicate({ modalMode }: ModalDuplicateProps) {
       selectedInsuredIds={selectedInsuredIds}
       contractorsSearchData={contractorsSearchData}
       selectedRequestsIds={selectedRequestsIds}
-      setSelectedRequestsIds={setSelectedRequestsIds} 
+      setSelectedRequestsIds={setSelectedRequestsIds}
     />
   );
 
@@ -134,7 +138,7 @@ export default function ModalDuplicate({ modalMode }: ModalDuplicateProps) {
   }, [contractorsSearchData]);
 
   return (
-    <ModalWrapper>
+    <ModalWrapper modalMode={modalMode}>
       <div className="duplicate-modal">
         <div className="duplicate-modal__header">
           <span className="duplicate-modal__header__label">

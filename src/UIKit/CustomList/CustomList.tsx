@@ -139,21 +139,25 @@ function CustomList<SearchDataType = any, ItemType = any>(
   //   setPage(pageNum + 1);
   //   setIsLoading(false);
   // };
-  
-	/** Загрузка данных списка */
-	const loadData = async (items: any[] = [], page: number = 0, hasMore: boolean = true) => {
-		if (isLoading) return
-		if (!hasMore) return
 
-		setIsLoading(true)
+  /** Загрузка данных списка */
+  const loadData = async (
+    items: any[] = [],
+    page: number = 0,
+    hasMore: boolean = true
+  ) => {
+    if (isLoading) return;
+    if (!hasMore) return;
 
-		const fetchData = await getDataHandler(page, sortData, searchData)
-		setHasMore(fetchData.hasMore)
+    setIsLoading(true);
 
-		setItems([...items, ...fetchData.items])
-		setPage(page + 1)
-		setIsLoading(false)
-	}
+    const fetchData = await getDataHandler(page, sortData, searchData);
+    setHasMore(fetchData.hasMore);
+
+    setItems([...items, ...fetchData.items]);
+    setPage(page + 1);
+    setIsLoading(false);
+  };
 
   useEffect(() => {
     reloadData();
