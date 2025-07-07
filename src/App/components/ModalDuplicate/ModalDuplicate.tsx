@@ -61,9 +61,11 @@ export default function ModalDuplicate({ modalMode, contractorsSearchData }: Mod
         throw new Error("Не указан режим модального окна");
     }
   };
-
+  
   // Идентификаторы выбранных обратившихся
-  const [selectedContractorsIds, setSelectedContractorsIds] = useState<string[]>([]);
+  const [selectedContractorsIds, setSelectedContractorsIds] = useState<
+    string[]
+  >([]);
   // Идентификаторы выбранных застрахованных
   const [selectedInsuredIds, setSelectedInsuredIds] = useState<string[]>([]);
   // Идентификаторы выбранных обращений
@@ -86,7 +88,6 @@ export default function ModalDuplicate({ modalMode, contractorsSearchData }: Mod
     </TabItem>
   );
 
-
   /** Количество выбранных застрахованных */
   const selectedInsuredCount = selectedInsuredIds.length;
   // Вкладка застрахованные
@@ -106,13 +107,14 @@ export default function ModalDuplicate({ modalMode, contractorsSearchData }: Mod
   );
 
   // Вкладка обращения
+
   const requestsTab = RequestsTab({
     selectedInsuredIds:selectedInsuredIds,
     contractorsSearchData:contractorsSearchData,
     selectedRequestsIds:selectedRequestsIds,
     setSelectedRequestsIds:setSelectedRequestsIds,
   })
-  
+    
   // Вкладка обращения
   const tasksTab = (
     <TabItem code={"tasks"} name={`Задачи (${taskCount} из ${taskCount})`}>
@@ -127,7 +129,7 @@ export default function ModalDuplicate({ modalMode, contractorsSearchData }: Mod
   }, [contractorsSearchData]);
 
   return (
-    <ModalWrapper>
+    <ModalWrapper modalMode={modalMode}>
       <div className="duplicate-modal">
         <div className="duplicate-modal__header">
           <span className="duplicate-modal__header__label">

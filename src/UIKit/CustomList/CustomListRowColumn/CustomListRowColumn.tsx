@@ -90,6 +90,8 @@ function CustomListRowColumn(props: ListColumnProps) {
     return phone;
   }
 
+  const preLineFields = ["policy", "policyStartDate", "policyEndDate"];
+
   return (
     <div
       className={
@@ -123,7 +125,7 @@ function CustomListRowColumn(props: ListColumnProps) {
           style={{
             overflow: "hidden",
             textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
+            whiteSpace: preLineFields.includes(code) ? "pre-line" : "nowrap",
           }}
         >
           {code === "phone" ? formatPhone(data?.value) : data?.value}
