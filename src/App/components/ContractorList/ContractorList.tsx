@@ -85,12 +85,6 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
     .filter((col) => col.code !== "isIntegration")
     .map((col) => col.code);
 
-  // /** Данные поиска */
-  // const searchDataWithQuery: ContractorsSearchDataExtended = {
-  //   ...contractorsSearchData,
-  //   searchQuery: searchQuery
-  // }
-
   /** Данные поиска */
   const getSearchDataWithQuery = (): ContractorsSearchDataExtended => {
     return {
@@ -104,7 +98,7 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
 
   useEffect(() => {
     setSearchDataWithQuery(getSearchDataWithQuery());
-  }, [searchQuery, selectedContractorsIds, contractorsSearchData]);
+  }, [searchQuery, contractorsSearchData]);
   
   return (
     <div className="insured-list">
