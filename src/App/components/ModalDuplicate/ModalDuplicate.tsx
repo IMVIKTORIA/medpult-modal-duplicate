@@ -120,7 +120,6 @@ export default function ModalDuplicate({
 
   useEffect(() => {
     fetchContractorCount();
-    fetchTaskCount();
   }, [contractorsSearchData]);
 
   return (

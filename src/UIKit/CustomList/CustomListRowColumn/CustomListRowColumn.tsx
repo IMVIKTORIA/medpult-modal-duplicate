@@ -19,7 +19,8 @@ function CustomListRowColumn(props: ListColumnProps) {
 
   const onClickColumn =
     isLink && onClick
-      ? () => {
+      ? (ev: any) => {
+          ev.stopPropagation();
           onClick(data);
         }
       : () => {};
