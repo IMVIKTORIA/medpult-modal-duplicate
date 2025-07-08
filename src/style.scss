@@ -3,6 +3,7 @@
 @import url("./reset.scss");
 @import url("./UIKit/shared/style.scss");
 @import url("../src/App/components/InsuredList/insuredList.scss");
+@import url("../src/App/components/RequestList/requestsList.scss");
 @import url("../src/App/components/ModalDuplicate/modalDuplicate.scss");
 @import url("../src/App/components/SliderPanel/sliderPanel.scss");
 @import url("../src/App/components/RequestList/RequestDetails/requestDetails.scss");
@@ -37,4 +38,8 @@
 
 #modal-duplicate-root svg {
   color: transparent;
+}
+
+.custom-list-selector {
+  background-color: transparent !important;
 }
