@@ -14,7 +14,9 @@ import {
   ModalDuplicateMode,
 } from "../../shared/types.ts";
 import RequestsTab from "./Tabs/RequestsTab.tsx";
+import InsuredTab from "./Tabs/InsuredTab.tsx";
 import TasksTab from "./Tabs/TasksTab.tsx";
+import ContractorsTab from "./Tabs/ContractorsTab.tsx";
 
 /** Пропсы Модального окна */
 export type ModalDuplicateProps = {
@@ -25,24 +27,11 @@ export type ModalDuplicateProps = {
 };
 
 /**Модальное окно */
+
 export default function ModalDuplicate({
   modalMode,
   contractorsSearchData,
 }: ModalDuplicateProps) {
-  //общее количество обратившихся
-  const [contractorCount, setContractorCount] = useState<number>(0);
-  const fetchContractorCount = async () => {
-    const count = await Scripts.getCountConractor();
-    setContractorCount(count);
-  };
-
-  //общее количество застрахованных
-  const [insuredCount, setInsuredCount] = useState<number>(0);
-  const fetchInsuredCount = async () => {
-    const count = await Scripts.getCountInsured(contractorsSearchData);
-    setInsuredCount(count);
-  };
-
   //Закрыть модальное окно
   const modalClose = () => Scripts.closeDeduplicationModal();
 
@@ -60,9 +49,7 @@ export default function ModalDuplicate({
   };
 
   // Идентификаторы выбранных обратившихся
-  const [selectedContractorsIds, setSelectedContractorsIds] = useState<
-    string[]
-  >([]);
+  const [selectedContractorsIds, setSelectedContractorsIds] = useState<string[]>([]);
   // Идентификаторы выбранных застрахованных
   const [selectedInsuredIds, setSelectedInsuredIds] = useState<string[]>([]);
   // Идентификаторы выбранных обращений
@@ -70,43 +57,23 @@ export default function ModalDuplicate({
   // Идентификаторы выбранных задач
   const [selectedTasksIds, setSelectedTasksIds] = useState<string[]>([]);
 
-  /** Количество выбранных обратившихся */
-  const selectedContractorCount = selectedContractorsIds.length;
-
   // Вкладка обратившиеся
-  const applicantTab = (
-    <TabItem
-      code={"requestContragen"}
-      name={`Обратившиеся (${selectedContractorCount} из ${contractorCount})`}
-    >
-      <ContractorList
-        selectedContractorsIds={selectedContractorsIds}
-        setSelectedContractorsIds={setSelectedContractorsIds}
-        contractorsSearchData={contractorsSearchData}
-      />
-    </TabItem>
-  );
-
-  /** Количество выбранных застрахованных */
-  const selectedInsuredCount = selectedInsuredIds.length;
+  const applicantTab = ContractorsTab({
+    contractorsSearchData: contractorsSearchData,
+    selectedContractorsIds: selectedContractorsIds,
+    setSelectedContractorsIds: setSelectedContractorsIds
+  })
+  
   // Вкладка застрахованные
-  const insuredTab = (
-    <TabItem
-      code={"insuredContragen"}
-      name={`Застрахованные (${selectedInsuredCount} из ${insuredCount})`} // TODO: Проработать логику для режима дедубликации обратившегося
-    >
-      <InsuredList
-        selectedContractorsIds={selectedContractorsIds}
-        modalMode={modalMode}
-        selectedInsuredIds={selectedInsuredIds}
-        setSelectedInsuredIds={setSelectedInsuredIds}
-        contractorsSearchData={contractorsSearchData}
-      />
-    </TabItem>
-  );
+  const insuredTab = InsuredTab({
+    contractorsSearchData: contractorsSearchData,
+    selectedContractorsIds: selectedContractorsIds,
+    modalMode: modalMode,
+    selectedInsuredIds: selectedInsuredIds,
+    setSelectedInsuredIds: setSelectedInsuredIds,
+  })
 
   // Вкладка обращения
-
   const requestsTab = RequestsTab({
     selectedInsuredIds: selectedInsuredIds,
     contractorsSearchData: contractorsSearchData,
@@ -121,11 +88,6 @@ export default function ModalDuplicate({
     selectedTasksIds: selectedTasksIds,
     setSelectedTasksIds: setSelectedTasksIds,
   });
-
-  useEffect(() => {
-    fetchContractorCount();
-    fetchInsuredCount();
-  }, [contractorsSearchData]);
 
   return (
     <ModalWrapper modalMode={modalMode}>

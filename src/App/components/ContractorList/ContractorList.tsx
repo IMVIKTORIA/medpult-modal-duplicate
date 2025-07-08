@@ -11,7 +11,7 @@ import CustomInput from "../../../UIKit/CustomInput/CustomInput";
 import Button from "../../../UIKit/Button/Button";
 import icons from "../../shared/icons";
 
-interface ContractorListProps {
+export interface ContractorListProps {
   /** Иденификаторы выбранных обратившихся */
   selectedContractorsIds: string[];
   /** Установить иденификаторы выбранных обратившихся */
@@ -86,11 +86,20 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
     .map((col) => col.code);
 
   /** Данные поиска */
-  const searchDataWithQuery: ContractorsSearchDataExtended = {
-    ...contractorsSearchData,
-    searchQuery: searchQuery
-  }
+  const getSearchDataWithQuery = (): ContractorsSearchDataExtended => {
+    return {
+      ...contractorsSearchData,
+      searchQuery: searchQuery,
+    };
+  };
 
+  const [searchDataWithQuery, setSearchDataWithQuery] =
+    useState<ContractorsSearchDataExtended>(() => getSearchDataWithQuery());
+
+  useEffect(() => {
+    setSearchDataWithQuery(getSearchDataWithQuery());
+  }, [searchQuery, contractorsSearchData]);
+  
   return (
     <div className="insured-list">
       <div className="insured-list__search">
@@ -104,18 +113,18 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
         <div className="insured-list__search__button">
           <Button
             title={"Выбрать"}
-            clickHandler={onClickChooseContractor()}
+            clickHandler={() => onClickChooseContractor()}
             disabled={selectedContractorsIds.length === 0}
           ></Button>
           <Button
             title={"Oставить без измений"}
-            clickHandler={onClickNotEdit()}
+            clickHandler={() => onClickNotEdit()}
             style={{ backgroundColor: "#FF4545" }}
           ></Button>
         </div>
         <Button
           title={"Редактировать"}
-          clickHandler={onClickEdit(selectedContractorsIds[0])}
+          clickHandler={() => onClickEdit(selectedContractorsIds[0])}
           icon={icons.EditButton}
           style={{
             backgroundColor: "#fff",
