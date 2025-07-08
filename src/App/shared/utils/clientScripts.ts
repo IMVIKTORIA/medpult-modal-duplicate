@@ -213,7 +213,7 @@ async function getTaskList(
 }
 
 /** Получить количество обратившихся*/
-async function getCountConractor() {
+async function getCountConractor(searchData: ContractorsSearchData) {
   return 4;
 }
 /** Получить количество застрахованных*/

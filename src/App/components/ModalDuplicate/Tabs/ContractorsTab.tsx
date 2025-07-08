@@ -16,7 +16,7 @@ export default function ContractorsTab(props: ContractorListProps) {
   // Общее количество обратившихся
   const [contractorCount, setContractorCount] = useState<number>(0);
   const fetchContractorCount = async () => {
-    const count = await Scripts.getCountConractor();
+    const count = await Scripts.getCountConractor(contractorsSearchData);
     setContractorCount(count);
   };
 
