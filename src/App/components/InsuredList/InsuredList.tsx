@@ -16,7 +16,7 @@ import Button from "../../../UIKit/Button/Button";
 import icons from "../../shared/icons";
 
 /** Пропсы Модального окна */
-type InsuredListProps = {
+export type InsuredListProps = {
   /** Иденификаторы выбранных обратившихся */
   selectedContractorsIds: string[];
   /** Режим модального окна */
@@ -38,7 +38,7 @@ export interface InsuredSearchData extends ContractorsSearchData {
 }
 
 /** Список застрахованных */
-export default function InsuredList({
+export default function   InsuredList({
   selectedContractorsIds,
   modalMode,
   selectedInsuredIds,

@@ -3,10 +3,6 @@ import RequestList, { RequestListProps } from "../../RequestList/RequestList";
 import TabItem from "../../../../UIKit/Tabs/TabItem/TabItem";
 import Scripts from "../../../shared/utils/clientScripts.ts";
 
-interface RequestsTab extends RequestListProps {
-	code: string
-}
-
 /** Список обращений */
 export default function RequestsTab(props: RequestListProps) {
   const { selectedInsuredIds, contractorsSearchData } = props;

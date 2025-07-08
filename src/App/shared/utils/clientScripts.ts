@@ -298,6 +298,12 @@ async function getFilteredTasksCount(
   return Math.floor(Math.random() * 10);
 }
 
+/** Получить количество отфильтрованных застрахованных по выбранному обратившемуся */
+async function getFilteredInsuredCount(contractorsIds: string[], contractorsSearchData: ContractorsSearchData) {
+  // TODO: Логика
+  return Math.floor(Math.random() * 10);
+}
+
 export default {
   getContractorList,
   getInsuredListDeduplication,
@@ -321,5 +327,7 @@ export default {
   runSaveWithInsured,
 
   getFilteredRequestsCount,
+
+  getFilteredInsuredCount,
   getFilteredTasksCount,
 };
