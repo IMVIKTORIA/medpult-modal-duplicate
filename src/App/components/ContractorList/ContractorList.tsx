@@ -11,7 +11,7 @@ import CustomInput from "../../../UIKit/CustomInput/CustomInput";
 import Button from "../../../UIKit/Button/Button";
 import icons from "../../shared/icons";
 
-interface ContractorListProps {
+export interface ContractorListProps {
   /** Иденификаторы выбранных обратившихся */
   selectedContractorsIds: string[];
   /** Установить иденификаторы выбранных обратившихся */
