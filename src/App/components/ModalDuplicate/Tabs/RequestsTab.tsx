@@ -22,10 +22,10 @@ export default function RequestsTab(props: RequestListProps) {
   // Обновление количества отфильтрованных по застрахованным обращений
   async function updateFilteredRequestsCount() {
     // Если застрахованный не выбран, то обращения не фильтруются
-    if (!selectedInsuredIds.length && sliderActive) {
-      setFilteredRequestsCount(requestCount)
-      return;
-    }
+    // if (!selectedInsuredIds.length && sliderActive) {
+    //   setFilteredRequestsCount(requestCount)
+    //   return;
+    // }
 
     // При выбранном застрахованном получить количество обращений по этому застрахованному с указанными фильтрами
     const count = await Scripts.getFilteredRequestsCount(selectedInsuredIds, contractorsSearchData, sliderActive)

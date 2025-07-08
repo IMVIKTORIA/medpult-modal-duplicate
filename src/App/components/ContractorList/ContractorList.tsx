@@ -31,11 +31,33 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
 
+  /** Открыть обращение */
+  const openContractor = async (contractorId?: string) => {
+    if (!contractorId) return;
+
+    window.localStorage.setItem("medpultPathBefore", window.location.pathname + window.location.search)
+    localStorage.setItem("medpultContractorId", contractorId);
+
+    const link = Scripts.getContractorPageCode();
+    const redirectUrl = new URL(window.location.origin + "/" + link);
+    // utils.redirectSPA(redirectUrl.toString());
+    window.location.reload()
+  };
+
   /** Обработчик нажатия на кнопку "Выбрать" контрагента */
-  const onClickChooseContractor = async () => {};
+  const onClickChooseContractor = async () => {
+    if(!selectedContractorsIds.length) return;
+    // Открыть контрагента
+    await openContractor(selectedContractorsIds[0])
+  };
 
   /** Обработчик нажатия на кнопку "Oставить без измений"  */
-  const onClickNotEdit = async () => {};
+  const onClickNotEdit = async () => {
+    // Запустить стандартную логику сохранения
+    Scripts.runCommonSave();
+    // Закрыть окно
+    Scripts.closeDeduplicationModal();
+  };
 
   /** Обработчик нажатия на кнопку "Редактировать"  */
   const onClickEdit = async (contractorId: string) => {
