@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { localStorageDraftKey } from "./constants";
 import icons from "../icons";
+import Scripts from "./clientScripts";
+
 /** Маршрутизация по SPA */
 export const redirectSPA = (href: string) => {
   let element = document.createElement("a");
@@ -9,6 +11,18 @@ export const redirectSPA = (href: string) => {
   document.querySelector("body")?.appendChild(element);
   element.click();
   element.remove();
+};
+
+/** Маршрутизация по SPA с использовнием URL и проверкой текущего пути */
+export const redirectSPAWithURL = (redirectUrl: URL) => {
+  if(window.location.pathname == redirectUrl.pathname) {
+    // Если ссылка с тем же путем, то перезагрузить страницу
+    window.history.pushState(null, "", redirectUrl.toString())
+    window.location.reload()
+  } else {
+    // Иначе стандартная логика
+    redirectSPA(redirectUrl.toString());
+  }
 };
 
 /** Запись идентификатора обращения в localStorage
@@ -131,6 +145,33 @@ export function getStatusApprovalIcon(status: any) {
       return;
   }
 }
+
+/** Открыть контрагента */
+export function openContractor(contractorId?: string) {
+  if (!contractorId) return;
+
+  window.localStorage.setItem("medpultPathBefore", window.location.pathname + window.location.search)
+  localStorage.setItem("medpultContractorId", contractorId);
+
+  const link = Scripts.getContractorPageCode();
+  const redirectUrl = new URL(window.location.origin + "/" + link);
+
+  redirectSPAWithURL(redirectUrl);
+};
+
+/** Открыть контрагента */
+export function openContractorInEditMode(contractorId?: string) {
+  if (!contractorId) return;
+
+  window.localStorage.setItem("medpultPathBefore", window.location.pathname + window.location.search)
+  localStorage.setItem("medpultContractorId", contractorId);
+
+  const link = Scripts.getContractorPageCode();
+  const redirectUrl = new URL(window.location.origin + "/" + link);
+  redirectUrl.searchParams.set("is_edit", "true");
+
+  redirectSPAWithURL(redirectUrl);
+};
 
 export default {
   redirectSPA,

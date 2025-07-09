@@ -11,7 +11,7 @@ import {
 } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
-import utils, { redirectSPA } from "../../shared/utils/utils";
+import utils, { openContractor, openContractorInEditMode, redirectSPA } from "../../shared/utils/utils";
 import Button from "../../../UIKit/Button/Button";
 import icons from "../../shared/icons";
 
@@ -65,23 +65,17 @@ export default function   InsuredList({
   };
 
   /** Обработчик нажатия на кнопку "Редактировать"  */
-  const onClickEdit = async (contractorId: string) => {
-    if (!contractorId) return;
-    const link = Scripts.getContractorPageCode();
-    const redirectUrl = new URL(window.location.origin + "/" + link);
-    if (contractorId)
-      redirectUrl.searchParams.set("contractor_id", contractorId);
-    utils.redirectSPA(redirectUrl.toString());
+  const onClickEdit = async () => {
+    if(!selectedInsuredIds.length) return;
+    // Открыть контрагента в режиме изменения
+    openContractorInEditMode(selectedInsuredIds[0])
   };
-
+  
   /** Обработчик нажатия на застрахованного */
   const onClickContractor = async (contractorId: string) => {
     if (!contractorId) return;
-    const link = Scripts.getContractorPageCode();
-    const redirectUrl = new URL(window.location.origin + "/" + link);
-    if (contractorId)
-      redirectUrl.searchParams.set("contractor_id", contractorId);
-    utils.redirectSPA(redirectUrl.toString());
+    // Открыть контрагента
+    openContractor(contractorId)
   };
 
   /** Колонки для режима дедубликации застрахованного */
@@ -211,14 +205,14 @@ export default function   InsuredList({
                 disabled={selectedInsuredIds.length === 0}
               />
               <Button
-                title={"Oставить без измений"}
+                title={"Oставить без изменений"}
                 clickHandler={() => onClickNotEdit()}
                 style={{ backgroundColor: "#FF4545" }}
               />
             </div>
             <Button
               title={"Редактировать"}
-              clickHandler={() => onClickEdit(selectedInsuredIds[0])}
+              clickHandler={() => onClickEdit()}
               icon={icons.EditButton}
               disabled={selectedInsuredIds.length === 0}
               style={{

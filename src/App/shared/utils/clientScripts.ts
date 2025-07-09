@@ -241,7 +241,8 @@ async function getRequestIdByTaskId(taskId: string): Promise<string> {
 
 /** Получение кода страницы Контрагента */
 function getContractorPageCode(): string {
-  return "contractor";
+  // return "contractor";
+  return "";
 }
 
 type UpdateSearchDataCallback = (searchData: ContractorsSearchData) => void;

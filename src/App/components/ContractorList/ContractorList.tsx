@@ -6,7 +6,7 @@ import {
 } from "../../../UIKit/CustomList/CustomListTypes";
 import { ContractorListData, ContractorsSearchData } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
-import utils from "../../shared/utils/utils";
+import utils, { openContractor, openContractorInEditMode } from "../../shared/utils/utils";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
 import Button from "../../../UIKit/Button/Button";
 import icons from "../../shared/icons";
@@ -31,24 +31,11 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  /** Открыть обращение */
-  const openContractor = async (contractorId?: string) => {
-    if (!contractorId) return;
-
-    window.localStorage.setItem("medpultPathBefore", window.location.pathname + window.location.search)
-    localStorage.setItem("medpultContractorId", contractorId);
-
-    const link = Scripts.getContractorPageCode();
-    const redirectUrl = new URL(window.location.origin + "/" + link);
-    // utils.redirectSPA(redirectUrl.toString());
-    window.location.reload()
-  };
-
   /** Обработчик нажатия на кнопку "Выбрать" контрагента */
   const onClickChooseContractor = async () => {
     if(!selectedContractorsIds.length) return;
     // Открыть контрагента
-    await openContractor(selectedContractorsIds[0])
+    openContractor(selectedContractorsIds[0])
   };
 
   /** Обработчик нажатия на кнопку "Oставить без измений"  */
@@ -60,13 +47,17 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
   };
 
   /** Обработчик нажатия на кнопку "Редактировать"  */
-  const onClickEdit = async (contractorId: string) => {
+  const onClickEdit = async () => {
+    if(!selectedContractorsIds.length) return;
+    // Открыть контрагента
+    openContractorInEditMode(selectedContractorsIds[0])
+  };
+    
+  /** Обработчик нажатия на застрахованного */
+  const onClickContractor = async (contractorId: string) => {
     if (!contractorId) return;
-    const link = Scripts.getContractorPageCode();
-    const redirectUrl = new URL(window.location.origin + "/" + link);
-    if (contractorId)
-      redirectUrl.searchParams.set("contractor_id", contractorId);
-    utils.redirectSPA(redirectUrl.toString());
+    // Открыть контрагента
+    openContractor(contractorId)
   };
 
   /** Колонки списка */
@@ -83,6 +74,7 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
       fr: 1,
       isSortable: true,
       isLink: true,
+      onClick: onClickContractor,
     }),
     new ListColumnData({
       name: "Тип контрагента",
@@ -137,24 +129,24 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
             title={"Выбрать"}
             clickHandler={() => onClickChooseContractor()}
             disabled={selectedContractorsIds.length === 0}
-          ></Button>
+          />
           <Button
-            title={"Oставить без измений"}
+            title={"Oставить без изменений"}
             clickHandler={() => onClickNotEdit()}
             style={{ backgroundColor: "#FF4545" }}
-          ></Button>
+          />
         </div>
         <Button
           title={"Редактировать"}
-          clickHandler={() => onClickEdit(selectedContractorsIds[0])}
+          clickHandler={() => onClickEdit()}
           icon={icons.EditButton}
+          disabled={selectedContractorsIds.length === 0}
           style={{
             backgroundColor: "#fff",
             color: "#6B6C6F",
-            pointerEvents:
-              selectedContractorsIds.length === 0 ? "none" : "auto",
+            // pointerEvents: selectedInsuredIds.length === 0 ? "none" : "auto",
           }}
-        ></Button>
+        />
       </div>
       <div className="insured-list__list">
         <CustomList<ContractorsSearchDataExtended, ContractorListData>
