@@ -28,7 +28,7 @@ const baseMockDataArray: ContractorListData[] = [
   new ContractorListData({
     id: new ItemDataString("1"),
     isIntegration: new MyItemData({ value: "", info: true }),
-    fullname: new ItemDataString("Иванов Иван Иванович"),
+    fullname: new MyItemData({value: "Иванов Иван Иванович", info: `${Math.random()*10000}`}),
     type: new ItemDataString("Физлицо"),
     phone: new ItemDataString("79998887766"),
     email: new ItemDataString("ivanov@mail.ru"),
@@ -36,7 +36,7 @@ const baseMockDataArray: ContractorListData[] = [
   new ContractorListData({
     id: new ItemDataString("2"),
     isIntegration: new MyItemData({ value: "", info: false }),
-    fullname: new ItemDataString("Петров Петр Петрович"),
+    fullname: new MyItemData({value: "Петров Петр Петрович", info: `${Math.random()*10000}`}),
     type: new ItemDataString("Юрлицо"),
     phone: new ItemDataString("77776665544"),
     email: new ItemDataString("petrov@mail.ru"),
@@ -44,7 +44,7 @@ const baseMockDataArray: ContractorListData[] = [
   new ContractorListData({
     id: new ItemDataString("3"),
     isIntegration: new MyItemData({ value: "", info: true }),
-    fullname: new ItemDataString("Викторов Виктор Викторович"),
+    fullname: new MyItemData({value: "Викторов Виктор Викторович", info: `${Math.random()*10000}`}),
     type: new ItemDataString("Юрлицо"),
     phone: new ItemDataString("78886665544"),
     email: new ItemDataString("viktor@mail.ru"),
@@ -76,7 +76,7 @@ async function getInsuredListDeduplication(
   await randomDelay();
   const mockData: InsuredListDataDeduplication = {
     isIntegration: new MyItemData({ value: "", info: true }),
-    fullname: new ItemDataString("Иванов Иван Иванович"),
+    fullname: new MyItemData({value: "Иванов Иван Иванович", info: `${Math.round(Math.random()*10000)}`}),
     birthdate: new ItemDataString("10.10.1990"),
     phone: new ItemDataString("+7 999 888 77 66"),
     email: new ItemDataString("ivanov@mail.ru"),

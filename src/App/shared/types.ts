@@ -14,7 +14,7 @@ export class ContractorListData {
   /** Получен по интеграции? */
   isIntegration?: MyItemData<boolean>;
   /** ФИО  */
-  fullname?: ItemDataString;
+  fullname?: MyItemData<string>;
   /** Тип контрагента */
   type?: ItemDataString;
   /** Телефон */
@@ -44,7 +44,7 @@ export class InsuredListDataDeduplication {
   /** Получен по интеграции? */
   isIntegration?: MyItemData<boolean>;
   /** ФИО застрахованного */
-  fullname?: ItemDataString;
+  fullname?: MyItemData<string>;
   /** Дата рождения */
   birthdate?: ItemDataString;
   /** Телефон */

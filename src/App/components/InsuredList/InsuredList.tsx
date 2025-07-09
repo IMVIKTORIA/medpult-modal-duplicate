@@ -72,7 +72,8 @@ export default function   InsuredList({
   };
   
   /** Обработчик нажатия на застрахованного */
-  const onClickContractor = async (contractorId: string) => {
+  const onClickContractor = async (contractor: MyItemData<string>) => {
+    const contractorId = contractor.info;
     if (!contractorId) return;
     // Открыть контрагента
     openContractor(contractorId)
