@@ -145,7 +145,6 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
           style={{
             backgroundColor: "#fff",
             color: "#6B6C6F",
-            // pointerEvents: selectedInsuredIds.length === 0 ? "none" : "auto",
           }}
         />
       </div>

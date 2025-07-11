@@ -31,7 +31,7 @@ export default function ContractorsTab(props: ContractorListProps) {
   return (
     <TabItem
       code={"requestContragen"}
-      name={`Обратившиеся (${selectedContractorCount} из ${contractorCount})`}
+      name={`Обратившиеся (${contractorCount})`}
     >
       <ContractorList
         selectedContractorsIds={selectedContractorsIds}
