@@ -6,7 +6,7 @@ import {
 } from "../../../UIKit/CustomList/CustomListTypes";
 import { ContractorListData, ContractorsSearchData } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
-import utils, { openContractor, openContractorInEditMode } from "../../shared/utils/utils";
+import utils, { openContractor, openContractorInEditMode, useDebounce } from "../../shared/utils/utils";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
 import Button from "../../../UIKit/Button/Button";
 import icons from "../../shared/icons";
@@ -30,6 +30,9 @@ export interface ContractorsSearchDataExtended extends ContractorsSearchData {
 export default function ContractorList({selectedContractorsIds, setSelectedContractorsIds, contractorsSearchData}: ContractorListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
+    
+    // Значение с debounce
+    const searchQueryDebounced = useDebounce(searchQuery, 500);
 
   /** Обработчик нажатия на кнопку "Выбрать" контрагента */
   const onClickChooseContractor = async () => {
@@ -104,7 +107,7 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
   const getSearchDataWithQuery = (): ContractorsSearchDataExtended => {
     return {
       ...contractorsSearchData,
-      searchQuery: searchQuery,
+      searchQuery: searchQueryDebounced,
     };
   };
 
@@ -113,7 +116,7 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
 
   useEffect(() => {
     setSearchDataWithQuery(getSearchDataWithQuery());
-  }, [searchQuery, contractorsSearchData]);
+  }, [searchQueryDebounced, contractorsSearchData]);
   
   return (
     <div className="insured-list">
