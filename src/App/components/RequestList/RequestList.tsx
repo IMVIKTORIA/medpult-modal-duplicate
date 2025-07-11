@@ -107,13 +107,13 @@ export default function RequestList({
       isSortable: true,
     }),
     new ListColumnData({
-      name: "Тип канала",
+      name: "Канал",
       code: "channel",
       fr: 1,
       isSortable: true,
     }),
     new ListColumnData({
-      name: "Тема обращения",
+      name: "Тема",
       code: "topic",
       fr: 1,
       isSortable: true,
