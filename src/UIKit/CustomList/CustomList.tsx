@@ -10,7 +10,7 @@ import {
   getDetailsLayoutAttributes,
 } from "./CustomListTypes";
 import CustomListSelector from "./CustomListSelector/CustomListSelector";
-import { useWindowSizeAndZoom } from "../shared/utils/hooks";
+import { useElementHeight, useWindowSizeAndZoom } from "../shared/utils/hooks";
 
 type ListProps<SearchDataType = any, ItemType = any> = {
   /** Основные настройки */
@@ -75,7 +75,7 @@ function CustomList<SearchDataType = any, ItemType = any>(
   // Страница
   const [page, setPage] = useState<number>(0);
   // Показать лоадер
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   // Параметр остановки подгрузки элементов
   const [hasMore, setHasMore] = useState<boolean>(true);
   // Данные сортировки
@@ -240,13 +240,52 @@ function CustomList<SearchDataType = any, ItemType = any>(
     setIsScrollableByContent(listHeight > wrapperHeight);
   }
 
-  // Хук для отслеживания изменения размеров
+  // Хук для отслеживания изменения размеров окна
   const windowSizeParams = useWindowSizeAndZoom();
+  // Хук для отслеживания изменения размеров списка
+  const listHeight = useElementHeight(listRef);
 
-  // Вычислять при изменении размера окна
-  useEffect(() => {
+  // Вычислять при изменении размера окна и высоты списка
+  React.useLayoutEffect(() => {
     updateScrollableByContent()
-  }, [windowSizeParams, items]);
+  }, [windowSizeParams, listHeight]);
+
+  const notFoundText = (
+    <div className="custom-list__not-found">
+      Записи не найдены
+    </div>
+  )
+
+  const rowsLayout = (
+    items.map((item) => {
+      /** Обработчик нажатия на строку */
+      const toggleShowDetails = () => {
+        if (item.id === undefined) return;
+
+        if (item.id === openRowIndex) {
+          setOpenRowIndex(undefined);
+          return;
+        }
+
+        setOpenRowIndex(item.id);
+      };
+
+      return (
+        <CustomListRow<ItemType>
+          {...props}
+          key={item.id}
+          data={item.data}
+          isShowDetails={getDetailsLayout && item.id === openRowIndex}
+          setOpenRowIndex={toggleShowDetails}
+          reloadData={reloadData}
+          toggleChecked={() => toggleCheckedRow(item.id)}
+          isChecked={Boolean(
+            selectedItems.find((checkedId) => checkedId === item.id)
+          )}
+        />
+      );
+    })
+  )
 
   return (
     <div className="custom-list">
@@ -300,34 +339,11 @@ function CustomList<SearchDataType = any, ItemType = any>(
               : {}
           }
         >
-          {items.map((item) => {
-            /** Обработчик нажатия на строку */
-            const toggleShowDetails = () => {
-              if (item.id === undefined) return;
-
-              if (item.id === openRowIndex) {
-                setOpenRowIndex(undefined);
-                return;
-              }
-
-              setOpenRowIndex(item.id);
-            };
-
-            return (
-              <CustomListRow<ItemType>
-                {...props}
-                key={item.id}
-                data={item.data}
-                isShowDetails={getDetailsLayout && item.id === openRowIndex}
-                setOpenRowIndex={toggleShowDetails}
-                reloadData={reloadData}
-                toggleChecked={() => toggleCheckedRow(item.id)}
-                isChecked={Boolean(
-                  selectedItems.find((checkedId) => checkedId === item.id)
-                )}
-              />
-            );
-          })}
+          {/* Показывать таблицу */}
+          {Boolean(items.length) && rowsLayout}
+          {/* Показывать надпись "Записи не найдены" */}
+          {!Boolean(items.length) && !isLoading && notFoundText}
+          {/* Показывать лоадер */}
           {isLoading && <Loader />}
         </div>
       </div>

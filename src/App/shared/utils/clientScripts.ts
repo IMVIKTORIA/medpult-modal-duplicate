@@ -58,11 +58,15 @@ async function getContractorList(
 ): Promise<FetchData<ContractorListData>> {
   await randomDelay();
 
+  // return {
+  //   items: baseMockDataArray.map((data, index) => ({
+  //     id: String(index),
+  //     data,
+  //   })),
+  //   hasMore: false,
+  // };
   return {
-    items: baseMockDataArray.map((data, index) => ({
-      id: String(index),
-      data,
-    })),
+    items: [],
     hasMore: false,
   };
 }

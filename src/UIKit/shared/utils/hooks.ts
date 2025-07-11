@@ -71,3 +71,37 @@ export function useWindowSizeAndZoom() {
 
   return windowInfo;
 }
+
+export function useElementHeight(ref: React.RefObject<HTMLElement>) {
+  const [height, setHeight] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const updateHeight = () => {
+      if (ref.current) {
+        setHeight(ref.current.offsetHeight);
+      }
+    };
+
+    // Создаём ResizeObserver для отслеживания изменений размеров элемента
+    const resizeObserver = new ResizeObserver(() => {
+      updateHeight();
+    });
+
+    resizeObserver.observe(ref.current);
+
+    // Также обновим при изменении размера окна
+    window.addEventListener('resize', updateHeight);
+
+    // Первичный запуск
+    updateHeight();
+
+    return () => {
+      window.removeEventListener('resize', updateHeight);
+      resizeObserver.disconnect();
+    };
+  }, [ref]);
+
+  return height;
+}
