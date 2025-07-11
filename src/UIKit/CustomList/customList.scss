@@ -30,6 +30,7 @@
 	}
 
 	&__body {
+		flex: 1;
 		&_scrollable {
 			overflow-x: auto;
 			overflow-y: scroll;

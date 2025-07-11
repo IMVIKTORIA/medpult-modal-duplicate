@@ -10,6 +10,7 @@ import {
   getDetailsLayoutAttributes,
 } from "./CustomListTypes";
 import CustomListSelector from "./CustomListSelector/CustomListSelector";
+import { useWindowSizeAndZoom } from "../shared/utils/hooks";
 
 type ListProps<SearchDataType = any, ItemType = any> = {
   /** Основные настройки */
@@ -56,7 +57,7 @@ function CustomList<SearchDataType = any, ItemType = any>(
   props: ListProps<SearchDataType, ItemType>
 ) {
   const {
-    height = "100%",
+    height,
     listWidth,
     columnsSettings,
     getDataHandler,
@@ -85,6 +86,8 @@ function CustomList<SearchDataType = any, ItemType = any>(
   const [openRowIndex, setOpenRowIndex] = useState<string>();
   // Ссылка на тело списка
   const bodyRef = useRef<HTMLDivElement>(null);
+  // Ссылка на список
+  const listRef = useRef<HTMLDivElement>(null)
   // Ссылка на шапку списка
   const headerRef = useRef<HTMLDivElement>(null);
 
@@ -228,11 +231,28 @@ function CustomList<SearchDataType = any, ItemType = any>(
     headerStyles.width = `${listWidth - getScrollbarWidth(headerRef)}px`;
   if (!isSelectable) headerStyles.paddingLeft = `20px`;
 
+  /** Показывать прокрутку по размеру содержимого */
+  const [isScrollableByContent, setIsScrollableByContent] = useState<boolean>();
+  const updateScrollableByContent = () => {
+    const wrapperHeight = bodyRef.current?.getBoundingClientRect().height ?? 0;
+    const listHeight = listRef.current?.getBoundingClientRect().height ?? 0;
+
+    setIsScrollableByContent(listHeight > wrapperHeight);
+  }
+
+  // Хук для отслеживания изменения размеров
+  const windowSizeParams = useWindowSizeAndZoom();
+
+  // Вычислять при изменении размера окна
+  useEffect(() => {
+    updateScrollableByContent()
+  }, [windowSizeParams, items]);
+
   return (
     <div className="custom-list">
       <div
         className={
-          isScrollable
+          isScrollable && isScrollableByContent
             ? "custom-list__header custom-list__header_scrollable"
             : "custom-list__header"
         }
@@ -265,13 +285,14 @@ function CustomList<SearchDataType = any, ItemType = any>(
       </div>
       <div
         className={
-          isScrollable ? "custom-list__body_scrollable" : "custom-list__body"
+          isScrollable && isScrollableByContent ? "custom-list__body_scrollable" : "custom-list__body"
         }
-        style={{ height: height }}
+        style={height ? { height: height } : {height: "10px", flex: 1}}
         ref={bodyRef}
         onScroll={onScroll}
       >
         <div
+          ref={listRef}
           className="custom-list__body-wrapper"
           style={
             listWidth

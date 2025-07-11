@@ -33,3 +33,41 @@ export default function useDebounce<ValueType = any>(value: ValueType, delay: nu
 
 	return debouncedValue
 }
+
+export function useWindowSizeAndZoom() {
+  const [windowInfo, setWindowInfo] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+    zoom: window.innerWidth / window.outerWidth,
+  });
+
+  useEffect(() => {
+    const updateWindowInfo = () => {
+      setWindowInfo({
+        width: window.innerWidth,
+        height: window.innerHeight,
+        zoom: window.innerWidth / window.outerWidth,
+      });
+    };
+
+    // Обработчик изменения размера окна
+    window.addEventListener('resize', updateWindowInfo);
+
+    // Таймер для отслеживания масштабирования (например, Ctrl + колесо)
+    let previousWidth = window.innerWidth;
+    const intervalId = setInterval(() => {
+      if (window.innerWidth !== previousWidth) {
+        previousWidth = window.innerWidth;
+        updateWindowInfo();
+      }
+    }, 300);
+
+    // Очистка при размонтировании
+    return () => {
+      window.removeEventListener('resize', updateWindowInfo);
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  return windowInfo;
+}
