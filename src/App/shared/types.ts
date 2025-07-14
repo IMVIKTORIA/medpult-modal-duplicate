@@ -48,21 +48,21 @@ export class InsuredListDataDeduplication {
   /** Дата рождения */
   birthdate?: ItemDataString;
   /** Телефон */
-  phone?: ItemDataString;
+  phone?: DataWithValidation[];
   /** Email */
-  email?: ItemDataString;
+  email?: DataWithValidation[];
   /** Статус */
   statusContragent?: MyItemData;
   /** Полис */
-  policy?: ItemDataStringArray;
+  policy?: DataWithValidation[];
   /** Дата начала действия полиса */
-  policyStartDate?: ItemDataStringArray;
+  policyStartDate?: DataWithValidation[];
   /** Дата окончания действия полиса */
-  policyEndDate?: ItemDataStringArray;
+  policyEndDate?: DataWithValidation[];
   /** Страхователь */
-  insurer?: ItemDataString;
+  insurer?: DataWithValidation[];
   /** Продукт */
-  product?: ItemDataString;
+  product?: DataWithValidation[];
 
   constructor({
     id,
@@ -189,10 +189,20 @@ export interface ContractorsSearchDataExtended extends ContractorsSearchData {
   contractorsIds?: string[];
 }
 
-/** Реэжим формы дедубликации */
+/** Режим формы дедубликации */
 export enum ModalDuplicateMode {
   /** Обратившийся */
   applicant = "applicant",
   /** Застрахованный */
   insured = "insured",
+}
+
+/** Данные со значением валидации */
+export interface DataWithValidation {
+  /** Значение */
+  value: string
+  /** Значение валидно? */
+  isValid: boolean
+  /** Идентификатор - если есть */
+  id?: string
 }
