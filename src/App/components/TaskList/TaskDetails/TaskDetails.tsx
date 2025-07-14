@@ -11,7 +11,7 @@ interface TaskDetailsProps {
   rowData: TaskListData;
   onClickRowHandler?: () => void;
   reloadData?: () => void;
-  onClickNumberTask: (taskId: string) => void;
+  onClickNumberTask: (task: any) => void;
 }
 
 function TaskDetails({ rowData, onClickNumberTask }: TaskDetailsProps) {

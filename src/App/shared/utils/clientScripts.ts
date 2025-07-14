@@ -29,108 +29,117 @@ const baseMockDataArray: ContractorListData[] = [
   new ContractorListData({
     id: new ItemDataString("1"),
     isIntegration: new MyItemData({ value: "", info: true }),
-    fullname: new MyItemData({value: "Иванов Иван Иванович", info: `${Math.random()*10000}`}),
+    fullname: new MyItemData({
+      value: "Иванов Иван Иванович",
+      info: `${Math.random() * 10000}`,
+    }),
     type: new ItemDataString("Физлицо"),
     // phone: new ItemDataString("79998887766"),
     // email: new ItemDataString("ivanov@mail.ru"),
     phone: [
       {
         value: formatPhone("79998887766"),
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: formatPhone("79991112244"),
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
     ],
     email: [
       {
         value: "ivanov@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "dmitriev@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "test@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "vladimirov@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
     ],
   }),
   new ContractorListData({
     id: new ItemDataString("2"),
     isIntegration: new MyItemData({ value: "", info: false }),
-    fullname: new MyItemData({value: "Петров Петр Петрович", info: `${Math.random()*10000}`}),
+    fullname: new MyItemData({
+      value: "Петров Петр Петрович",
+      info: `${Math.random() * 10000}`,
+    }),
     type: new ItemDataString("Юрлицо"),
     // phone: new ItemDataString("77776665544"),
     // email: new ItemDataString("petrov@mail.ru"),
     phone: [
       {
         value: formatPhone("79998887766"),
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: formatPhone("79991112244"),
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
     ],
     email: [
       {
         value: "ivanov@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "dmitriev@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "test@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "vladimirov@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
     ],
   }),
   new ContractorListData({
     id: new ItemDataString("3"),
     isIntegration: new MyItemData({ value: "", info: true }),
-    fullname: new MyItemData({value: "Викторов Виктор Викторович", info: `${Math.random()*10000}`}),
+    fullname: new MyItemData({
+      value: "Викторов Виктор Викторович",
+      info: `${Math.random() * 10000}`,
+    }),
     type: new ItemDataString("Юрлицо"),
     // phone: new ItemDataString("78886665544"),
     // email: new ItemDataString("viktor@mail.ru"),
     phone: [
       {
         value: formatPhone("79998887766"),
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: formatPhone("79991112244"),
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
     ],
     email: [
       {
         value: "ivanov@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "dmitriev@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "test@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "vladimirov@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
     ],
   }),
@@ -161,34 +170,37 @@ async function getInsuredListDeduplication(
   await randomDelay();
   const mockData: InsuredListDataDeduplication = {
     isIntegration: new MyItemData({ value: "", info: true }),
-    fullname: new MyItemData({value: "Иванов Иван Иванович", info: `${Math.round(Math.random()*10000)}`}),
+    fullname: new MyItemData({
+      value: "Иванов Иван Иванович",
+      info: `${Math.round(Math.random() * 10000)}`,
+    }),
     birthdate: new ItemDataString("10.10.1990"),
     phone: [
       {
         value: formatPhone("79998887766"),
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: formatPhone("79991112244"),
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
     ],
     email: [
       {
         value: "ivanov@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "dmitriev@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "test@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "vladimirov@mail.ru",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
     ],
     statusContragent: new MyItemData({ value: "Gold", info: "Gold" }),
@@ -196,84 +208,84 @@ async function getInsuredListDeduplication(
       {
         value: "00SB755380849982/1",
         id: "00SB755380849982/1",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "00SB755380849982/2",
         id: "00SB755380849982/2",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "00SB755380849982/3",
         id: "00SB755380849982/3",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
     ],
     policyStartDate: [
       {
         value: "20.01.2025",
         id: "00SB755380849982/1",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "22.01.2025",
         id: "00SB755380849982/2",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "24.01.2025",
         id: "00SB755380849982/3",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
     ],
     policyEndDate: [
       {
         value: "20.01.2024",
         id: "00SB755380849982/1",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "22.01.2024",
         id: "00SB755380849982/2",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "24.01.2024",
         id: "00SB755380849982/3",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
     ],
     insurer: [
       {
         value: "Петров Петр Петрович",
         id: "Петров Петр Петрович",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "Иванов Иван Иванович",
         id: "Иванов Иван Иванович",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "Владимиров Владимир Владимирович",
         id: "Владимиров Владимир Владимирович",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
     ],
     product: [
       {
         value: "ДМС макси прочее",
         id: "ДМС макси прочее",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
       {
         value: "Клещ ПРО",
         id: "Клещ ПРО",
-        isValid: Math.random() > 0.5
+        isValid: Math.random() > 0.5,
       },
     ],
   };
@@ -319,7 +331,9 @@ async function getRequestList(
         }),
         createdAt: new ItemDataString("01.01.1990 14:17"),
         channel: new ItemDataString("Телефон"),
-        topic: new ItemDataString("Согласование медицинских услуг Согласование медицинских услуг Согласование медицинских услуг"),
+        topic: new ItemDataString(
+          "Согласование медицинских услуг Согласование медицинских услуг Согласование медицинских услуг"
+        ),
         statusRequest: new MyItemData({
           value: status.value,
           info: status.info,
@@ -370,7 +384,7 @@ async function getTaskList(
         statusApprovalList[index % statusApprovalList.length];
       const mockData: TaskListData = {
         id: new ItemDataString(`${index}`),
-        number: new ItemDataString(`TS00000${index}/24`),
+        number: new MyItemData({ value: `TS00000${index}/24`, info: "" }),
         createdAt: new ItemDataString("01.01.1990 14:17"),
         type: new ItemDataString("Медицинское"),
         sort: new ItemDataString("Запись к врачу"),
@@ -487,7 +501,10 @@ async function getFilteredTasksCount(
 }
 
 /** Получить количество отфильтрованных застрахованных по выбранному обратившемуся */
-async function getFilteredInsuredCount(contractorsIds: string[], contractorsSearchData: ContractorsSearchData) {
+async function getFilteredInsuredCount(
+  contractorsIds: string[],
+  contractorsSearchData: ContractorsSearchData
+) {
   // TODO: Логика
   return Math.floor(Math.random() * 10);
 }

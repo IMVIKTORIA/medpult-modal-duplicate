@@ -48,12 +48,13 @@ export default function TaskList({
 }: TaskListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
-  
+
   // Значение с debounce
   const searchQueryDebounced = useDebounce(searchQuery, 500);
 
   /** Обработчик нажатия на номер задачи */
-  const onClickNumberTask = async (taskId: string) => {
+  const onClickNumberTask = async (task: MyItemData<string>) => {
+    const taskId = task.info;
     if (!taskId) return;
 
     const requestId = await Scripts.getRequestIdByTaskId(taskId);
@@ -66,7 +67,8 @@ export default function TaskList({
     const redirectUrl = new URL(window.location.origin + "/" + link);
     if (requestId) redirectUrl.searchParams.set("request_id", requestId);
     if (taskId) redirectUrl.searchParams.set("task_id", taskId);
-    utils.redirectSPA(redirectUrl.toString());
+    //utils.redirectSPA(redirectUrl.toString());
+    window.open(redirectUrl.toString(), "_blank");
   };
 
   //Детальная информация задач
@@ -165,7 +167,12 @@ export default function TaskList({
 
   useEffect(() => {
     setSearchDataWithQuery(getSearchDataWithQuery());
-  }, [searchQueryDebounced, selectedRequestsIds, contractorsSearchData, sliderActive]);
+  }, [
+    searchQueryDebounced,
+    selectedRequestsIds,
+    contractorsSearchData,
+    sliderActive,
+  ]);
 
   return (
     <div className="request-list">
