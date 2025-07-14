@@ -39,6 +39,8 @@ export class ListColumnData {
   isIcon?: boolean;
   /** Фиксированная ширина столбца */
   fixedWidth: string;
+  /** Кастомный компонент колонки */
+  getCustomColumComponent?: (props: any) => JSX.Element;
 
   constructor({
     name,
@@ -49,6 +51,7 @@ export class ListColumnData {
     onClick,
     isIcon,
     fixedWidth,
+    getCustomColumComponent,
   }: {
     name: string;
     code: string;
@@ -58,6 +61,7 @@ export class ListColumnData {
     onClick?: (props: any) => any;
     isIcon?: boolean;
     fixedWidth?: string;
+    getCustomColumComponent?: (props: any) => JSX.Element;
   }) {
     this.fr = fr ?? 1;
     this.isSortable = isSortable ?? false;
@@ -65,6 +69,8 @@ export class ListColumnData {
     this.isIcon = isIcon ?? false;
 
     if (onClick) this.onClick = onClick;
+    if (getCustomColumComponent)
+      this.getCustomColumComponent = getCustomColumComponent;
 
     if (fixedWidth) this.fixedWidth = fixedWidth;
     this.name = name;
@@ -112,4 +118,9 @@ export interface FetchData<DataType> {
   items: FetchItem<DataType>[];
   /** Доступны ли еще данные для подгрузки? */
   hasMore: boolean;
+}
+
+export interface CustomColumnProps<T> {
+  value: MyItemData<T>;
+  rowData: any;
 }

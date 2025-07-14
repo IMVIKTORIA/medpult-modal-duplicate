@@ -10,6 +10,7 @@ import utils, { openContractor, openContractorInEditMode, useDebounce } from "..
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
 import Button from "../../../UIKit/Button/Button";
 import icons from "../../shared/icons";
+import ArrayColumnWithValidation from "../CustomColumns/ArrayColumnWithValidation/ArrayColumnWithValidation";
 
 export interface ContractorListProps {
   /** Иденификаторы выбранных обратившихся */
@@ -91,12 +92,14 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
       code: "phone",
       fr: 1,
       isSortable: true,
+      getCustomColumComponent: ArrayColumnWithValidation
     }),
     new ListColumnData({
       name: "Email",
       code: "email",
       fr: 1,
       isSortable: true,
+      getCustomColumComponent: ArrayColumnWithValidation
     }),
   ];
   const searchFields = columns

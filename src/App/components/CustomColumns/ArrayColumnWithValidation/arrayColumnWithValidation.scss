@@ -1,0 +1,20 @@
+.array-column {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    gap: 9px;
+
+    &__item {
+        overflow: "hidden";
+        text-overflow: "ellipsis";
+    };
+
+    &__item::after {
+        content: "\A";
+        white-space: pre-line;
+    };
+
+    &__item-invalid {
+        color: #FF4545;
+    };
+}   
