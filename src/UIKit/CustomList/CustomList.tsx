@@ -10,6 +10,7 @@ import {
   getDetailsLayoutAttributes,
 } from "./CustomListTypes";
 import CustomListSelector from "./CustomListSelector/CustomListSelector";
+import { useElementHeight, useWindowSizeAndZoom } from "../shared/utils/hooks";
 
 type ListProps<SearchDataType = any, ItemType = any> = {
   /** Основные настройки */
@@ -56,7 +57,7 @@ function CustomList<SearchDataType = any, ItemType = any>(
   props: ListProps<SearchDataType, ItemType>
 ) {
   const {
-    height = "100%",
+    height,
     listWidth,
     columnsSettings,
     getDataHandler,
@@ -74,7 +75,7 @@ function CustomList<SearchDataType = any, ItemType = any>(
   // Страница
   const [page, setPage] = useState<number>(0);
   // Показать лоадер
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   // Параметр остановки подгрузки элементов
   const [hasMore, setHasMore] = useState<boolean>(true);
   // Данные сортировки
@@ -85,6 +86,8 @@ function CustomList<SearchDataType = any, ItemType = any>(
   const [openRowIndex, setOpenRowIndex] = useState<string>();
   // Ссылка на тело списка
   const bodyRef = useRef<HTMLDivElement>(null);
+  // Ссылка на список
+  const listRef = useRef<HTMLDivElement>(null)
   // Ссылка на шапку списка
   const headerRef = useRef<HTMLDivElement>(null);
 
@@ -228,11 +231,67 @@ function CustomList<SearchDataType = any, ItemType = any>(
     headerStyles.width = `${listWidth - getScrollbarWidth(headerRef)}px`;
   if (!isSelectable) headerStyles.paddingLeft = `20px`;
 
+  /** Показывать прокрутку по размеру содержимого */
+  const [isScrollableByContent, setIsScrollableByContent] = useState<boolean>();
+  const updateScrollableByContent = () => {
+    const wrapperHeight = bodyRef.current?.getBoundingClientRect().height ?? 0;
+    const listHeight = listRef.current?.getBoundingClientRect().height ?? 0;
+
+    setIsScrollableByContent(listHeight > wrapperHeight);
+  }
+
+  // Хук для отслеживания изменения размеров окна
+  const windowSizeParams = useWindowSizeAndZoom();
+  // Хук для отслеживания изменения размеров списка
+  const listHeight = useElementHeight(listRef);
+
+  // Вычислять при изменении размера окна и высоты списка
+  React.useLayoutEffect(() => {
+    updateScrollableByContent()
+  }, [windowSizeParams, listHeight]);
+
+  const notFoundText = (
+    <div className="custom-list__not-found">
+      Записи не найдены
+    </div>
+  )
+
+  const rowsLayout = (
+    items.map((item) => {
+      /** Обработчик нажатия на строку */
+      const toggleShowDetails = () => {
+        if (item.id === undefined) return;
+
+        if (item.id === openRowIndex) {
+          setOpenRowIndex(undefined);
+          return;
+        }
+
+        setOpenRowIndex(item.id);
+      };
+
+      return (
+        <CustomListRow<ItemType>
+          {...props}
+          key={item.id}
+          data={item.data}
+          isShowDetails={getDetailsLayout && item.id === openRowIndex}
+          setOpenRowIndex={toggleShowDetails}
+          reloadData={reloadData}
+          toggleChecked={() => toggleCheckedRow(item.id)}
+          isChecked={Boolean(
+            selectedItems.find((checkedId) => checkedId === item.id)
+          )}
+        />
+      );
+    })
+  )
+
   return (
     <div className="custom-list">
       <div
         className={
-          isScrollable
+          isScrollable && isScrollableByContent
             ? "custom-list__header custom-list__header_scrollable"
             : "custom-list__header"
         }
@@ -265,13 +324,14 @@ function CustomList<SearchDataType = any, ItemType = any>(
       </div>
       <div
         className={
-          isScrollable ? "custom-list__body_scrollable" : "custom-list__body"
+          isScrollable && isScrollableByContent ? "custom-list__body_scrollable" : "custom-list__body"
         }
-        style={{ height: height }}
+        style={height ? { height: height } : {height: "10px", flex: 1}}
         ref={bodyRef}
         onScroll={onScroll}
       >
         <div
+          ref={listRef}
           className="custom-list__body-wrapper"
           style={
             listWidth
@@ -279,34 +339,11 @@ function CustomList<SearchDataType = any, ItemType = any>(
               : {}
           }
         >
-          {items.map((item) => {
-            /** Обработчик нажатия на строку */
-            const toggleShowDetails = () => {
-              if (item.id === undefined) return;
-
-              if (item.id === openRowIndex) {
-                setOpenRowIndex(undefined);
-                return;
-              }
-
-              setOpenRowIndex(item.id);
-            };
-
-            return (
-              <CustomListRow<ItemType>
-                {...props}
-                key={item.id}
-                data={item.data}
-                isShowDetails={getDetailsLayout && item.id === openRowIndex}
-                setOpenRowIndex={toggleShowDetails}
-                reloadData={reloadData}
-                toggleChecked={() => toggleCheckedRow(item.id)}
-                isChecked={Boolean(
-                  selectedItems.find((checkedId) => checkedId === item.id)
-                )}
-              />
-            );
-          })}
+          {/* Показывать таблицу */}
+          {Boolean(items.length) && rowsLayout}
+          {/* Показывать надпись "Записи не найдены" */}
+          {!Boolean(items.length) && !isLoading && notFoundText}
+          {/* Показывать лоадер */}
           {isLoading && <Loader />}
         </div>
       </div>

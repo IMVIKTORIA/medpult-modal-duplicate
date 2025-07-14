@@ -12,7 +12,7 @@ import Scripts from "../../shared/utils/clientScripts";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
 import SliderPanel from "../SliderPanel/SliderPanel";
 import RequestDetails from "./RequestDetails/RequestDetails.tsx";
-import utils from "../../shared/utils/utils";
+import utils, { useDebounce } from "../../shared/utils/utils";
 
 export type RequestListProps = {
   /** Идентификаторы выбранных застрахованных */
@@ -50,6 +50,9 @@ export default function RequestList({
 }: RequestListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  // Значение с debounce
+  const searchQueryDebounced = useDebounce(searchQuery, 500);
 
   /** Обработчик нажатия на номер обращения */
   const onClickNumberRequest = async (requestInfo: MyItemData) => {
@@ -107,13 +110,13 @@ export default function RequestList({
       isSortable: true,
     }),
     new ListColumnData({
-      name: "Тип канала",
+      name: "Канал",
       code: "channel",
       fr: 1,
       isSortable: true,
     }),
     new ListColumnData({
-      name: "Тема обращения",
+      name: "Тема",
       code: "topic",
       fr: 1,
       isSortable: true,
@@ -148,7 +151,7 @@ export default function RequestList({
   const getSearchDataWithQuery = (): RequestSearchData => {
     return {
       ...contractorsSearchData,
-      searchQuery: searchQuery,
+      searchQuery: searchQueryDebounced,
       insuredIds: selectedInsuredIds,
       isShowClosed: sliderActive,
     };
@@ -159,7 +162,7 @@ export default function RequestList({
 
   useEffect(() => {
     setSearchDataWithQuery(getSearchDataWithQuery());
-  }, [searchQuery, selectedInsuredIds, contractorsSearchData, sliderActive]);
+  }, [searchQueryDebounced, selectedInsuredIds, contractorsSearchData, sliderActive]);
 
   return (
     <div className="request-list">

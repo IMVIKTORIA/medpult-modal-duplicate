@@ -1,5 +1,27 @@
 @import url('CustomListSelector/customListSelector.scss');
 #modal-duplicate-root  .custom-list {
+	&__not-found {
+		display: flex;
+		gap: 8px;
+		flex-direction: row;
+		height: 52px;
+		align-items: center;
+		justify-content: center;
+		padding: initial;
+
+		
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+
+		font-family: 'Inter';
+		font-style: normal;
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 130%;
+		letter-spacing: 0.0025em;
+	}
+
 	height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -30,6 +52,7 @@
 	}
 
 	&__body {
+		flex: 1;
 		&_scrollable {
 			overflow-x: auto;
 			overflow-y: scroll;

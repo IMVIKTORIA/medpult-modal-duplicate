@@ -59,11 +59,15 @@ export default function InsuredTab(props: InsuredListProps) {
     return selectedInsuredIds.length
   };
 
+  const countTitle = modalMode == ModalDuplicateMode.applicant
+  ? `(${getSelectedInsuredCount()} из ${insuredCount})`
+  : `(${insuredCount})`
+
   // Вкладка обращения
   return (
     <TabItem
       code={"insuredContragen"}
-      name={`Застрахованные (${getSelectedInsuredCount()} из ${insuredCount})`} // TODO: Проработать логику для режима дедубликации обратившегося
+      name={`Застрахованные ${countTitle}`}
     >
       <InsuredList {...props} />
     </TabItem>

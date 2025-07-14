@@ -11,7 +11,7 @@ import {
 } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
-import utils, { openContractor, openContractorInEditMode, redirectSPA } from "../../shared/utils/utils";
+import utils, { openContractor, openContractorInEditMode, redirectSPA, useDebounce } from "../../shared/utils/utils";
 import Button from "../../../UIKit/Button/Button";
 import icons from "../../shared/icons";
 
@@ -47,6 +47,9 @@ export default function   InsuredList({
 }: InsuredListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
+  
+  // Значение с debounce
+  const searchQueryDebounced = useDebounce(searchQuery, 500);
 
   /** Обработчик нажатия на кнопку "Выбрать" контрагента */
   const onClickChooseContractor = async () => {
@@ -175,7 +178,7 @@ export default function   InsuredList({
   const getSearchDataWithQuery = (): InsuredSearchData => {
     return {
       ...contractorsSearchData,
-      searchQuery: searchQuery,
+      searchQuery: searchQueryDebounced,
       contractorsIds: selectedContractorsIds,
     };
   };
@@ -185,7 +188,7 @@ export default function   InsuredList({
 
   useEffect(() => {
     setSearchDataWithQuery(getSearchDataWithQuery());
-  }, [searchQuery, selectedContractorsIds, contractorsSearchData]);
+  }, [searchQueryDebounced, selectedContractorsIds, contractorsSearchData]);
 
   return (
     <div className="insured-list">

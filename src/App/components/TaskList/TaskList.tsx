@@ -11,7 +11,7 @@ import { ContractorsSearchData, TaskListData } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
 import SliderPanel from "../SliderPanel/SliderPanel";
-import utils from "../../shared/utils/utils";
+import utils, { useDebounce } from "../../shared/utils/utils";
 import TaskDetails from "./TaskDetails/TaskDetails";
 
 /** Данные поиска обращений */
@@ -48,6 +48,9 @@ export default function TaskList({
 }: TaskListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
+  
+  // Значение с debounce
+  const searchQueryDebounced = useDebounce(searchQuery, 500);
 
   /** Обработчик нажатия на номер задачи */
   const onClickNumberTask = async (taskId: string) => {
@@ -151,7 +154,7 @@ export default function TaskList({
   const getSearchDataWithQuery = (): TaskSearchData => {
     return {
       ...contractorsSearchData,
-      searchQuery: searchQuery,
+      searchQuery: searchQueryDebounced,
       requestsIds: selectedRequestsIds,
       isShowClosed: sliderActive,
     };
@@ -162,13 +165,7 @@ export default function TaskList({
 
   useEffect(() => {
     setSearchDataWithQuery(getSearchDataWithQuery());
-  }, [searchQuery, selectedRequestsIds, contractorsSearchData, sliderActive]);
-
-  // // Данные поиска обращений
-  // const requestSearchData: TaskSearchData = {
-  //   searchQuery: searchQuery,
-  //   requestsIds: selectedRequestsIds,
-  // };
+  }, [searchQueryDebounced, selectedRequestsIds, contractorsSearchData, sliderActive]);
 
   return (
     <div className="request-list">

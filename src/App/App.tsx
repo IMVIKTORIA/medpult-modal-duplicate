@@ -5,5 +5,5 @@ import ModalDuplicateWrapper from "./components/ModalDuplicate/ModalDuplicateWra
 
 export default function App() {
   return <ModalDuplicateWrapper modalMode={ModalDuplicateMode.insured} />;
-//   return <ModalDuplicateWrapper modalMode={ModalDuplicateMode.applicant}/>
+  // return <ModalDuplicateWrapper modalMode={ModalDuplicateMode.applicant}/>
 }

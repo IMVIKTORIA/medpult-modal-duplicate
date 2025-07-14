@@ -58,11 +58,15 @@ async function getContractorList(
 ): Promise<FetchData<ContractorListData>> {
   await randomDelay();
 
+  // return {
+  //   items: baseMockDataArray.map((data, index) => ({
+  //     id: String(index),
+  //     data,
+  //   })),
+  //   hasMore: false,
+  // };
   return {
-    items: baseMockDataArray.map((data, index) => ({
-      id: String(index),
-      data,
-    })),
+    items: [],
     hasMore: false,
   };
 }
@@ -132,7 +136,7 @@ async function getRequestList(
         }),
         createdAt: new ItemDataString("01.01.1990 14:17"),
         channel: new ItemDataString("Телефон"),
-        topic: new ItemDataString("Согласование медицинских услуг"),
+        topic: new ItemDataString("Согласование медицинских услуг Согласование медицинских услуг Согласование медицинских услуг"),
         statusRequest: new MyItemData({
           value: status.value,
           info: status.info,
