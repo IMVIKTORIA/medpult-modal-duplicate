@@ -11,7 +11,12 @@ import {
 } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
-import utils, { openContractor, openContractorInEditMode, redirectSPA, useDebounce } from "../../shared/utils/utils";
+import utils, {
+  openContractor,
+  openContractorInEditMode,
+  redirectSPA,
+  useDebounce,
+} from "../../shared/utils/utils";
 import Button from "../../../UIKit/Button/Button";
 import icons from "../../shared/icons";
 import ArrayColumnWithValidation from "../CustomColumns/ArrayColumnWithValidation/ArrayColumnWithValidation";
@@ -39,7 +44,7 @@ export interface InsuredSearchData extends ContractorsSearchData {
 }
 
 /** Список застрахованных */
-export default function   InsuredList({
+export default function InsuredList({
   selectedContractorsIds,
   modalMode,
   selectedInsuredIds,
@@ -48,7 +53,7 @@ export default function   InsuredList({
 }: InsuredListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
-  
+
   // Значение с debounce
   const searchQueryDebounced = useDebounce(searchQuery, 500);
 
@@ -70,17 +75,17 @@ export default function   InsuredList({
 
   /** Обработчик нажатия на кнопку "Редактировать"  */
   const onClickEdit = async () => {
-    if(!selectedInsuredIds.length) return;
+    if (!selectedInsuredIds.length) return;
     // Открыть контрагента в режиме изменения
-    openContractorInEditMode(selectedInsuredIds[0])
+    openContractorInEditMode(selectedInsuredIds[0]);
   };
-  
+
   /** Обработчик нажатия на застрахованного */
   const onClickContractor = async (contractor: MyItemData<string>) => {
     const contractorId = contractor.info;
     if (!contractorId) return;
     // Открыть контрагента
-    openContractor(contractorId)
+    openContractor(contractorId);
   };
 
   /** Колонки для режима дедубликации застрахованного */
@@ -118,14 +123,14 @@ export default function   InsuredList({
       code: "phone",
       fr: 1,
       isSortable: true,
-      getCustomColumComponent: ArrayColumnWithValidation
+      getCustomColumComponent: ArrayColumnWithValidation,
     }),
     new ListColumnData({
       name: "Email",
       code: "email",
       fr: 1,
       isSortable: true,
-      getCustomColumComponent: ArrayColumnWithValidation
+      getCustomColumComponent: ArrayColumnWithValidation,
     }),
     new ListColumnData({
       name: "Статус",
@@ -138,14 +143,14 @@ export default function   InsuredList({
       code: "policy",
       fr: 1,
       isSortable: true,
-      getCustomColumComponent: ArrayColumnWithValidation
+      getCustomColumComponent: ArrayColumnWithValidation,
     }),
     new ListColumnData({
       name: "Начало действия",
       code: "policyStartDate",
       fr: 1,
       isSortable: true,
-      getCustomColumComponent: ArrayColumnWithValidation
+      getCustomColumComponent: ArrayColumnWithValidation,
     }),
     new ListColumnData({
       name: "Окончание действия",
@@ -198,6 +203,7 @@ export default function   InsuredList({
     setSearchDataWithQuery(getSearchDataWithQuery());
   }, [searchQueryDebounced, selectedContractorsIds, contractorsSearchData]);
 
+  const isDisabled = selectedInsuredIds.length === 0;
   return (
     <div className="insured-list">
       <div className="insured-list__search">
@@ -214,7 +220,11 @@ export default function   InsuredList({
               <Button
                 title={"Выбрать"}
                 clickHandler={() => onClickChooseContractor()}
-                disabled={selectedInsuredIds.length === 0}
+                //disabled={selectedInsuredIds.length === 0}
+                style={{
+                  opacity: isDisabled ? "0.4" : "1",
+                  cursor: isDisabled ? "not-allowed" : "pointer",
+                }}
               />
               <Button
                 title={"Oставить без изменений"}
@@ -226,11 +236,12 @@ export default function   InsuredList({
               title={"Редактировать"}
               clickHandler={() => onClickEdit()}
               icon={icons.EditButton}
-              disabled={selectedInsuredIds.length === 0}
+              //disabled={selectedInsuredIds.length === 0}
               style={{
+                opacity: isDisabled ? "0.4" : "1",
+                cursor: isDisabled ? "not-allowed" : "pointer",
                 backgroundColor: "#fff",
                 color: "#6B6C6F",
-                // pointerEvents: selectedInsuredIds.length === 0 ? "none" : "auto",
               }}
             />
           </>

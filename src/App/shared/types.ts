@@ -131,7 +131,7 @@ export class RequestListData {
 export class TaskListData {
   id: ItemDataString;
   /** Номер */
-  number?: ItemDataString;
+  number?: MyItemData;
   /** Дата создания  */
   createdAt?: ItemDataString;
   /** Тип задачи  */
@@ -200,9 +200,9 @@ export enum ModalDuplicateMode {
 /** Данные со значением валидации */
 export interface DataWithValidation {
   /** Значение */
-  value: string
+  value: string;
   /** Значение валидно? */
-  isValid: boolean
+  isValid: boolean;
   /** Идентификатор - если есть */
-  id?: string
+  id?: string;
 }

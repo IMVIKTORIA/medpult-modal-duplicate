@@ -162,7 +162,12 @@ export default function RequestList({
 
   useEffect(() => {
     setSearchDataWithQuery(getSearchDataWithQuery());
-  }, [searchQueryDebounced, selectedInsuredIds, contractorsSearchData, sliderActive]);
+  }, [
+    searchQueryDebounced,
+    selectedInsuredIds,
+    contractorsSearchData,
+    sliderActive,
+  ]);
 
   return (
     <div className="request-list">

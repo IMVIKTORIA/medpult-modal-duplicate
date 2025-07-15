@@ -15,10 +15,10 @@ export const redirectSPA = (href: string) => {
 
 /** Маршрутизация по SPA с использовнием URL и проверкой текущего пути */
 export const redirectSPAWithURL = (redirectUrl: URL) => {
-  if(window.location.pathname == redirectUrl.pathname) {
+  if (window.location.pathname == redirectUrl.pathname) {
     // Если ссылка с тем же путем, то перезагрузить страницу
-    window.history.pushState(null, "", redirectUrl.toString())
-    window.location.reload()
+    window.history.pushState(null, "", redirectUrl.toString());
+    window.location.reload();
   } else {
     // Иначе стандартная логика
     redirectSPA(redirectUrl.toString());
@@ -150,28 +150,36 @@ export function getStatusApprovalIcon(status: any) {
 export function openContractor(contractorId?: string) {
   if (!contractorId) return;
 
-  window.localStorage.setItem("medpultPathBefore", window.location.pathname + window.location.search)
+  window.localStorage.setItem(
+    "medpultPathBefore",
+    window.location.pathname + window.location.search
+  );
   localStorage.setItem("medpultContractorId", contractorId);
 
   const link = Scripts.getContractorPageCode();
   const redirectUrl = new URL(window.location.origin + "/" + link);
 
-  redirectSPAWithURL(redirectUrl);
-};
+  //redirectSPAWithURL(redirectUrl);
+  window.open(redirectUrl.toString(), "_blank");
+}
 
 /** Открыть контрагента */
 export function openContractorInEditMode(contractorId?: string) {
   if (!contractorId) return;
 
-  window.localStorage.setItem("medpultPathBefore", window.location.pathname + window.location.search)
+  window.localStorage.setItem(
+    "medpultPathBefore",
+    window.location.pathname + window.location.search
+  );
   localStorage.setItem("medpultContractorId", contractorId);
 
   const link = Scripts.getContractorPageCode();
   const redirectUrl = new URL(window.location.origin + "/" + link);
   redirectUrl.searchParams.set("is_edit", "true");
 
-  redirectSPAWithURL(redirectUrl);
-};
+  window.open(redirectUrl.toString(), "_blank");
+  //redirectSPAWithURL(redirectUrl);
+}
 
 export default {
   redirectSPA,

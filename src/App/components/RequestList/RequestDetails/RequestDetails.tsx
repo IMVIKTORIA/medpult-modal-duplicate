@@ -51,18 +51,20 @@ function RequestDetails({
 
         <div className="request-details__column">
           <span className="request-details__column__title">Статус</span>
-          <span
-            className="request-details__column__value"
-            style={{
-              backgroundColor: getStatusRequestColor(
-                rowData.statusRequest?.info
-              ),
-              padding: "3px 16px",
-              borderRadius: "12px",
-              display: "inline-block",
-            }}
-          >
-            {rowData.statusRequest?.value}
+
+          <span className="request-details__column__value">
+            <span
+              style={{
+                backgroundColor: getStatusRequestColor(
+                  rowData.statusRequest?.info
+                ),
+                padding: "3px 16px",
+                borderRadius: "12px",
+                display: "inline-block",
+              }}
+            >
+              {rowData.statusRequest?.value}
+            </span>
           </span>
         </div>
       </div>
