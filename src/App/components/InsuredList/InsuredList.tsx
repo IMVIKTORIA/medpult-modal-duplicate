@@ -20,6 +20,7 @@ import utils, {
 import Button from "../../../UIKit/Button/Button";
 import icons from "../../shared/icons";
 import ArrayColumnWithValidation from "../CustomColumns/ArrayColumnWithValidation/ArrayColumnWithValidation";
+import ColumnWithValidation from "../CustomColumns/ColumnWithValidation/ColumnWithValidation";
 
 /** Пропсы Модального окна */
 export type InsuredListProps = {
@@ -117,6 +118,7 @@ export default function InsuredList({
       code: "birthdate",
       fr: 1,
       isSortable: true,
+      getCustomColumComponent: ColumnWithValidation,
     }),
     new ListColumnData({
       name: "Телефон",

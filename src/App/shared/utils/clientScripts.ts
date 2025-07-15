@@ -174,7 +174,7 @@ async function getInsuredListDeduplication(
       value: "Иванов Иван Иванович",
       info: `${Math.round(Math.random() * 10000)}`,
     }),
-    birthdate: new ItemDataString("10.10.1990"),
+    birthdate: { value: "10.10.1990", isValid: Math.random() > 0.5 },
     phone: [
       {
         value: formatPhone("79998887766"),

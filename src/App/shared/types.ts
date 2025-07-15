@@ -18,9 +18,9 @@ export class ContractorListData {
   /** Тип контрагента */
   type?: ItemDataString;
   /** Телефон */
-  phone?: ItemDataString;
+  phone?: DataWithValidation[];
   /** Email */
-  email?: ItemDataString;
+  email?: DataWithValidation[];
 
   constructor({
     id,
@@ -46,7 +46,7 @@ export class InsuredListDataDeduplication {
   /** ФИО застрахованного */
   fullname?: MyItemData<string>;
   /** Дата рождения */
-  birthdate?: ItemDataString;
+  birthdate?: DataWithValidation;
   /** Телефон */
   phone?: DataWithValidation[];
   /** Email */
