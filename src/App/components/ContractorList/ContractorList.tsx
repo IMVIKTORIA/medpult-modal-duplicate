@@ -6,7 +6,11 @@ import {
 } from "../../../UIKit/CustomList/CustomListTypes";
 import { ContractorListData, ContractorsSearchData } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
-import utils, { openContractor, openContractorInEditMode, useDebounce } from "../../shared/utils/utils";
+import utils, {
+  openContractor,
+  openContractorInEditMode,
+  useDebounce,
+} from "../../shared/utils/utils";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
 import Button from "../../../UIKit/Button/Button";
 import icons from "../../shared/icons";
@@ -18,28 +22,32 @@ export interface ContractorListProps {
   /** Установить иденификаторы выбранных обратившихся */
   setSelectedContractorsIds: React.Dispatch<React.SetStateAction<string[]>>;
   /** Поисковые данные контрагента */
-  contractorsSearchData: ContractorsSearchData
+  contractorsSearchData: ContractorsSearchData;
 }
 
 /** Данные поиска дубликатов контрагента (с дополнительными полями) */
 export interface ContractorsSearchDataExtended extends ContractorsSearchData {
   /** Данные поисковой строки */
-  searchQuery?: string,
+  searchQuery?: string;
 }
 
 /** Список обратившихся */
-export default function ContractorList({selectedContractorsIds, setSelectedContractorsIds, contractorsSearchData}: ContractorListProps) {
+export default function ContractorList({
+  selectedContractorsIds,
+  setSelectedContractorsIds,
+  contractorsSearchData,
+}: ContractorListProps) {
   // Поисковый запрос
   const [searchQuery, setSearchQuery] = useState<string>("");
-    
-    // Значение с debounce
-    const searchQueryDebounced = useDebounce(searchQuery, 500);
+
+  // Значение с debounce
+  const searchQueryDebounced = useDebounce(searchQuery, 500);
 
   /** Обработчик нажатия на кнопку "Выбрать" контрагента */
   const onClickChooseContractor = async () => {
-    if(!selectedContractorsIds.length) return;
+    if (!selectedContractorsIds.length) return;
     // Открыть контрагента
-    openContractor(selectedContractorsIds[0])
+    openContractor(selectedContractorsIds[0]);
   };
 
   /** Обработчик нажатия на кнопку "Oставить без измений"  */
@@ -52,19 +60,19 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
 
   /** Обработчик нажатия на кнопку "Редактировать"  */
   const onClickEdit = async () => {
-    if(!selectedContractorsIds.length) return;
+    if (!selectedContractorsIds.length) return;
     // Открыть контрагента
-    openContractorInEditMode(selectedContractorsIds[0])
+    openContractorInEditMode(selectedContractorsIds[0]);
   };
-    
+
   /** Обработчик нажатия на застрахованного */
   const onClickContractor = async (contractor: MyItemData<string>) => {
     const contractorId = contractor.info;
     if (!contractorId) return;
     // Открыть контрагента
-    openContractor(contractorId)
+    openContractor(contractorId);
   };
-  
+
   /** Колонки списка */
   const columns = [
     new ListColumnData({
@@ -92,14 +100,14 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
       code: "phone",
       fr: 1,
       isSortable: true,
-      getCustomColumComponent: ArrayColumnWithValidation
+      getCustomColumComponent: ArrayColumnWithValidation,
     }),
     new ListColumnData({
       name: "Email",
       code: "email",
       fr: 1,
       isSortable: true,
-      getCustomColumComponent: ArrayColumnWithValidation
+      getCustomColumComponent: ArrayColumnWithValidation,
     }),
   ];
   const searchFields = columns
@@ -120,7 +128,8 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
   useEffect(() => {
     setSearchDataWithQuery(getSearchDataWithQuery());
   }, [searchQueryDebounced, contractorsSearchData]);
-  
+
+  const isDisabled = selectedContractorsIds.length === 0;
   return (
     <div className="insured-list">
       <div className="insured-list__search">
@@ -135,7 +144,11 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
           <Button
             title={"Выбрать"}
             clickHandler={() => onClickChooseContractor()}
-            disabled={selectedContractorsIds.length === 0}
+            //disabled={selectedContractorsIds.length === 0}
+            style={{
+              opacity: isDisabled ? "0.4" : "1",
+              cursor: isDisabled ? "not-allowed" : "pointer",
+            }}
           />
           <Button
             title={"Oставить без изменений"}
@@ -147,8 +160,9 @@ export default function ContractorList({selectedContractorsIds, setSelectedContr
           title={"Редактировать"}
           clickHandler={() => onClickEdit()}
           icon={icons.EditButton}
-          disabled={selectedContractorsIds.length === 0}
           style={{
+            opacity: isDisabled ? "0.4" : "1",
+            cursor: isDisabled ? "not-allowed" : "pointer",
             backgroundColor: "#fff",
             color: "#6B6C6F",
           }}

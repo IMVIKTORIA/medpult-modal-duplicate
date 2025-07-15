@@ -99,6 +99,11 @@ function CustomListRowColumn(props: ListColumnProps) {
       >
         {/* Отображение кастомной колонки */}
         {props.getCustomColumComponent && props.getCustomColumComponent(data)}
+        {/* Отображение кастомной иконки по старой логике */}
+        {(isIcon && statusTaskIcon) ||
+          (isIcon && integrationIcon) ||
+          (isIcon && statusApprovalIcon) ||
+          (isIcon && openButton)}
         {/* Отображение стандартной колонки */}
         {!props.getCustomColumComponent && (
           <span
@@ -111,11 +116,6 @@ function CustomListRowColumn(props: ListColumnProps) {
             {code === "phone" ? formatPhone(data?.value) : data?.value}
           </span>
         )}
-        {/* Отображение кастомной иконки по старой логике */}
-        {(isIcon && statusTaskIcon) ||
-          (isIcon && integrationIcon) ||
-          (isIcon && statusApprovalIcon) ||
-          (isIcon && openButton)}
       </span>
     </div>
   );
