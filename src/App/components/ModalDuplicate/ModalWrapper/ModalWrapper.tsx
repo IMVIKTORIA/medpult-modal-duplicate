@@ -13,9 +13,9 @@ export default function ModalWrapper({
   return (
     <div
       className="modal-wrapper"
-      style={{
-        paddingLeft: modalMode === ModalDuplicateMode.insured ? "37%" : "20px",
-      }}
+      // style={{
+      //   paddingLeft: modalMode === ModalDuplicateMode.insured ? "37%" : "20px",
+      // }}
     >
       {children}
     </div>

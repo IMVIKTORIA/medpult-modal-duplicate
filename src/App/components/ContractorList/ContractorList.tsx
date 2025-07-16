@@ -9,6 +9,7 @@ import Scripts from "../../shared/utils/clientScripts";
 import utils, {
   openContractor,
   openContractorInEditMode,
+  redirectSPA,
   useDebounce,
 } from "../../shared/utils/utils";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
@@ -43,9 +44,42 @@ export default function ContractorList({
   // Значение с debounce
   const searchQueryDebounced = useDebounce(searchQuery, 500);
 
+  /** Обработчик события нажатия на кнопку ссылки */
+  async function setRequestContractor(fieldId?: string) {
+    // Получение выбранного контрагента из контекста
+    const selectedContractorId = selectedContractorsIds[0];
+    if (!selectedContractorId) return;
+    
+    // Получение ссылки на страницу обращения
+    const request_page_path = Scripts.getRequestPagePath();
+    const mode = new URLSearchParams(window.location.search).get("mode");
+    
+    if(fieldId) await Scripts.assignInsured(fieldId, selectedContractorId);
+
+    const url = new URL(window.location.href);
+    const requestId = url.searchParams.get("request_id");
+    
+    const redirectUrl = new URL(window.location.origin + "/" + request_page_path);
+    if (mode) {
+      redirectUrl.searchParams.set("mode", mode)
+    } else {
+      if(requestId) redirectUrl.searchParams.set("request_id", requestId)
+    }
+    
+    redirectSPA(redirectUrl.toString())
+  }
+
   /** Обработчик нажатия на кнопку "Выбрать" контрагента */
   const onClickChooseContractor = async () => {
     if (!selectedContractorsIds.length) return;
+
+    const fieldId = new URLSearchParams(window.location.search).get("field_id") ?? "";
+
+    if(fieldId) {
+      setRequestContractor(fieldId);
+      return;
+    }
+
     // Открыть контрагента
     openContractor(selectedContractorsIds[0]);
   };
