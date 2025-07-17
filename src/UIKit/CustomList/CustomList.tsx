@@ -116,34 +116,6 @@ function CustomList<SearchDataType = any, ItemType = any>(
     return () => bodyRef.current?.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // /** Загрузка данных списка */
-  // const loadData = async (
-  //   existingItems: FetchItem<ItemType>[] = [],
-  //   pageNum: number = 0,
-  //   more: boolean = true
-  // ) => {
-  //   if (isLoading || !more) return;
-  //   setIsLoading(true);
-
-  //   const fetched = await getDataHandler(pageNum, sortData);
-  //   const query = (searchData as any).searchQuery?.toLowerCase().trim();
-
-  //   const filteredItems = query
-  //     ? fetched.items.filter((item) => {
-  //         const data = item.data as any;
-  //         return searchFields?.some((field) => {
-  //           const fieldValue = data[field]?.value?.toLowerCase?.() ?? "";
-  //           return fieldValue.includes(query);
-  //         });
-  //       })
-  //     : fetched.items;
-
-  //   setHasMore(filteredItems.length > 0);
-  //   setItems([...existingItems, ...filteredItems]);
-  //   setPage(pageNum + 1);
-  //   setIsLoading(false);
-  // };
-
   /** Загрузка данных списка */
   const loadData = async (
     items: any[] = [],

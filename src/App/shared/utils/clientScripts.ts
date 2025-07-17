@@ -203,7 +203,11 @@ async function getInsuredListDeduplication(
         isValid: Math.random() > 0.5,
       },
     ],
-    statusContragent: new MyItemData({ value: "Gold", info: "Gold" }),
+    statusContragent: [
+      new MyItemData({ value: "Gold", info: "Gold" }),
+      new MyItemData({ value: "Platinum", info: "Platinum" }),
+      new MyItemData({ value: "Silver", info: "Silver" }),
+    ],
     policy: [
       {
         value: "00SB755380849982/1",

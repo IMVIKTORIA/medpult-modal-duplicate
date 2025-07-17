@@ -133,14 +133,12 @@ export default function ContractorList({
       name: "Телефон",
       code: "phone",
       fr: 1,
-      isSortable: true,
       getCustomColumComponent: ArrayColumnWithValidation,
     }),
     new ListColumnData({
       name: "Email",
       code: "email",
       fr: 1,
-      isSortable: true,
       getCustomColumComponent: ArrayColumnWithValidation,
     }),
   ];

@@ -52,7 +52,7 @@ export class InsuredListDataDeduplication {
   /** Email */
   email?: DataWithValidation[];
   /** Статус */
-  statusContragent?: MyItemData;
+  statusContragent?: MyItemData<string>[];
   /** Полис */
   policy?: DataWithValidation[];
   /** Дата начала действия полиса */

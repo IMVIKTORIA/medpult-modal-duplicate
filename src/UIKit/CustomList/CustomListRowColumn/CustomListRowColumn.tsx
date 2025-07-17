@@ -89,7 +89,7 @@ function CustomListRowColumn(props: ListColumnProps) {
           alignItems: "center",
           gap: "4px",
           maxWidth: "100%",
-          color: statusContragentColor,
+          // color: statusContragentColor,
           ...(code === "statusRequest" && {
             backgroundColor: statusRequestColor,
             padding: "3px 16px",

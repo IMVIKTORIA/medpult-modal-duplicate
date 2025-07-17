@@ -21,6 +21,7 @@ import Button from "../../../UIKit/Button/Button";
 import icons from "../../shared/icons";
 import ArrayColumnWithValidation from "../CustomColumns/ArrayColumnWithValidation/ArrayColumnWithValidation";
 import ColumnWithValidation from "../CustomColumns/ColumnWithValidation/ColumnWithValidation";
+import ArrayColumnStatuses from "../CustomColumns/ArrayColumnStatuses/ArrayColumnStatuses";
 
 /** Пропсы Модального окна */
 export type InsuredListProps = {
@@ -124,55 +125,48 @@ export default function InsuredList({
       name: "Телефон",
       code: "phone",
       fr: 1,
-      isSortable: true,
       getCustomColumComponent: ArrayColumnWithValidation,
     }),
     new ListColumnData({
       name: "Email",
       code: "email",
       fr: 1,
-      isSortable: true,
       getCustomColumComponent: ArrayColumnWithValidation,
     }),
     new ListColumnData({
       name: "Статус",
       code: "statusContragent",
       fr: 1,
-      isSortable: true,
+      getCustomColumComponent: ArrayColumnStatuses,
     }),
     new ListColumnData({
       name: "Полис",
       code: "policy",
       fr: 1,
-      isSortable: true,
       getCustomColumComponent: ArrayColumnWithValidation,
     }),
     new ListColumnData({
       name: "Начало действия",
       code: "policyStartDate",
       fr: 1,
-      isSortable: true,
       getCustomColumComponent: ArrayColumnWithValidation,
     }),
     new ListColumnData({
       name: "Окончание действия",
       code: "policyEndDate",
       fr: 1,
-      isSortable: true,
       getCustomColumComponent: ArrayColumnWithValidation,
     }),
     new ListColumnData({
       name: "Страхователь",
       code: "insurer",
       fr: 1,
-      isSortable: true,
       getCustomColumComponent: ArrayColumnWithValidation,
     }),
     new ListColumnData({
       name: "Продукт",
       code: "product",
       fr: 1,
-      isSortable: true,
       getCustomColumComponent: ArrayColumnWithValidation,
     }),
   ];

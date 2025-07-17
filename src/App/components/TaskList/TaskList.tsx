@@ -129,13 +129,11 @@ export default function TaskList({
       name: "Форма согласования",
       code: "formApproval",
       fr: 1,
-      isSortable: true,
     }),
     new ListColumnData({
       name: "Статус согласования",
       code: "statusApproval",
       fr: 1,
-      isSortable: true,
       isIcon: true,
     }),
     // Кнопка разворачивания
