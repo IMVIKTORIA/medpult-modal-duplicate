@@ -5,7 +5,7 @@ import Scripts from "../../../shared/utils/clientScripts.ts";
 
 /** Список обращений */
 export default function RequestsTab(props: RequestListProps) {
-  const { selectedInsuredIds, contractorsSearchData } = props;
+  const { selectedInsuredIds, selectedContractorsIds, contractorsSearchData } = props;
 
   //Состояние слайдера
   const [sliderActive, setSliderActive] = useState(false);
@@ -21,32 +21,33 @@ export default function RequestsTab(props: RequestListProps) {
   const [filteredRequestsCount, setFilteredRequestsCount] = useState<number>(0);
   // Обновление количества отфильтрованных по застрахованным обращений
   async function updateFilteredRequestsCount() {
-    // Если застрахованный не выбран, то обращения не фильтруются
-    // if (!selectedInsuredIds.length && sliderActive) {
-    //   setFilteredRequestsCount(requestCount)
-    //   return;
-    // }
-
     // При выбранном застрахованном получить количество обращений по этому застрахованному с указанными фильтрами
-    const count = await Scripts.getFilteredRequestsCount(selectedInsuredIds, contractorsSearchData, sliderActive)
+    const count = await Scripts.getFilteredRequestsCount(selectedInsuredIds, selectedContractorsIds, contractorsSearchData, sliderActive)
     setFilteredRequestsCount(count)
   }
 
   // При изменении фильтров поиска
   useEffect(() => {
-    updateRequestCount();
+    setIsLoading(true)
+    updateRequestCount().then(() => setIsLoading(false));
   }, [contractorsSearchData]);
 
   // При изменении выбранного застрахованного, фильтров или общего количества обращений
   useEffect(() => {
-    updateFilteredRequestsCount();
-  }, [selectedInsuredIds, contractorsSearchData, requestCount, sliderActive]);
+    setIsLoading(true)
+    updateFilteredRequestsCount().then(() => setIsLoading(false));
+  }, [selectedInsuredIds, selectedContractorsIds, contractorsSearchData, requestCount, sliderActive]);
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  function getCountString(count: number) {
+    return isLoading ? "--" : `${count}`
+  }
 
   // Вкладка обращения
   return (
     <TabItem
       code={"requests"}
-      name={`Обращения (${filteredRequestsCount} из ${requestCount})`}
+      name={`Обращения (${getCountString(filteredRequestsCount)} из ${getCountString(requestCount)})`}
     >
       <RequestList {...props} sliderActive={sliderActive} setSliderActive={setSliderActive}/>
     </TabItem>

@@ -9,7 +9,7 @@ interface TasksTab extends TaskListProps {
 
 /** Список обращений */
 export default function TasksTab(props: TaskListProps) {
-  const { selectedRequestsIds, contractorsSearchData } = props;
+  const { selectedRequestsIds, selectedContractorsIds, selectedInsuredIds, contractorsSearchData } = props;
 
   //Состояние слайдера
   const [sliderActive, setSliderActive] = useState(false);
@@ -33,6 +33,8 @@ export default function TasksTab(props: TaskListProps) {
 
     // При выбранном обращении получить количество задач по этому обращению с указанными фильтрами
     const count = await Scripts.getFilteredTasksCount(
+      selectedContractorsIds, 
+      selectedInsuredIds,
       selectedRequestsIds,
       contractorsSearchData,
       sliderActive
@@ -42,19 +44,26 @@ export default function TasksTab(props: TaskListProps) {
 
   // При изменении фильтров поиска
   useEffect(() => {
-    updateTaskCount();
+    setIsLoading(true)
+    updateTaskCount().then(() => setIsLoading(false));
   }, [contractorsSearchData]);
 
   // При изменении выбранного обращения, фильтров или общего количества задач
   useEffect(() => {
-    updateFilteredTaskCount();
-  }, [selectedRequestsIds, contractorsSearchData, taskCount, sliderActive]);
+    setIsLoading(true)
+    updateFilteredTaskCount().then(() => setIsLoading(false));
+  }, [selectedRequestsIds, contractorsSearchData, selectedContractorsIds, selectedInsuredIds, taskCount, sliderActive]);
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  function getCountString(count: number) {
+    return isLoading ? "--" : `${count}`
+  }
 
   // Вкладка задачи
   return (
     <TabItem
       code={"tasks"}
-      name={`Задачи (${filteredTasksCount} из ${taskCount})`}
+      name={`Задачи (${getCountString(filteredTasksCount)} из ${getCountString(taskCount)})`}
     >
       <TaskList
         {...props}

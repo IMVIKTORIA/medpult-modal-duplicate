@@ -419,18 +419,22 @@ async function getTaskList(
 
 /** Получить количество обратившихся*/
 async function getCountConractor(searchData: ContractorsSearchData) {
+  await randomDelay()
   return 4;
 }
 /** Получить количество застрахованных*/
 async function getCountInsured(searchData: ContractorsSearchData) {
+  await randomDelay()
   return 10;
 }
 /** Получить количество обращений*/
 async function getCountRequest(searchData: ContractorsSearchData) {
+  await randomDelay()
   return 4;
 }
 /** Получить количество задач*/
 async function getCountTask(searchData: ContractorsSearchData) {
+  await randomDelay()
   return 10;
 }
 
@@ -488,18 +492,23 @@ function runSaveWithInsured(insuredIds: string[]) {
 /** Получить количество отфильтрованных обращений по выбранному Застрахованному */
 async function getFilteredRequestsCount(
   insuredIds: string[],
+  contractorsIds: string[],
   contractorsSearchData: ContractorsSearchData,
   isShowClosed: boolean
 ) {
+  await randomDelay()
   // TODO: Логика
   return Math.floor(Math.random() * 10);
 }
 /** Получить количество отфильтрованных задач по выбранному обращению */
 async function getFilteredTasksCount(
   requestsIds: string[],
+  insuredIds: string[],
+  contractorsIds: string[],
   contractorsSearchData: ContractorsSearchData,
   isShowClosed: boolean
 ) {
+  await randomDelay()
   // TODO: Логика
   return Math.floor(Math.random() * 10);
 }
@@ -509,6 +518,7 @@ async function getFilteredInsuredCount(
   contractorsIds: string[],
   contractorsSearchData: ContractorsSearchData
 ) {
+  await randomDelay()
   // TODO: Логика
   return Math.floor(Math.random() * 10);
 }

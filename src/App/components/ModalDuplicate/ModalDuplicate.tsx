@@ -75,6 +75,7 @@ export default function ModalDuplicate({
 
   // Вкладка обращения
   const requestsTab = RequestsTab({
+    selectedContractorsIds: selectedContractorsIds,
     selectedInsuredIds: selectedInsuredIds,
     contractorsSearchData: contractorsSearchData,
     selectedRequestsIds: selectedRequestsIds,
@@ -83,6 +84,8 @@ export default function ModalDuplicate({
 
   // Вкладка задачи
   const tasksTab = TasksTab({
+    selectedContractorsIds: selectedContractorsIds,
+    selectedInsuredIds: selectedInsuredIds,
     selectedRequestsIds: selectedRequestsIds,
     contractorsSearchData: contractorsSearchData,
     selectedTasksIds: selectedTasksIds,

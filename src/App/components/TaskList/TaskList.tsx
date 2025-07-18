@@ -20,11 +20,19 @@ export interface TaskSearchData extends ContractorsSearchData {
   searchQuery?: string;
   /** Идентификаторы выбранных обращений */
   requestsIds?: string[];
+  /** Идентификаторы выбранных застрахованных */
+  insuredIds?: string[];
+  /** Идентификаторы выбранных обратившихся */
+  contractorsIds?: string[];
   /** Показывать закрытые задачи */
   isShowClosed?: boolean;
 }
 
 export type TaskListProps = {
+  /** Иденификаторы выбранных обратившихся */
+  selectedContractorsIds: string[];
+  /** Идентификаторы выбранных застрахованных */
+  selectedInsuredIds: string[];
   /** Выбранные обращения */
   selectedRequestsIds: string[];
   /** Поисковые данные контрагента */
@@ -41,6 +49,8 @@ export type TaskListProps = {
 
 /** Список задач */
 export default function TaskList({
+  selectedContractorsIds,
+  selectedInsuredIds,
   selectedRequestsIds,
   contractorsSearchData,
   sliderActive,
@@ -156,6 +166,8 @@ export default function TaskList({
       ...contractorsSearchData,
       searchQuery: searchQueryDebounced,
       requestsIds: selectedRequestsIds,
+      contractorsIds: selectedContractorsIds,
+      insuredIds: selectedInsuredIds,
       isShowClosed: sliderActive,
     };
   };
@@ -168,6 +180,8 @@ export default function TaskList({
   }, [
     searchQueryDebounced,
     selectedRequestsIds,
+    selectedContractorsIds,
+    selectedInsuredIds,
     contractorsSearchData,
     sliderActive,
   ]);

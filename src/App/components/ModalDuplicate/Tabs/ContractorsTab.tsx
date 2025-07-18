@@ -25,17 +25,20 @@ export default function ContractorsTab(props: ContractorListProps) {
   };
   
   useEffect(() => {
-    fetchContractorCount();
+    setIsLoading(true);
+    fetchContractorCount().then(() => setIsLoading(false));
   }, [contractorsSearchData]);
   
-  const [isCountLoading, setIsCountLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  function getCountString(count: number) {
+    return isLoading ? "--" : `${count}`
+  }
 
   // Вкладка обращения
   return (
     <TabItem
       code={"requestContragen"}
-      // name={`Обратившиеся (${contractorCount})`}
-      name={`Обратившиеся (--)`}
+      name={`Обратившиеся (${getCountString(contractorCount)})`}
     >
       <ContractorList
         selectedContractorsIds={selectedContractorsIds}

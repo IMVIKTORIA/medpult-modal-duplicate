@@ -42,26 +42,25 @@ export default function InsuredTab(props: InsuredListProps) {
 
   // При изменении фильтров поиска
   useEffect(() => {
-    updateInsuredCount();
+    setIsLoading(true)
+    updateInsuredCount().then(() => setIsLoading(false));
   }, [contractorsSearchData]);
 
   // При изменении выбранного застрахованного, фильтров или общего количества застрахованных
   useEffect(() => {
-    updateFilteredInsuredCount();
+    console.log([selectedContractorsIds, contractorsSearchData, insuredCount])
+    setIsLoading(true)
+    updateFilteredInsuredCount().then(() => setIsLoading(false));
   }, [selectedContractorsIds, contractorsSearchData, insuredCount]);
 
-  /** Получить количество выбранных застрахованных */
-  const getSelectedInsuredCount = () => {
-    // При дедубликации обратившегося - количество отфильтрованных застрахованных
-    if(modalMode === ModalDuplicateMode.applicant) return filteredInsuredCount;
-
-    // Иначе количество выбранных застрахованных
-    return selectedInsuredIds.length
-  };
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  function getCountString(count: number) {
+    return isLoading ? "--" : `${count}`
+  }
 
   const countTitle = modalMode == ModalDuplicateMode.applicant
-  ? `(${getSelectedInsuredCount()} из ${insuredCount})`
-  : `(${insuredCount})`
+  ? `(${getCountString(filteredInsuredCount)} из ${getCountString(insuredCount)})`
+  : `(${getCountString(insuredCount)})`
 
   // Вкладка обращения
   return (

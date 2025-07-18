@@ -15,6 +15,8 @@ import RequestDetails from "./RequestDetails/RequestDetails.tsx";
 import utils, { useDebounce } from "../../shared/utils/utils";
 
 export type RequestListProps = {
+  /** Иденификаторы выбранных обратившихся */
+  selectedContractorsIds: string[];
   /** Идентификаторы выбранных застрахованных */
   selectedInsuredIds: string[];
   /** Поисковые данные контрагента */
@@ -35,12 +37,15 @@ export interface RequestSearchData extends ContractorsSearchData {
   searchQuery?: string;
   /** Идентификаторы выбранных застрахованных */
   insuredIds?: string[];
+  /** Идентификаторы выбранных обратившихся */
+  contractorsIds?: string[];
   /** Показывать закрытые задачи */
   isShowClosed?: boolean;
 }
 
 /** Список обращений */
 export default function RequestList({
+  selectedContractorsIds,
   selectedInsuredIds,
   contractorsSearchData,
   selectedRequestsIds,
@@ -153,6 +158,7 @@ export default function RequestList({
       ...contractorsSearchData,
       searchQuery: searchQueryDebounced,
       insuredIds: selectedInsuredIds,
+      contractorsIds: selectedContractorsIds,
       isShowClosed: sliderActive,
     };
   };
@@ -165,6 +171,7 @@ export default function RequestList({
   }, [
     searchQueryDebounced,
     selectedInsuredIds,
+    selectedContractorsIds,
     contractorsSearchData,
     sliderActive,
   ]);
