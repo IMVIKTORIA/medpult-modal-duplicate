@@ -33,9 +33,9 @@ export default function TasksTab(props: TaskListProps) {
 
     // При выбранном обращении получить количество задач по этому обращению с указанными фильтрами
     const count = await Scripts.getFilteredTasksCount(
-      selectedContractorsIds, 
-      selectedInsuredIds,
       selectedRequestsIds,
+      selectedInsuredIds,
+      selectedContractorsIds, 
       contractorsSearchData,
       sliderActive
     );

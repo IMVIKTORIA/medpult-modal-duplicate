@@ -151,7 +151,7 @@ export default function TaskList({
       code: "isOpen",
       name: "",
       fr: 1,
-      fixedWidth: "36px",
+      fixedWidth: "56px",
       isIcon: true,
     }),
   ];

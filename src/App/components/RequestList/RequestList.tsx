@@ -143,7 +143,7 @@ export default function RequestList({
       code: "isOpen",
       name: "",
       fr: 1,
-      fixedWidth: "36px",
+      fixedWidth: "56px",
       isIcon: true,
     }),
   ];
