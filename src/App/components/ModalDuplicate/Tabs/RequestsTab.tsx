@@ -26,17 +26,17 @@ export default function RequestsTab(props: RequestListProps) {
     setFilteredRequestsCount(count)
   }
 
-  // При изменении фильтров поиска
-  useEffect(() => {
-    setIsLoading(true)
-    updateRequestCount().then(() => setIsLoading(false));
-  }, [contractorsSearchData]);
+  // Обновить количества 
+  async function updateCounts() {
+    await updateRequestCount();
+    await updateFilteredRequestsCount();
+  }
 
   // При изменении выбранного застрахованного, фильтров или общего количества обращений
   useEffect(() => {
     setIsLoading(true)
-    updateFilteredRequestsCount().then(() => setIsLoading(false));
-  }, [selectedInsuredIds, selectedContractorsIds, contractorsSearchData, requestCount, sliderActive]);
+    updateCounts().then(() => setIsLoading(false));
+  }, [selectedInsuredIds, selectedContractorsIds, contractorsSearchData, sliderActive]);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   function getCountString(count: number) {

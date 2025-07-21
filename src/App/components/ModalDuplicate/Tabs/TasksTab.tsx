@@ -42,17 +42,17 @@ export default function TasksTab(props: TaskListProps) {
     setFilteredTasksCount(count);
   }
 
-  // При изменении фильтров поиска
-  useEffect(() => {
-    setIsLoading(true)
-    updateTaskCount().then(() => setIsLoading(false));
-  }, [contractorsSearchData]);
+  // Обновить количества 
+  async function updateCounts() {
+    await updateTaskCount();
+    await updateFilteredTaskCount();
+  }
 
   // При изменении выбранного обращения, фильтров или общего количества задач
   useEffect(() => {
     setIsLoading(true)
-    updateFilteredTaskCount().then(() => setIsLoading(false));
-  }, [selectedRequestsIds, contractorsSearchData, selectedContractorsIds, selectedInsuredIds, taskCount, sliderActive]);
+    updateCounts().then(() => setIsLoading(false));
+  }, [selectedRequestsIds, contractorsSearchData, selectedContractorsIds, selectedInsuredIds, sliderActive]);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   function getCountString(count: number) {

@@ -40,18 +40,17 @@ export default function InsuredTab(props: InsuredListProps) {
     setFilteredInsuredCount(count);
   }
 
-  // При изменении фильтров поиска
-  useEffect(() => {
-    setIsLoading(true)
-    updateInsuredCount().then(() => setIsLoading(false));
-  }, [contractorsSearchData]);
+    // Обновить количества 
+  async function updateCounts() {
+    await updateInsuredCount();
+    await updateFilteredInsuredCount();
+  }
 
   // При изменении выбранного застрахованного, фильтров или общего количества застрахованных
   useEffect(() => {
-    console.log([selectedContractorsIds, contractorsSearchData, insuredCount])
     setIsLoading(true)
-    updateFilteredInsuredCount().then(() => setIsLoading(false));
-  }, [selectedContractorsIds, contractorsSearchData, insuredCount]);
+    updateCounts().then(() => setIsLoading(false));
+  }, [selectedContractorsIds, contractorsSearchData]);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   function getCountString(count: number) {
