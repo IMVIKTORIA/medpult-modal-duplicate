@@ -300,7 +300,10 @@ async function getInsuredListDeduplication(
       .map((data, index) => {
         return {
           id: String(index),
-          data: new InsuredListDataDeduplication(mockData),
+          data: {
+            ...new InsuredListDataDeduplication(mockData),
+            isFullDuplicate: Math.random() > 0.5
+          },
         };
       }),
     hasMore: true,

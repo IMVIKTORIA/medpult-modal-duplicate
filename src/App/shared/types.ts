@@ -63,6 +63,8 @@ export class InsuredListDataDeduplication {
   insurer?: DataWithValidation[];
   /** Продукт */
   product?: DataWithValidation[];
+  /** Является полным дубликатом? */
+  isFullDuplicate?: boolean
 
   constructor({
     id,
@@ -77,6 +79,7 @@ export class InsuredListDataDeduplication {
     policyEndDate,
     insurer,
     product,
+    isFullDuplicate,
   }: InsuredListDataDeduplication) {
     this.id = id;
     this.isIntegration = isIntegration;
@@ -90,6 +93,7 @@ export class InsuredListDataDeduplication {
     this.policyEndDate = policyEndDate;
     this.insurer = insurer;
     this.product = product;
+    this.isFullDuplicate = isFullDuplicate;
   }
 }
 

@@ -25,12 +25,6 @@ export default function TasksTab(props: TaskListProps) {
   const [filteredTasksCount, setFilteredTasksCount] = useState<number>(0);
   // Обновление количества отфильтрованных по обращениям задач
   async function updateFilteredTaskCount() {
-    // Если Обращение не выбрано, то задачи не фильтруются
-    // if (!selectedRequestsIds.length && sliderActive) {
-    //   setFilteredTasksCount(taskCount);
-    //   return;
-    // }
-
     // При выбранном обращении получить количество задач по этому обращению с указанными фильтрами
     const count = await Scripts.getFilteredTasksCount(
       selectedRequestsIds,

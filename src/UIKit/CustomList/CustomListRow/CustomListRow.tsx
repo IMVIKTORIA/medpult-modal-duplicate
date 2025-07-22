@@ -74,6 +74,7 @@ function CustomListRow<ItemType = any>(props: ListRowProps<ItemType>) {
   };
 
   const rowStyles: React.CSSProperties = {};
+  if((data as any).isFullDuplicate) rowStyles.background = "#DCF8E1"
   if (!isSelectable) rowStyles.paddingLeft = `20px`;
 
   return (

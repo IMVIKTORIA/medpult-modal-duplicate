@@ -13,24 +13,17 @@ export default function InsuredTab(props: InsuredListProps) {
 
   // Общее количество застрахованных
   const [insuredCount, setInsuredCount] = useState<number>(0);
-  // Обновить общее количество застрахованных
-  async function updateInsuredCount() {
-    const count = await Scripts.getCountInsured(contractorsSearchData);
-    setInsuredCount(count);
-  }
 
   // Количество отфильтрованных застрахованных
   const [filteredInsuredCount, setFilteredInsuredCount] = useState<number>(0);
+
   // Обновление количества отфильтрованных по застрахованным застрахованных
-  async function updateFilteredInsuredCount() {
+  async function updateFilteredInsuredCount(totalCount: number) {
     // Для дедубликации застрахованных не расчитывать
     if(modalMode === ModalDuplicateMode.insured) return;
 
     // Если обратившийся не выбран, то обращения не фильтруются
-    if (!selectedContractorsIds.length) {
-      setFilteredInsuredCount(insuredCount);
-      return;
-    }
+    if (!selectedContractorsIds.length) return setFilteredInsuredCount(totalCount);
 
     // При выбранном обратившемся получить количество застрахованных по этому обратившемуся с указанными фильтрами
     const count = await Scripts.getFilteredInsuredCount(
@@ -40,10 +33,12 @@ export default function InsuredTab(props: InsuredListProps) {
     setFilteredInsuredCount(count);
   }
 
-    // Обновить количества 
+  // Обновить количества
   async function updateCounts() {
-    await updateInsuredCount();
-    await updateFilteredInsuredCount();
+    const totalCount = await Scripts.getCountInsured(contractorsSearchData);
+    await updateFilteredInsuredCount(totalCount);
+
+    setInsuredCount(totalCount);
   }
 
   // При изменении выбранного застрахованного, фильтров или общего количества застрахованных

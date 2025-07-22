@@ -11,6 +11,7 @@ import {
 } from "./CustomListTypes";
 import CustomListSelector from "./CustomListSelector/CustomListSelector";
 import { useElementHeight, useWindowSizeAndZoom } from "../shared/utils/hooks";
+import { DataWithValidation } from "../../App/shared/types";
 
 type ListProps<SearchDataType = any, ItemType = any> = {
   /** Основные настройки */
