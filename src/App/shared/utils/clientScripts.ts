@@ -302,7 +302,7 @@ async function getInsuredListDeduplication(
           id: String(index),
           data: {
             ...new InsuredListDataDeduplication(mockData),
-            isFullDuplicate: Math.random() > 0.5
+            isFullDuplicate: Math.random() > 0.5,
           },
         };
       }),
@@ -422,22 +422,22 @@ async function getTaskList(
 
 /** Получить количество обратившихся*/
 async function getCountConractor(searchData: ContractorsSearchData) {
-  await randomDelay()
+  await randomDelay();
   return 4;
 }
 /** Получить количество застрахованных*/
 async function getCountInsured(searchData: ContractorsSearchData) {
-  await randomDelay()
+  await randomDelay();
   return 10;
 }
 /** Получить количество обращений*/
 async function getCountRequest(searchData: ContractorsSearchData) {
-  await randomDelay()
+  await randomDelay();
   return 4;
 }
 /** Получить количество задач*/
 async function getCountTask(searchData: ContractorsSearchData) {
-  await randomDelay()
+  await randomDelay();
   return 10;
 }
 
@@ -499,7 +499,7 @@ async function getFilteredRequestsCount(
   contractorsSearchData: ContractorsSearchData,
   isShowClosed: boolean
 ) {
-  await randomDelay()
+  await randomDelay();
   // TODO: Логика
   return Math.floor(Math.random() * 10);
 }
@@ -511,7 +511,7 @@ async function getFilteredTasksCount(
   contractorsSearchData: ContractorsSearchData,
   isShowClosed: boolean
 ) {
-  await randomDelay()
+  await randomDelay();
   // TODO: Логика
   return Math.floor(Math.random() * 10);
 }
@@ -521,7 +521,7 @@ async function getFilteredInsuredCount(
   contractorsIds: string[],
   contractorsSearchData: ContractorsSearchData
 ) {
-  await randomDelay()
+  await randomDelay();
   // TODO: Логика
   return Math.floor(Math.random() * 10);
 }
@@ -531,27 +531,30 @@ async function getFilteredInsuredCount(
  * @param contractorId Идентификатор контрагента
  */
 async function assignInsured(fieldId: string, contractorId: string) {
-    // const draftObj = JSON.parse(localStorage.getItem("medpult-draft"));
-    // const draftItem = {
-    //     fieldId: fieldId,
-    //     contractorId: contractorId
-    // }
+  // const draftObj = JSON.parse(localStorage.getItem("medpult-draft"));
+  // const draftItem = {
+  //     fieldId: fieldId,
+  //     contractorId: contractorId
+  // }
+  // if (draftObj == undefined) {
+  //     localStorage.setItem("medpult-draft", JSON.stringify([
+  //         draftItem
+  //     ]));
+  //     return;
+  // }
+  // const itemIndex = draftObj.findIndex((d: any) => d.fieldId === fieldId);
+  // if (itemIndex === -1) {
+  //     draftObj.push(draftItem)
+  // } else {
+  //     draftObj[itemIndex] = draftItem;
+  // }
+  // localStorage.setItem("medpult-draft", JSON.stringify(draftObj));
+}
 
-    // if (draftObj == undefined) {
-    //     localStorage.setItem("medpult-draft", JSON.stringify([
-    //         draftItem
-    //     ]));
-    //     return;
-    // }
-
-    // const itemIndex = draftObj.findIndex((d: any) => d.fieldId === fieldId);
-    // if (itemIndex === -1) {
-    //     draftObj.push(draftItem)
-    // } else {
-    //     draftObj[itemIndex] = draftItem;
-    // }
-
-    // localStorage.setItem("medpult-draft", JSON.stringify(draftObj));
+async function createRequestForContractor(
+  contractorId?: string
+): Promise<string | undefined> {
+  return "0197c997-a1df-71ea-88e2-0c9ec3d1f792";
 }
 
 export default {
@@ -580,5 +583,6 @@ export default {
 
   getFilteredInsuredCount,
   getFilteredTasksCount,
-  assignInsured
+  assignInsured,
+  createRequestForContractor,
 };

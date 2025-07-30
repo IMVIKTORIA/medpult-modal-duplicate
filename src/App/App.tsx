@@ -5,7 +5,7 @@ import ModalDuplicateWrapper from "./components/ModalDuplicate/ModalDuplicateWra
 
 export default function App() {
   // Для формы обращения
-  return <ModalDuplicateWrapper modalMode={ModalDuplicateMode.insured} />;
+  //return <ModalDuplicateWrapper modalMode={ModalDuplicateMode.insured} />;
   // Для формы контрагента
-  // return <ModalDuplicateWrapper modalMode={ModalDuplicateMode.applicant} />;
+  return <ModalDuplicateWrapper modalMode={ModalDuplicateMode.applicant} />;
 }

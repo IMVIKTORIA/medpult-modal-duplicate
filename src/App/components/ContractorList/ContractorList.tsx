@@ -45,37 +45,58 @@ export default function ContractorList({
   const searchQueryDebounced = useDebounce(searchQuery, 500);
 
   /** Обработчик события нажатия на кнопку ссылки */
+  async function setRequestContractorWorkTable() {
+    // Получение выбранного контрагента из контекста
+    const selectedContractorId = selectedContractorsIds[0];
+    console.log("selectedContractorId", selectedContractorId);
+    if (!selectedContractorId) return;
+    const requestId =
+      await Scripts.createRequestForContractor(selectedContractorId);
+    const link = Scripts.getRequestPagePath();
+    const redirectUrl = new URL(window.location.origin + "/" + link);
+    if (requestId) redirectUrl.searchParams.set("request_id", requestId);
+
+    redirectSPA(redirectUrl.toString());
+  }
+
   async function setRequestContractor(fieldId?: string) {
     // Получение выбранного контрагента из контекста
     const selectedContractorId = selectedContractorsIds[0];
     if (!selectedContractorId) return;
-    
+
     // Получение ссылки на страницу обращения
     const request_page_path = Scripts.getRequestPagePath();
     const mode = new URLSearchParams(window.location.search).get("mode");
-    
-    if(fieldId) await Scripts.assignInsured(fieldId, selectedContractorId);
+
+    if (fieldId) await Scripts.assignInsured(fieldId, selectedContractorId);
 
     const url = new URL(window.location.href);
     const requestId = url.searchParams.get("request_id");
-    
-    const redirectUrl = new URL(window.location.origin + "/" + request_page_path);
+
+    const redirectUrl = new URL(
+      window.location.origin + "/" + request_page_path
+    );
     if (mode) {
-      redirectUrl.searchParams.set("mode", mode)
+      redirectUrl.searchParams.set("mode", mode);
     } else {
-      if(requestId) redirectUrl.searchParams.set("request_id", requestId)
+      if (requestId) redirectUrl.searchParams.set("request_id", requestId);
     }
-    
-    redirectSPA(redirectUrl.toString())
+
+    redirectSPA(redirectUrl.toString());
   }
 
   /** Обработчик нажатия на кнопку "Выбрать" контрагента */
   const onClickChooseContractor = async () => {
     if (!selectedContractorsIds.length) return;
 
-    const fieldId = new URLSearchParams(window.location.search).get("field_id") ?? "";
+    const fieldId =
+      new URLSearchParams(window.location.search).get("field_id") ?? "";
 
-    if(fieldId) {
+    if (fieldId === "medpult-worktable-call") {
+      setRequestContractorWorkTable();
+      return;
+    }
+    if (fieldId === "medpult-applicant-fullname-create") {
       setRequestContractor(fieldId);
       return;
     }
