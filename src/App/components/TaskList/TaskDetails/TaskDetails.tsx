@@ -21,8 +21,8 @@ function TaskDetails({ rowData, onClickNumberTask }: TaskDetailsProps) {
         <div className="task-details__column">
           <span className="task-details__column__title">Номер</span>
           <span
-            onClick={() => onClickNumberTask(rowData.id.value)}
-            className="task-details__column__value task-details__link"
+            // onClick={() => onClickNumberTask(rowData.id.value)}
+            className="task-details__column__value"
           >
             {rowData.number?.value}
           </span>

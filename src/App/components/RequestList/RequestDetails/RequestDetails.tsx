@@ -21,8 +21,8 @@ function RequestDetails({
         <div className="request-details__column">
           <span className="request-details__column__title">Номер</span>
           <span
-            onClick={() => onClickNumberRequest(rowData.id.value)}
-            className="request-details__column__value request-details__link"
+            // onClick={() => onClickNumberRequest(rowData.id.value)}
+            className="request-details__column__value"
           >
             {rowData.number?.value}
           </span>

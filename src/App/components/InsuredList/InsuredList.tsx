@@ -3,12 +3,15 @@ import CustomList from "../../../UIKit/CustomList/CustomList";
 import {
   MyItemData,
   ListColumnData,
+  FetchData,
+  SortData,
 } from "../../../UIKit/CustomList/CustomListTypes";
 import {
   ContractorsSearchData,
   InsuredListDataDeduplication,
   ModalDuplicateMode,
 } from "../../shared/types";
+
 import Scripts from "../../shared/utils/clientScripts";
 import CustomInput from "../../../UIKit/CustomInput/CustomInput";
 import utils, {
@@ -69,6 +72,7 @@ export default function InsuredList({
 
   /** Обработчик нажатия на кнопку "Oставить без измений"  */
   const onClickNotEdit = async () => {
+    if (hasFullDuplicate) return;
     // Запустить стандартную логику сохранения
     Scripts.runCommonSave();
     // Закрыть окно
@@ -200,6 +204,27 @@ export default function InsuredList({
   }, [searchQueryDebounced, selectedContractorsIds, contractorsSearchData]);
 
   const isDisabled = selectedInsuredIds.length === 0;
+
+  //Есть ли полные дубли
+  const [hasFullDuplicate, setHasFullDuplicate] = useState<boolean>(false);
+
+  const handleGetData = async (
+    page: number,
+    sortData?: SortData,
+    searchData?: InsuredSearchData
+  ): Promise<FetchData<InsuredListDataDeduplication>> => {
+    const response = await Scripts.getInsuredListDeduplication(
+      page,
+      sortData,
+      searchData
+    );
+
+    const hasFull = response.items.some((item) => item.data.isFullDuplicate);
+    setHasFullDuplicate(hasFull);
+
+    return response;
+  };
+
   return (
     <div className="insured-list">
       <div className="insured-list__search">
@@ -225,7 +250,11 @@ export default function InsuredList({
               <Button
                 title={"Oставить без изменений"}
                 clickHandler={() => onClickNotEdit()}
-                style={{ backgroundColor: "#FF4545" }}
+                style={{
+                  backgroundColor: "#FF4545",
+                  opacity: hasFullDuplicate ? "0.4" : "1",
+                  cursor: hasFullDuplicate ? "not-allowed" : "pointer",
+                }}
               />
             </div>
             <Button
@@ -248,7 +277,8 @@ export default function InsuredList({
           columnsSettings={columns}
           searchFields={searchFields}
           searchData={searchDataWithQuery}
-          getDataHandler={Scripts.getInsuredListDeduplication}
+          //getDataHandler={Scripts.getInsuredListDeduplication}
+          getDataHandler={handleGetData}
           isScrollable={true}
           // height="500px"
           isSelectable={true}
